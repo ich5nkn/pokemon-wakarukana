@@ -3,9 +3,12 @@ import Image from "next/image";
 
 export default function Home() {
   const [no, setNo] = useState<string>("1");
+  const [answered, setAnswered] = useState<string[]>(["1"]);
   const onClick = async () => {
-    const res = await fetch("/api/hello");
+    const res = await fetch(`/api/quiz?answered=${answered.join(",")}`);
     const json = await res.json();
+    if (!json.no) return;
+    setAnswered((answered) => [...answered, json.no]);
     setNo(json.no);
   };
 
