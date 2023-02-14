@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import { randomPick } from "@/utils/api";
 
 const data = ["1", "2", "3", "3-1", "3-2"];
 
@@ -15,10 +16,6 @@ export default function handler(
   const unansweredData = data.filter(
     (no) => !answered.some((answered) => answered === no)
   );
-  if (!unansweredData.length) {
-    return res.status(200).json({ no: null });
-  }
-  const randomPick =
-    unansweredData[Math.floor(Math.random() * unansweredData.length)];
-  res.status(200).json({ no: randomPick });
+  const no = randomPick(unansweredData);
+  res.status(200).json({ no });
 }
