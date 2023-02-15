@@ -3,7 +3,7 @@ import { randomPick } from "..";
 
 export const getNo = (answered: string[]): string | undefined => {
   const filteredData = POKEMONS.filter(
-    ({ id }) => !answered.some((answered) => answered === id)
+    ({ no }) => !answered.some((answered) => answered === no)
   );
-  return randomPick(filteredData)?.id;
+  return randomPick(filteredData)?.no;
 };
