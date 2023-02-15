@@ -1,18 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { randomPick } from "@/utils/api";
+import { QuizRequestBody, QuizResponse } from "@/types/http";
 
 const data = ["1", "2", "3", "3-1", "3-2"];
 
-type Data = {
-  no: string | null;
-};
+interface QuizRequest extends NextApiRequest {
+  body: QuizRequestBody;
+}
 
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+  req: QuizRequest,
+  res: NextApiResponse<QuizResponse>
 ) {
-  const answered = String(req.query?.answered || "").split(",");
+  const { answered } = req.body;
   const unansweredData = data.filter(
     (no) => !answered.some((answered) => answered === no)
   );
