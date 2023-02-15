@@ -13,10 +13,15 @@ export default function handler(
   req: QuizRequest,
   res: NextApiResponse<QuizResponse>
 ) {
-  const { answered } = req.body;
+  const {
+    answered,
+    option: { maxCount },
+  } = req.body;
+  if (maxCount === answered.length)
+    return res.status(200).json({ no: null, finished: true });
   const unansweredData = data.filter(
     (no) => !answered.some((answered) => answered === no)
   );
   const no = randomPick(unansweredData);
-  res.status(200).json({ no });
+  res.status(200).json({ no, finished: !no });
 }

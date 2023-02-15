@@ -7,4 +7,5 @@ export type QuizRequestBody = {
 
 export type QuizResponse = {
   no: string | null;
+  finished: boolean;
 };

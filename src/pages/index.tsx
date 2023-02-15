@@ -6,23 +6,30 @@ import { QuizOption } from "@/types";
 export default function Home() {
   const [no, setNo] = useState<string>("1");
   const [answered, setAnswered] = useState<string[]>(["1"]);
+  const [finished, setFinished] = useState<boolean>(false);
   const onClick = async () => {
     try {
       const dummyOptions: QuizOption = {
         isSelectableQuiz: false,
+        maxCount: 3,
         selectVersions: [],
       };
-      const resNo = (await getQuiz({ answered, option: dummyOptions })).no;
-      if (!resNo) return;
-      setAnswered((answered) => [...answered, resNo]);
-      setNo(resNo);
+      const res = await getQuiz({ answered, option: dummyOptions });
+      if (res.finished) return setFinished(res.finished);
+      if (res.no === null) return;
+      setAnswered((answered) => [...answered, res.no as string]);
+      setNo(res.no);
     } catch {
       alert("error");
     }
   };
 
+  const commonStyle = { display: "flex", margin: 20 };
+
+  if (finished) return <div style={commonStyle}>Finished!!</div>;
+
   return (
-    <div style={{ display: "flex", margin: 20 }}>
+    <div style={commonStyle}>
       <Image
         src={`/image/pokemon/${no}.png`}
         alt="pokemon image"
