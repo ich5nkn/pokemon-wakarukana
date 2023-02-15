@@ -6,6 +6,7 @@ export type QuizRequestBody = {
 };
 
 export type QuizResponse = {
-  no: string | null;
+  no?: string;
   finished: boolean;
+  selector?: [string, string, string, string];
 };

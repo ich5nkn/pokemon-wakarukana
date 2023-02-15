@@ -16,8 +16,9 @@ export default function Home() {
       };
       const res = await getQuiz({ answered, option: dummyOptions });
       if (res.finished) return setFinished(res.finished);
-      if (res.no === null) return;
-      setAnswered((answered) => [...answered, res.no as string]);
+      if (!res.no) return;
+      // TODO: 回答のリクエスト送信処理を作成したら、そちらに移動する（現在は無いので、問題を受け取ったら回答したものとしている）
+      setAnswered([...answered, res.no]);
       setNo(res.no);
     } catch {
       alert("error");
