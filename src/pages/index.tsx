@@ -1,13 +1,18 @@
 import { useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
+import { QuizOption } from "@/types";
 
 export default function Home() {
   const [no, setNo] = useState<string>("1");
   const [answered, setAnswered] = useState<string[]>(["1"]);
   const onClick = async () => {
     try {
-      const resNo = (await getQuiz({ answered })).no;
+      const dummyOptions: QuizOption = {
+        isSelectableQuiz: false,
+        selectVersions: [],
+      };
+      const resNo = (await getQuiz({ answered, option: dummyOptions })).no;
       if (!resNo) return;
       setAnswered((answered) => [...answered, resNo]);
       setNo(resNo);
