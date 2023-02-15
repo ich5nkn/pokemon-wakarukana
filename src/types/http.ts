@@ -1,4 +1,4 @@
-import { QuizOption } from ".";
+import { QuizOption, Selector } from ".";
 
 export type QuizRequestBody = {
   answered: string[];
@@ -8,5 +8,5 @@ export type QuizRequestBody = {
 export type QuizResponse = {
   no?: string;
   finished: boolean;
-  selector?: [string, string, string, string];
+  selector?: Selector;
 };
