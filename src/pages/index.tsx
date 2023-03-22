@@ -1,34 +1,46 @@
 import { useState } from "react";
-import { BallCard } from "@/components/pages/index/BallCard";
-import { SettingCard } from "@/components/pages/index/settingCard";
-import { Grid, Heading } from "@chakra-ui/react";
-import { SettingModal } from "@/components/pages/index/SettingModal";
+import Image from "next/image";
+import { getQuiz } from "@/utils/fetcher";
+import { QuizOption } from "@/types";
+import { Box, Button } from "@chakra-ui/react";
 
-const Home = () => {
-  const [open, setOpen] = useState(false);
-  const fetchApi = async () => {
-    const res = await fetch("/api/hello");
-    const json = await res.json();
-    console.log(json);
+export default function Home() {
+  const [no, setNo] = useState<string>("1");
+  const [answered, setAnswered] = useState<string[]>(["1"]);
+  const [finished, setFinished] = useState<boolean>(false);
+  const onClick = async () => {
+    try {
+      const dummyOptions: QuizOption = {
+        isSelectableQuiz: false,
+        maxCount: 3,
+        selectVersions: [],
+      };
+      const res = await getQuiz({ answered, option: dummyOptions });
+      if (res.finished) return setFinished(res.finished);
+      if (!res.no) return;
+      // TODO: 回答のリクエスト送信処理を作成したら、そちらに移動する（現在は無いので、問題を受け取ったら回答したものとしている）
+      setAnswered([...answered, res.no]);
+      setNo(res.no);
+    } catch {
+      alert("error");
+    }
   };
 
   return (
-    <Grid gap={8} my={12}>
-      <Heading>難易度を選択してね</Heading>
-      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-        <BallCard type="monster" onClick={() => {}} />
-        <BallCard type="super" onClick={() => {}} />
-        <BallCard type="hyper" onClick={() => {}} />
-        <BallCard type="master" onClick={() => {}} />
-      </Grid>
-      <SettingCard
-        onClick={() => {
-          setOpen(true);
-        }}
-      />
-      <SettingModal open={open} onClose={() => setOpen(false)} />
-    </Grid>
+    <Box display={"flex"} m={5}>
+      {finished ? (
+        "Finished!"
+      ) : (
+        <>
+          <Image
+            src={`/image/pokemon/${no}.png`}
+            alt="pokemon image"
+            width={100}
+            height={100}
+          />
+          <Button onClick={onClick}>Change</Button>
+        </>
+      )}
+    </Box>
   );
-};
-
-export default Home;
+}
