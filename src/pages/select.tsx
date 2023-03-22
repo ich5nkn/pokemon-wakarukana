@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BallCard } from "@/components/pages/index/BallCard";
-import { SettingCard } from "@/components/pages/index/settingCard";
+import { SettingCard } from "@/components/pages/index/SettingCard";
 import { SettingModal } from "@/components/pages/index/SettingModal";
 import { Grid, Heading } from "@chakra-ui/react";
 
