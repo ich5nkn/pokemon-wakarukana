@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { BallCard } from "@/components/pages/index/BallCard";
 import { SettingCard } from "@/components/pages/index/settingCard";
 import { Grid, Heading } from "@chakra-ui/react";
+import { SettingModal } from "@/components/pages/index/SettingModal";
 
 const Home = () => {
+  const [open, setOpen] = useState(false);
   const fetchApi = async () => {
     const res = await fetch("/api/hello");
     const json = await res.json();
@@ -18,7 +21,12 @@ const Home = () => {
         <BallCard type="hyper" onClick={() => {}} />
         <BallCard type="master" onClick={() => {}} />
       </Grid>
-      <SettingCard onClick={() => {}} />
+      <SettingCard
+        onClick={() => {
+          setOpen(true);
+        }}
+      />
+      <SettingModal open={open} onClose={() => setOpen(false)} />
     </Grid>
   );
 };
