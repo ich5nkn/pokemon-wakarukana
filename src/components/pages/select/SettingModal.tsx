@@ -38,14 +38,12 @@ export const SettingModal = ({
             options={options.versions}
             updateOptions={updateVersion}
           />
-          body
-          {[...Array(100)].map((_, idx) => (
-            <div key={idx}>{idx}</div>
-          ))}
         </ModalBody>
         <ModalFooter columnGap={4}>
-          <Button colorScheme={"orange"}>この設定で始める</Button>
-          <Button>閉じる</Button>
+          <Button colorScheme={"orange"} onClick={onClose}>
+            この設定で始める
+          </Button>
+          <Button onClick={onClose}>閉じる</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
