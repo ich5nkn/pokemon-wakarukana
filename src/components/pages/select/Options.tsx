@@ -1,6 +1,7 @@
-import { SettingOptions } from "@/types";
-import { Box, Button, Checkbox, Collapse } from "@chakra-ui/react";
 import { useState } from "react";
+import { Button, Checkbox, Collapse, VStack } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import { SettingOptions } from "@/types";
 
 interface OwnProps {
   title: string;
@@ -30,9 +31,16 @@ export const Options = ({ title, options, updateOptions }: OwnProps) => {
   };
   return (
     <>
-      <Button onClick={() => setOpen(!open)}>{title}</Button>
+      <Button
+        variant={"ghost"}
+        size="sm"
+        leftIcon={open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        onClick={() => setOpen(!open)}
+      >
+        {title}
+      </Button>
       <Collapse in={open} animateOpacity>
-        <Box pl="4" mt="2">
+        <VStack pl="4" mt="2" align={"left"}>
           <Checkbox
             isChecked={allChecked}
             isIndeterminate={isIndeterminate}
@@ -49,7 +57,7 @@ export const Options = ({ title, options, updateOptions }: OwnProps) => {
               {name}
             </Checkbox>
           ))}
-        </Box>
+        </VStack>
       </Collapse>
     </>
   );
