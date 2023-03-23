@@ -17,3 +17,9 @@ export type QuizOption = {
   maxCount: number;
   selectVersions: SelectVersions;
 };
+
+export type SettingOptions = {
+  readonly id: number;
+  readonly name: string;
+  value: boolean;
+}[];
