@@ -7,22 +7,48 @@ import { VERSIONS } from "@/constants/version";
 import { SettingOptions } from "@/types";
 
 export type OptionsType = {
+  isChoice: boolean;
+  hasRegion: boolean;
+  hasAnotherForm: boolean;
+  hasMega: boolean;
+  hasGigantic: boolean;
   versions: SettingOptions;
 };
 
-export type Action = {
-  type: "versions";
-  value: SettingOptions;
-};
+export type SelectAction =
+  | { type: "isChoice"; value: boolean }
+  | { type: "hasRegion"; value: boolean }
+  | { type: "hasAnotherForm"; value: boolean }
+  | { type: "hasMega"; value: boolean }
+  | { type: "hasGigantic"; value: boolean }
+  | { type: "versions"; value: SettingOptions };
 
 const initialOptions: OptionsType = {
-  versions: VERSIONS.map(({ id, name }) => ({ id, name, value: false })),
+  isChoice: false,
+  hasRegion: true,
+  hasAnotherForm: true,
+  hasMega: true,
+  hasGigantic: true,
+  versions: VERSIONS.map(({ id, name }) => ({ id, name, value: true })),
 };
 
-const optionsReducer = (options: OptionsType, action: Action): OptionsType => {
+const optionsReducer = (
+  options: OptionsType,
+  action: SelectAction
+): OptionsType => {
   switch (action.type) {
     case "versions":
-      return { ...options, versions: action.value };
+      return { ...options, versions: [...action.value] };
+    case "isChoice":
+      return { ...options, isChoice: action.value };
+    case "hasRegion":
+      return { ...options, hasRegion: action.value };
+    case "hasAnotherForm":
+      return { ...options, hasAnotherForm: action.value };
+    case "hasMega":
+      return { ...options, hasMega: action.value };
+    case "hasGigantic":
+      return { ...options, hasGigantic: action.value };
     default:
       return options;
   }

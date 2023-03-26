@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Button,
   Checkbox,
   Collapse,
   Flex,
@@ -8,8 +7,8 @@ import {
   Switch,
   VStack,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { SettingOptions } from "@/types";
+import { SettingSwitchOption } from "./SettingOption";
 
 interface OwnProps {
   title: string;
@@ -39,11 +38,11 @@ export const Options = ({ title, options, updateOptions }: OwnProps) => {
   };
   return (
     <>
-      <Flex>
-        {title}
-        <Spacer /> <Switch isChecked={open} onChange={() => setOpen(!open)} />
-      </Flex>
-
+      <SettingSwitchOption
+        title={title}
+        value={open}
+        onChange={() => setOpen(!open)}
+      />
       <Collapse in={open} animateOpacity>
         <VStack pl="4" mt="2" align={"left"}>
           <Checkbox

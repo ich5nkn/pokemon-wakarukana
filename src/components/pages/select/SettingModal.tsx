@@ -1,4 +1,4 @@
-import { Action, OptionsType } from "@/pages/select";
+import { OptionsType, SelectAction } from "@/pages/select";
 import {
   Box,
   Button,
@@ -16,12 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { Dispatch } from "react";
 import { Options } from "./Options";
+import { SettingSwitchOption } from "./SettingOption";
 
 interface OwnProps {
   open: boolean;
   onClose: () => void;
   options: OptionsType;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<SelectAction>;
 }
 
 export const SettingModal = ({
@@ -30,6 +31,9 @@ export const SettingModal = ({
   options,
   dispatch,
 }: OwnProps) => {
+  const toggleSwitch = (type: Exclude<SelectAction["type"], "versions">) => {
+    dispatch({ type, value: !options[type] });
+  };
   const updateVersion = (option: OptionsType["versions"]) => {
     dispatch({ type: "versions", value: option });
   };
@@ -44,10 +48,17 @@ export const SettingModal = ({
             出題形式
           </Text>
           <VStack spacing={2} align={"left"} my={2}>
-            <Flex>
-              4択で出題する
-              <Spacer /> <Switch />
-            </Flex>
+            <SettingSwitchOption
+              title="4択で出題する"
+              value={options["isChoice"]}
+              onChange={() => toggleSwitch("isChoice")}
+            />
+            {/* 開発中 */}
+            {/* <SettingSwitchOption
+              title="シルエットで出題する"
+              value
+              onChange={() => {}}
+            /> */}
             <Box>
               <Flex color="gray.300">
                 シルエットで出題する（開発中👩‍💻）
@@ -59,32 +70,28 @@ export const SettingModal = ({
             出題範囲
           </Text>
           <VStack spacing={2} align={"left"} my={2}>
-            <Box>
-              <Flex>
-                リージョンフォームを含む
-                <Spacer /> <Switch />
-              </Flex>
-              <Text fontSize="sm" color="gray.400" pl={2}>
-                例：ニャース（ガラルのすがた）など
-              </Text>
-            </Box>
-            <Box>
-              <Flex>
-                フォルム違いを含む
-                <Spacer /> <Switch />
-              </Flex>
-              <Text fontSize="sm" color="gray.400" pl={2}>
-                例：デオキシス（アタックフォルム）など
-              </Text>
-            </Box>
-            <Flex>
-              メガシンカを含む
-              <Spacer /> <Switch />
-            </Flex>
-            <Flex>
-              キョダイマックスを含む
-              <Spacer /> <Switch />
-            </Flex>
+            <SettingSwitchOption
+              title="リージョンフォームを含む"
+              caption="例：ニャース（ガラルのすがた）など"
+              value={options["hasRegion"]}
+              onChange={() => toggleSwitch("hasRegion")}
+            />
+            <SettingSwitchOption
+              title="フォルム違いを含む"
+              caption="例：デオキシス（アタックフォルム）など"
+              value={options["hasAnotherForm"]}
+              onChange={() => toggleSwitch("hasAnotherForm")}
+            />
+            <SettingSwitchOption
+              title="メガシンカを含む"
+              value={options["hasMega"]}
+              onChange={() => toggleSwitch("hasMega")}
+            />
+            <SettingSwitchOption
+              title="キョダイマックスを含む"
+              value={options["hasGigantic"]}
+              onChange={() => toggleSwitch("hasGigantic")}
+            />
           </VStack>
           <Options
             title="初登場シリーズで絞り込む"
