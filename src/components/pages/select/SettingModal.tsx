@@ -1,5 +1,6 @@
 import { Action, OptionsType } from "@/pages/select";
 import {
+  Box,
   Button,
   Flex,
   Modal,
@@ -47,19 +48,35 @@ export const SettingModal = ({
               4択で出題する
               <Spacer /> <Switch />
             </Flex>
-            <Flex>
-              シルエットで出題する
-              <Spacer /> <Switch disabled />
-            </Flex>
+            <Box>
+              <Flex color="gray.300">
+                シルエットで出題する（開発中👩‍💻）
+                <Spacer /> <Switch disabled />
+              </Flex>
+            </Box>
           </VStack>
           <Text fontSize={"lg"} fontWeight={700} my={2}>
             出題範囲
           </Text>
           <VStack spacing={2} align={"left"} my={2}>
-            <Flex>
-              リージョンフォームを含む
-              <Spacer /> <Switch />
-            </Flex>
+            <Box>
+              <Flex>
+                リージョンフォームを含む
+                <Spacer /> <Switch />
+              </Flex>
+              <Text fontSize="sm" color="gray.400" pl={2}>
+                例：ニャース（ガラルのすがた）など
+              </Text>
+            </Box>
+            <Box>
+              <Flex>
+                フォルム違いを含む
+                <Spacer /> <Switch />
+              </Flex>
+              <Text fontSize="sm" color="gray.400" pl={2}>
+                例：デオキシス（アタックフォルム）など
+              </Text>
+            </Box>
             <Flex>
               メガシンカを含む
               <Spacer /> <Switch />
