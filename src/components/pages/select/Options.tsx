@@ -8,7 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { SettingOptions } from "@/types";
-import { SettingSwitchOption } from "./SettingOption";
+import { SettingSwitchOption } from "./SettingSwitchOption";
 
 interface OwnProps {
   title: string;

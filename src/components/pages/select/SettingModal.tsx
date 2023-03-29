@@ -9,6 +9,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  NumberInput,
   Spacer,
   Switch,
   Text,
@@ -16,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { Dispatch } from "react";
 import { Options } from "./Options";
-import { SettingSwitchOption } from "./SettingOption";
+import { SettingSwitchOption } from "./SettingSwitchOption";
 
 interface OwnProps {
   open: boolean;
@@ -69,6 +70,9 @@ export const SettingModal = ({
                 シルエットで出題する（開発中👩‍💻）
                 <Spacer /> <Switch disabled />
               </Flex>
+            </Box>
+            <Box>
+              <NumberInput></NumberInput>
             </Box>
           </VStack>
           <Text fontSize={"lg"} fontWeight={700} my={2}>
