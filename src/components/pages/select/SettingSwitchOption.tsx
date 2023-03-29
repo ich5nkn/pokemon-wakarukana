@@ -16,7 +16,7 @@ export const SettingSwitchOption = ({
   <Box>
     <Flex>
       {title}
-      <Spacer /> <Switch isChecked={value} onChange={onChange} />
+      <Spacer /> <Switch size={"lg"} isChecked={value} onChange={onChange} />
     </Flex>
     {caption && (
       <Text fontSize="sm" color="gray.400" pl={2}>

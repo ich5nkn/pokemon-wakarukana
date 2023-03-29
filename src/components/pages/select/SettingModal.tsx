@@ -1,22 +1,18 @@
 import { OptionsType, SelectAction } from "@/pages/select";
 import {
-  Box,
   Button,
-  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  NumberInput,
-  Spacer,
-  Switch,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { Dispatch } from "react";
 import { Options } from "./Options";
+import { SettingNumberOption } from "./SettingNumberOption";
 import { SettingSwitchOption } from "./SettingSwitchOption";
 
 interface OwnProps {
@@ -32,8 +28,13 @@ export const SettingModal = ({
   options,
   dispatch,
 }: OwnProps) => {
-  const toggleSwitch = (type: Exclude<SelectAction["type"], "versions">) => {
+  const toggleSwitch = (
+    type: Exclude<SelectAction["type"], "versions" | "numberOfQuiz">
+  ) => {
     dispatch({ type, value: !options[type] });
+  };
+  const updateNumberOfQuiz = (num: number) => {
+    dispatch({ type: "numberOfQuiz", value: num });
   };
   const updateVersion = (option: OptionsType["versions"]) => {
     dispatch({ type: "versions", value: option });
@@ -48,7 +49,12 @@ export const SettingModal = ({
           <Text fontSize={"lg"} fontWeight={700} my={2}>
             出題形式
           </Text>
-          <VStack spacing={2} align={"left"} my={2}>
+          <VStack spacing={4} align={"left"} my={2}>
+            <SettingNumberOption
+              title="出題数"
+              value={options["numberOfQuiz"]}
+              onChange={updateNumberOfQuiz}
+            />
             <SettingSwitchOption
               title="4択で出題する"
               value={options["isChoice"]}
@@ -59,26 +65,16 @@ export const SettingModal = ({
               value={options["showHint"]}
               onChange={() => toggleSwitch("showHint")}
             />
-            {/* 開発中 */}
-            {/* <SettingSwitchOption
+            <SettingSwitchOption
               title="シルエットで出題する"
-              value
-              onChange={() => {}}
-            /> */}
-            <Box>
-              <Flex color="gray.300">
-                シルエットで出題する（開発中👩‍💻）
-                <Spacer /> <Switch disabled />
-              </Flex>
-            </Box>
-            <Box>
-              <NumberInput></NumberInput>
-            </Box>
+              value={options["isSilhouette"]}
+              onChange={() => toggleSwitch("isSilhouette")}
+            />
           </VStack>
           <Text fontSize={"lg"} fontWeight={700} my={2}>
             出題範囲
           </Text>
-          <VStack spacing={2} align={"left"} my={2}>
+          <VStack spacing={4} align={"left"} my={2}>
             <SettingSwitchOption
               title="リージョンフォームを含む"
               caption="例：ニャース（ガラルのすがた）など"
@@ -101,13 +97,12 @@ export const SettingModal = ({
               value={options["hasGigantic"]}
               onChange={() => toggleSwitch("hasGigantic")}
             />
+            <Options
+              title="初登場シリーズで絞り込む"
+              options={options.versions}
+              updateOptions={updateVersion}
+            />
           </VStack>
-          <Options
-            title="初登場シリーズで絞り込む"
-            options={options.versions}
-            updateOptions={updateVersion}
-          />
-          {/* TODO: 問題数の選択 */}
         </ModalBody>
         <ModalFooter columnGap={4}>
           <Button colorScheme={"orange"} onClick={onClose}>

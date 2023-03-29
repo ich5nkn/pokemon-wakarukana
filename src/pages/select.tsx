@@ -7,8 +7,10 @@ import { VERSIONS } from "@/constants/version";
 import { SettingOptions } from "@/types";
 
 export type OptionsType = {
+  numberOfQuiz: number;
   isChoice: boolean;
   showHint: boolean;
+  isSilhouette: boolean;
   hasRegion: boolean;
   hasAnotherForm: boolean;
   hasMega: boolean;
@@ -17,8 +19,10 @@ export type OptionsType = {
 };
 
 export type SelectAction =
+  | { type: "numberOfQuiz"; value: number }
   | { type: "isChoice"; value: boolean }
   | { type: "showHint"; value: boolean }
+  | { type: "isSilhouette"; value: boolean }
   | { type: "hasRegion"; value: boolean }
   | { type: "hasAnotherForm"; value: boolean }
   | { type: "hasMega"; value: boolean }
@@ -26,8 +30,10 @@ export type SelectAction =
   | { type: "versions"; value: SettingOptions };
 
 const initialOptions: OptionsType = {
+  numberOfQuiz: 10,
   isChoice: false,
   showHint: false,
+  isSilhouette: false,
   hasRegion: true,
   hasAnotherForm: true,
   hasMega: true,
@@ -42,18 +48,8 @@ const optionsReducer = (
   switch (action.type) {
     case "versions":
       return { ...options, versions: [...action.value] };
-    case "isChoice":
-      return { ...options, isChoice: action.value };
-    case "hasRegion":
-      return { ...options, hasRegion: action.value };
-    case "hasAnotherForm":
-      return { ...options, hasAnotherForm: action.value };
-    case "hasMega":
-      return { ...options, hasMega: action.value };
-    case "hasGigantic":
-      return { ...options, hasGigantic: action.value };
     default:
-      return options;
+      return { ...options, [action.type]: action.value };
   }
 };
 
