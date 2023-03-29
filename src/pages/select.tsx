@@ -64,13 +64,15 @@ const Select = () => {
         <BallCard type="monster" onClick={() => {}} />
         <BallCard type="super" onClick={() => {}} />
         <BallCard type="hyper" onClick={() => {}} />
+        <BallCard type="dark" onClick={() => {}} />
         <BallCard type="master" onClick={() => {}} />
+        <SettingCard
+          onClick={() => {
+            setOpen(true);
+          }}
+        />
       </Grid>
-      <SettingCard
-        onClick={() => {
-          setOpen(true);
-        }}
-      />
+
       <SettingModal
         open={open}
         onClose={() => setOpen(false)}
