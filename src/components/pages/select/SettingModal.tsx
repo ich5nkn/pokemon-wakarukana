@@ -53,6 +53,11 @@ export const SettingModal = ({
               value={options["isChoice"]}
               onChange={() => toggleSwitch("isChoice")}
             />
+            <SettingSwitchOption
+              title="ヒントを表示する"
+              value={options["showHint"]}
+              onChange={() => toggleSwitch("showHint")}
+            />
             {/* 開発中 */}
             {/* <SettingSwitchOption
               title="シルエットで出題する"

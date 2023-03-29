@@ -8,6 +8,7 @@ import { SettingOptions } from "@/types";
 
 export type OptionsType = {
   isChoice: boolean;
+  showHint: boolean;
   hasRegion: boolean;
   hasAnotherForm: boolean;
   hasMega: boolean;
@@ -17,6 +18,7 @@ export type OptionsType = {
 
 export type SelectAction =
   | { type: "isChoice"; value: boolean }
+  | { type: "showHint"; value: boolean }
   | { type: "hasRegion"; value: boolean }
   | { type: "hasAnotherForm"; value: boolean }
   | { type: "hasMega"; value: boolean }
@@ -25,6 +27,7 @@ export type SelectAction =
 
 const initialOptions: OptionsType = {
   isChoice: false,
+  showHint: false,
   hasRegion: true,
   hasAnotherForm: true,
   hasMega: true,
