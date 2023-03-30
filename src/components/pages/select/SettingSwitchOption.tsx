@@ -5,6 +5,7 @@ interface OwnProps {
   caption?: string;
   value: boolean;
   onChange: () => void;
+  disabled?: boolean;
 }
 
 export const SettingSwitchOption = ({
@@ -12,11 +13,18 @@ export const SettingSwitchOption = ({
   caption,
   value,
   onChange,
+  disabled,
 }: OwnProps) => (
   <Box>
     <Flex>
       {title}
-      <Spacer /> <Switch size={"lg"} isChecked={value} onChange={onChange} />
+      <Spacer />{" "}
+      <Switch
+        size={"lg"}
+        isChecked={value}
+        onChange={onChange}
+        isDisabled={disabled}
+      />
     </Flex>
     {caption && (
       <Text fontSize="sm" color="gray.400" pl={2}>

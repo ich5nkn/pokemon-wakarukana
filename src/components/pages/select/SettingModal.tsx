@@ -7,6 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  ModalOverlay,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -16,6 +17,7 @@ import { SettingNumberOption } from "./SettingNumberOption";
 import { SettingSwitchOption } from "./SettingSwitchOption";
 
 interface OwnProps {
+  isViewMode: boolean;
   open: boolean;
   onClose: () => void;
   options: OptionsType;
@@ -23,6 +25,7 @@ interface OwnProps {
 }
 
 export const SettingModal = ({
+  isViewMode,
   open,
   onClose,
   options,
@@ -40,7 +43,8 @@ export const SettingModal = ({
     dispatch({ type: "versions", value: option });
   };
   return (
-    <Modal isOpen={open} onClose={onClose} scrollBehavior="inside" size="full">
+    <Modal isOpen={open} onClose={onClose} scrollBehavior="inside" size="md">
+      <ModalOverlay />
       <ModalContent>
         <ModalHeader>難易度カスタマイズ</ModalHeader>
         <ModalCloseButton />
@@ -54,21 +58,25 @@ export const SettingModal = ({
               title="出題数"
               value={options["numberOfQuiz"]}
               onChange={updateNumberOfQuiz}
+              disabled={isViewMode}
             />
             <SettingSwitchOption
               title="4択で出題する"
               value={options["isChoice"]}
               onChange={() => toggleSwitch("isChoice")}
+              disabled={isViewMode}
             />
             <SettingSwitchOption
               title="ヒントを表示する"
               value={options["showHint"]}
               onChange={() => toggleSwitch("showHint")}
+              disabled={isViewMode}
             />
             <SettingSwitchOption
               title="シルエットで出題する"
               value={options["isSilhouette"]}
               onChange={() => toggleSwitch("isSilhouette")}
+              disabled={isViewMode}
             />
           </VStack>
           <Text fontSize={"lg"} fontWeight={700} my={2}>
@@ -80,27 +88,32 @@ export const SettingModal = ({
               caption="例：ニャース（ガラルのすがた）など"
               value={options["hasRegion"]}
               onChange={() => toggleSwitch("hasRegion")}
+              disabled={isViewMode}
             />
             <SettingSwitchOption
               title="フォルム違いを含む"
               caption="例：デオキシス（アタックフォルム）など"
               value={options["hasAnotherForm"]}
               onChange={() => toggleSwitch("hasAnotherForm")}
+              disabled={isViewMode}
             />
             <SettingSwitchOption
               title="メガシンカを含む"
               value={options["hasMega"]}
               onChange={() => toggleSwitch("hasMega")}
+              disabled={isViewMode}
             />
             <SettingSwitchOption
               title="キョダイマックスを含む"
               value={options["hasGigantic"]}
               onChange={() => toggleSwitch("hasGigantic")}
+              disabled={isViewMode}
             />
             <Options
               title="初登場シリーズで絞り込む"
               options={options.versions}
               updateOptions={updateVersion}
+              disabled={isViewMode}
             />
           </VStack>
         </ModalBody>

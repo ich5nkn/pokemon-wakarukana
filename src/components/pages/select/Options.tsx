@@ -14,11 +14,17 @@ interface OwnProps {
   title: string;
   options: SettingOptions;
   updateOptions: (options: SettingOptions) => void;
+  disabled?: boolean;
 }
 
-export const Options = ({ title, options, updateOptions }: OwnProps) => {
-  const [open, setOpen] = useState(false);
+export const Options = ({
+  title,
+  options,
+  updateOptions,
+  disabled,
+}: OwnProps) => {
   const allChecked = options.every(({ value }) => value);
+  const [open, setOpen] = useState(!allChecked);
   const isIndeterminate = options.some(({ value }) => value) && !allChecked;
 
   const onClickCheck = (targetId: number, value: boolean) => {
@@ -42,6 +48,7 @@ export const Options = ({ title, options, updateOptions }: OwnProps) => {
         title={title}
         value={open}
         onChange={() => setOpen(!open)}
+        disabled={disabled}
       />
       <Collapse in={open} animateOpacity>
         <VStack pl="4" mt="2" align={"left"}>
@@ -49,6 +56,7 @@ export const Options = ({ title, options, updateOptions }: OwnProps) => {
             isChecked={allChecked}
             isIndeterminate={isIndeterminate}
             onChange={(e) => onClickAllCheck(e.target.checked)}
+            isDisabled={disabled}
           >
             すべてチェックする
           </Checkbox>
@@ -57,6 +65,7 @@ export const Options = ({ title, options, updateOptions }: OwnProps) => {
               key={id}
               isChecked={value}
               onChange={(e) => onClickCheck(id, e.target.checked)}
+              isDisabled={disabled}
             >
               {name}
             </Checkbox>

@@ -78,6 +78,7 @@ const Select = () => {
         onClose={() => setOpen(false)}
         options={options}
         dispatch={dispatch}
+        isViewMode={true}
       />
     </Grid>
   );
