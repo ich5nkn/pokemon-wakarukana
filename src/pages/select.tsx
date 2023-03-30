@@ -58,7 +58,7 @@ const Select = () => {
   const [options, dispatch] = useReducer(optionsReducer, initialOptions);
 
   return (
-    <Grid gap={8} my={12}>
+    <Grid gap={8} py={4}>
       <Heading>難易度を選択してね</Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         <BallCard type="monster" onClick={() => {}} />
