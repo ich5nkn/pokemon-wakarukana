@@ -5,7 +5,7 @@ export type BallType = "monster" | "super" | "hyper" | "dark" | "master";
 
 type BallContent = {
   name: string;
-  description?: string;
+  description: string;
   imgPath: string;
   alt: string;
   color: string;
