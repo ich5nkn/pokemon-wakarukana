@@ -13,7 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Dispatch } from "react";
-import { CheckboxOptions } from "@/components/checkboxOptions";
+import { CheckboxOptions } from "@/components/CheckboxOptions";
 import { SettingNumberOption } from "./SettingNumberOption";
 import { SettingSwitchOption } from "./SettingSwitchOption";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
