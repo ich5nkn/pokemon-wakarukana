@@ -3,8 +3,11 @@ import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { QuizOption } from "@/types";
 import { Box, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 const Quiz = () => {
+  const { query } = useRouter();
+  console.log(query);
   const [no, setNo] = useState<string>("1");
   const [answered, setAnswered] = useState<string[]>(["1"]);
   const [finished, setFinished] = useState<boolean>(false);
