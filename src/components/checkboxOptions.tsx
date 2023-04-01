@@ -1,14 +1,7 @@
 import { useState } from "react";
-import {
-  Checkbox,
-  Collapse,
-  Flex,
-  Spacer,
-  Switch,
-  VStack,
-} from "@chakra-ui/react";
+import { Checkbox, Collapse, VStack } from "@chakra-ui/react";
 import { SettingOptions } from "@/types";
-import { SettingSwitchOption } from "./SettingSwitchOption";
+import { SettingSwitchOption } from "./pages/select/SettingSwitchOption";
 
 interface OwnProps {
   title: string;
@@ -17,7 +10,7 @@ interface OwnProps {
   disabled?: boolean;
 }
 
-export const Options = ({
+export const CheckboxOptions = ({
   title,
   options,
   updateOptions,

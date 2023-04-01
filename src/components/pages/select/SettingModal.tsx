@@ -12,7 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Dispatch } from "react";
-import { Options } from "./Options";
+import { CheckboxOptions } from "@/components/checkboxOptions";
 import { SettingNumberOption } from "./SettingNumberOption";
 import { SettingSwitchOption } from "./SettingSwitchOption";
 
@@ -109,7 +109,7 @@ export const SettingModal = ({
               onChange={() => toggleSwitch("hasGigantic")}
               disabled={isViewMode}
             />
-            <Options
+            <CheckboxOptions
               title="初登場シリーズで絞り込む"
               options={options.versions}
               updateOptions={updateVersion}
