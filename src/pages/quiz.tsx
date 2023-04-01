@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { QuizOption } from "@/types";
 import { Box, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { queryToOptions } from "@/utils/query";
+import { OptionsType } from "./select";
 
 const Quiz = () => {
-  const { query } = useRouter();
-  console.log(query);
+  const router = useRouter();
+  const [options, setOptions] = useState<OptionsType | null>(null);
   const [no, setNo] = useState<string>("1");
   const [answered, setAnswered] = useState<string[]>(["1"]);
   const [finished, setFinished] = useState<boolean>(false);
@@ -29,8 +31,17 @@ const Quiz = () => {
     }
   };
 
+  useEffect(() => {
+    try {
+      setOptions(queryToOptions(router.query));
+    } catch {
+      router.push("/select");
+    }
+  }, [router]);
+
   return (
     <Box display={"flex"} m={5}>
+      {options?.numberOfQuiz}
       {finished ? (
         "Finished!"
       ) : (
