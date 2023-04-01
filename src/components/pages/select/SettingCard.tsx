@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Grid, GridItem, Center, Heading } from "@chakra-ui/react";
+import { Center, Heading } from "@chakra-ui/react";
 import { Card } from "@/components/Card";
 
 export const SettingCard = ({ onClick }: { onClick: () => void }) => (
