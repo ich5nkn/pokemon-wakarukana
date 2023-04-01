@@ -32,6 +32,7 @@ const Quiz = () => {
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
     try {
       setOptions(queryToOptions(router.query));
     } catch {
