@@ -1,0 +1,126 @@
+import { OptionsType } from "@/pages/select";
+import { VERSIONS } from "./version";
+
+export type BallType = "monster" | "super" | "hyper" | "dark" | "master";
+
+type BallContent = {
+  name: string;
+  description?: string;
+  imgPath: string;
+  alt: string;
+  color: string;
+  options: OptionsType;
+};
+
+export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
+  monster: {
+    name: "モンスターボール級",
+    description: "ポケモンを知らない方でも気軽にプレイできます。",
+    imgPath: "/img/balls/monster-ball.png",
+    alt: "monster-ball",
+    color: "#EB9494",
+    options: {
+      numberOfQuiz: 10,
+      isChoice: true,
+      showHint: false,
+      isSilhouette: false,
+      hasRegion: false,
+      hasAnotherForm: false,
+      hasMega: false,
+      hasGigantic: false,
+      versions: VERSIONS.map(({ id, name }) => ({
+        id,
+        name,
+        value: [1].includes(id),
+      })),
+    },
+  },
+  super: {
+    name: "スーパーボール級",
+    description: "昔のポケモンや最近のポケモンをやった人向けです。",
+    imgPath: "/img/balls/super-ball.png",
+    alt: "super-ball",
+    color: "#9594EB",
+    options: {
+      numberOfQuiz: 15,
+      isChoice: false,
+      showHint: true,
+      isSilhouette: false,
+      hasRegion: false,
+      hasAnotherForm: false,
+      hasMega: false,
+      hasGigantic: false,
+      versions: VERSIONS.map(({ id, name }) => ({
+        id,
+        name,
+        value: [1, 2, 9].includes(id),
+      })),
+    },
+  },
+  hyper: {
+    name: "ハイパーボール級",
+    description: "全シリーズのポケモンをだいたい知ってる人向けです。",
+    imgPath: "/img/balls/hyper-ball.png",
+    alt: "hyper-ball",
+    color: "#EBD294",
+    options: {
+      numberOfQuiz: 20,
+      isChoice: false,
+      showHint: false,
+      isSilhouette: false,
+      hasRegion: true,
+      hasAnotherForm: false,
+      hasMega: true,
+      hasGigantic: true,
+      versions: VERSIONS.map(({ id, name }) => ({
+        id,
+        name,
+        value: true,
+      })),
+    },
+  },
+  dark: {
+    name: "ダークボール級",
+    description: "問題がシルエット化されて出題されます。だーれだ？",
+    imgPath: "/img/balls/dark-ball.png",
+    alt: "dark-ball",
+    color: "#6AA870",
+    options: {
+      numberOfQuiz: 20,
+      isChoice: false,
+      showHint: false,
+      isSilhouette: true,
+      hasRegion: true,
+      hasAnotherForm: false,
+      hasMega: true,
+      hasGigantic: true,
+      versions: VERSIONS.map(({ id, name }) => ({
+        id,
+        name,
+        value: true,
+      })),
+    },
+  },
+  master: {
+    name: "マスターボール級",
+    description: "ポケモンマスター向け！全問正解すると、殿堂入りできます。",
+    imgPath: "/img/balls/master-ball.png",
+    alt: "master-ball",
+    color: "#D994EB",
+    options: {
+      numberOfQuiz: 100,
+      isChoice: false,
+      showHint: false,
+      isSilhouette: false,
+      hasRegion: true,
+      hasAnotherForm: true,
+      hasMega: true,
+      hasGigantic: true,
+      versions: VERSIONS.map(({ id, name }) => ({
+        id,
+        name,
+        value: true,
+      })),
+    },
+  },
+} as const;

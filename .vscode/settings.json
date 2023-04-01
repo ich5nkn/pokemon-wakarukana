@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["POKEMONS"]
+  "cSpell.words": ["POKEMONS"],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
