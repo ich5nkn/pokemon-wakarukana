@@ -20,6 +20,5 @@ export type QuizOption = {
 
 export type SettingOptions = {
   readonly id: number;
-  readonly name: string;
   value: boolean;
 }[];

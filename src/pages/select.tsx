@@ -28,7 +28,7 @@ const initialOptions: OptionsType = {
   hasAnotherForm: true,
   hasMega: true,
   hasGigantic: true,
-  versions: VERSIONS.map(({ id, name }) => ({ id, name, value: true })),
+  versions: VERSIONS.map(({ id }) => ({ id, value: true })),
 };
 
 export type SelectAction =

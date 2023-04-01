@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Checkbox, Collapse, VStack } from "@chakra-ui/react";
 import { SettingOptions } from "@/types";
 import { SettingSwitchOption } from "./pages/select/SettingSwitchOption";
+import { VERSIONS } from "@/constants/version";
 
 interface OwnProps {
   title: string;
@@ -53,14 +54,14 @@ export const CheckboxOptions = ({
           >
             すべてチェックする
           </Checkbox>
-          {options.map(({ id, value, name }) => (
+          {options.map(({ id, value }) => (
             <Checkbox
               key={id}
               isChecked={value}
               onChange={(e) => onClickCheck(id, e.target.checked)}
               isDisabled={disabled}
             >
-              {name}
+              {VERSIONS.find((version) => version.id === id)?.name}
             </Checkbox>
           ))}
         </VStack>
