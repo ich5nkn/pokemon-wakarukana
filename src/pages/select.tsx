@@ -3,21 +3,9 @@ import { BallCard } from "@/components/pages/select/BallCard";
 import { SettingCard } from "@/components/pages/select/SettingCard";
 import { SettingModal } from "@/components/pages/select/SettingModal";
 import { Grid, GridItem, Heading } from "@chakra-ui/react";
-import { VERSIONS } from "@/constants/version";
 import { OptionsType, SettingOptions } from "@/types";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
-
-const initialOptions: OptionsType = {
-  numberOfQuiz: 10,
-  isChoice: false,
-  showHint: false,
-  isSilhouette: false,
-  hasRegion: true,
-  hasAnotherForm: true,
-  hasMega: true,
-  hasGigantic: true,
-  versions: VERSIONS.map(({ id }) => ({ id, value: true })),
-};
+import { initialOptions } from "@/constants/options";
 
 export type SelectAction =
   | { type: "numberOfQuiz"; value: number }
