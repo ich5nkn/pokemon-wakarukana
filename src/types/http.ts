@@ -1,12 +1,14 @@
-import { QuizOption, Selector } from ".";
+import { OptionsType } from "@/pages/select";
+import { Pokemon, QuizOption, Selector } from ".";
 
 export type QuizRequestBody = {
-  answered: string[];
-  option: QuizOption;
+  answered: Pokemon["no"][];
+  options: OptionsType;
 };
 
 export type QuizResponse = {
   no?: string;
+  hasSecondName?: boolean;
   finished: boolean;
   selector?: Selector;
 };
