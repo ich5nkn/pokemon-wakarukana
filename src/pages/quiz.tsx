@@ -16,7 +16,6 @@ const Quiz = () => {
   const [selector, setSelector] = useState<Selector | undefined>();
   const [finished, setFinished] = useState<boolean>(false);
   const onSelect = async (answer: Answer) => {
-    // TODO: 回答を送信する
     fetchQuiz({ answer });
   };
 
@@ -48,7 +47,8 @@ const Quiz = () => {
       });
       if (res.finished) return setFinished(res.finished);
       if (!res || !res.no) return;
-      // TODO: 回答のリクエスト送信処理を作成したら、そちらに移動する（現在は無いので、問題を受け取ったら回答したものとしている）
+      // TODO: 回答を受け取ったら、Answered に追加する
+      // いまは、問題を受け取ったら Answered に追加している
       setAnswered([...answered, res.no]);
       setSelector(res.selector);
       setNo(res.no);
