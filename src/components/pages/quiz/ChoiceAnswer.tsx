@@ -1,11 +1,12 @@
 import { Box, VStack, Text } from "@chakra-ui/react";
 
 interface OwnProps {
-  answers: string[];
+  answers?: string[];
   onSelect: (answer: string) => void;
 }
 
 export const ChoiceAnswer = ({ answers, onSelect }: OwnProps) => {
+  if (!answers) return <></>;
   return (
     <VStack>
       {answers.map((answer) => (

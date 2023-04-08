@@ -13,12 +13,7 @@ const Quiz = () => {
   const [options, setOptions] = useState<OptionsType | undefined>();
   const [no, setNo] = useState<string | undefined>();
   const [answered, setAnswered] = useState<string[]>([]);
-  const [selector, setSelector] = useState<Selector>([
-    "フシギダネ",
-    "フシギソウ",
-    "フシギバナ",
-    "メガフシギバナ",
-  ]);
+  const [selector, setSelector] = useState<Selector | undefined>();
   const [finished, setFinished] = useState<boolean>(false);
   const onClick = async () => {
     fetchQuiz(options);
@@ -42,7 +37,7 @@ const Quiz = () => {
       if (!options) return;
       const res = await getQuiz({ answered, options });
       if (res.finished) return setFinished(res.finished);
-      if (!res || !res.no || !res.selector) return;
+      if (!res || !res.no) return;
       // TODO: 回答のリクエスト送信処理を作成したら、そちらに移動する（現在は無いので、問題を受け取ったら回答したものとしている）
       setAnswered([...answered, res.no]);
       setSelector(res.selector);
