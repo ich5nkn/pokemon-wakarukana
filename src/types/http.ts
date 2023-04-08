@@ -7,8 +7,9 @@ export type QuizRequestBody = {
 };
 
 export type QuizResponse = {
+  finished: boolean;
+  isCorrect?: boolean;
   no?: string;
   hasSecondName?: boolean;
-  finished: boolean;
   selector?: Selector;
 };
