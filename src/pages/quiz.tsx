@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { queryToOptions } from "@/utils/query";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
+import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 
 const Quiz = () => {
   const router = useRouter();
@@ -63,9 +64,12 @@ const Quiz = () => {
         "Finished!"
       ) : (
         <>
-          {`${answered.length} / ${options.numberOfQuiz || 0}問目`}
-          {/* TODO: Progress bar を自作する */}
-          {/* 正解数：青、不正回数：赤、残りの問題数：グレー */}
+          <ProgressBar
+            total={options.numberOfQuiz}
+            primary={answered.length}
+            danger={3} // TODO: 正解数と不正解数を分けて管理する
+          />
+
           <Heading mt={2}>このポケモンの名前は？</Heading>
           <Box mx={"auto"} maxW="75%" my={4}>
             <Image
