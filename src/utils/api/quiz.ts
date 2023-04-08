@@ -1,7 +1,7 @@
 import { POKEMONS } from "@/constants/pokemons";
 import { randomPick, shuffleArray } from "..";
 import { OptionsType } from "@/pages/select";
-import { Selector } from "@/types";
+import { Answer, Pokemon, Selector } from "@/types";
 
 export const getNextPokemon = (
   answered: string[],
@@ -21,11 +21,21 @@ export const getSelector = (nextNo?: string): Selector | undefined => {
   const nextPokemon = POKEMONS.filter(({ no }) => no === nextNo);
   if (!nextPokemon.length) return;
   // TODO: ４択の候補を取得する際に、最初の１文字が同じなど、近い値を持ってこれるとなお良い
+  const pickAnswer = (pokemon?: Pokemon): Answer => {
+    if (!pokemon)
+      return {
+        name: "",
+      };
+    return {
+      name: pokemon.name,
+      name2: pokemon.name2,
+    };
+  };
   const selector: Selector = [
-    nextPokemon[0].name,
-    randomPick(POKEMONS)?.name || "",
-    randomPick(POKEMONS)?.name || "",
-    randomPick(POKEMONS)?.name || "",
+    pickAnswer(nextPokemon[0]),
+    pickAnswer(randomPick(POKEMONS)),
+    pickAnswer(randomPick(POKEMONS)),
+    pickAnswer(randomPick(POKEMONS)),
   ];
 
   return shuffleArray(selector);

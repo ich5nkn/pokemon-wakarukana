@@ -1,17 +1,18 @@
+import { Answer, Selector } from "@/types";
 import { Box, VStack, Text } from "@chakra-ui/react";
 
 interface OwnProps {
-  answers?: string[];
-  onSelect: (answer: string) => void;
+  selector?: Selector;
+  onSelect: (answer: Answer) => void;
 }
 
-export const ChoiceAnswer = ({ answers, onSelect }: OwnProps) => {
-  if (!answers) return <></>;
+export const ChoiceAnswer = ({ selector, onSelect }: OwnProps) => {
+  if (!selector) return <></>;
   return (
     <VStack>
-      {answers.map((answer) => (
+      {selector.map((answer) => (
         <Box
-          key={answer}
+          key={`${answer.name}${answer.name2 || ""}`}
           onClick={() => onSelect(answer)}
           borderRadius={8}
           border={"2px solid"}
@@ -20,8 +21,9 @@ export const ChoiceAnswer = ({ answers, onSelect }: OwnProps) => {
           p={4}
         >
           <Text fontSize={"lg"} fontWeight={700}>
-            {answer}
+            {answer.name}
           </Text>
+          {answer.name2 && <Text>{`（${answer.name2}）`}</Text>}
         </Box>
       ))}
     </VStack>

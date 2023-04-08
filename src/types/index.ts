@@ -3,14 +3,11 @@ import { VERSIONS } from "@/constants/version";
 
 type SelectVersions = Array<(typeof VERSIONS)[number]["id"]>;
 
-type Pokemon = (typeof POKEMONS)[number];
+export type Pokemon = (typeof POKEMONS)[number];
 
-export type Selector = [
-  Pokemon["name"],
-  Pokemon["name"],
-  Pokemon["name"],
-  Pokemon["name"]
-];
+export type Answer = Pick<Pokemon, "name" | "name2">;
+
+export type Selector = [Answer, Answer, Answer, Answer];
 
 export type QuizOption = {
   isSelectableQuiz: boolean;
