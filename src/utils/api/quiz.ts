@@ -1,6 +1,7 @@
 import { POKEMONS } from "@/constants/pokemons";
-import { randomPick, shuffleArray } from "..";
+import { randomMultiplePick, randomPick, shuffleArray } from "..";
 import { Answer, Pokemon, OptionsType, Selector } from "@/types";
+import { FixedLengthArray } from "@/types/utils";
 
 export const getNextPokemon = (
   answered: string[],
@@ -30,12 +31,12 @@ export const getSelector = (nextNo?: string): Selector | undefined => {
       name2: pokemon.name2,
     };
   };
-  const selector: Selector = [
-    pickAnswer(nextPokemon[0]),
-    pickAnswer(randomPick(POKEMONS)),
-    pickAnswer(randomPick(POKEMONS)),
-    pickAnswer(randomPick(POKEMONS)),
-  ];
+  const dummyAnswers = randomMultiplePick(
+    POKEMONS.filter(({ no }) => no !== nextNo),
+    3
+  ).map((pokemon) => pickAnswer(pokemon)) as FixedLengthArray<Answer, 3>;
+
+  const selector: Selector = [pickAnswer(nextPokemon[0]), ...dummyAnswers];
 
   return shuffleArray(selector);
 };

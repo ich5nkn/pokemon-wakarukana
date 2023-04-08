@@ -1,13 +1,11 @@
 import { POKEMONS } from "@/constants/pokemons";
-import { VERSIONS } from "@/constants/version";
-
-type SelectVersions = Array<(typeof VERSIONS)[number]["id"]>;
+import { FixedLengthArray } from "./utils";
 
 export type Pokemon = (typeof POKEMONS)[number];
 
 export type Answer = Pick<Pokemon, "name" | "name2">;
 
-export type Selector = [Answer, Answer, Answer, Answer];
+export type Selector = FixedLengthArray<Answer, 4>;
 
 export type OptionsType = {
   numberOfQuiz: number;
