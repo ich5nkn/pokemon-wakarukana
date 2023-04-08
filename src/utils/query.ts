@@ -14,13 +14,13 @@ export const queryToOptions = (query: AnyObject): OptionsType => {
   try {
     const options = {
       numberOfQuiz: Number(query.numberOfQuiz),
-      isChoice: Boolean(query.isChoice),
-      showHint: Boolean(query.showHint),
-      isSilhouette: Boolean(query.isSilhouette),
-      hasRegion: Boolean(query.hasRegion),
-      hasAnotherForm: Boolean(query.hasAnotherForm),
-      hasMega: Boolean(query.hasMega),
-      hasGigantic: Boolean(query.hasGigantic),
+      isChoice: query.isChoice === "true",
+      showHint: query.showHint === "true",
+      isSilhouette: query.isSilhouette === "true",
+      hasRegion: query.hasRegion === "true",
+      hasAnotherForm: query.hasAnotherForm === "true",
+      hasMega: query.hasMega === "true",
+      hasGigantic: query.hasGigantic === "true",
       versions: VERSIONS.map((version) => ({
         id: version.id,
         value: query.versions.includes(String(version.id)),

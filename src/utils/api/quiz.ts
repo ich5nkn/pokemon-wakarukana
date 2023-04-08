@@ -7,9 +7,15 @@ export const getNextPokemon = (
   answered: string[],
   options: OptionsType
 ): { no: string; hasSecondName: boolean } | undefined => {
-  // TODO: option の値をつかって filtering を行う
   const filteredData = POKEMONS.filter(
-    (pokemon) => !answered.some((answered) => answered === pokemon.no)
+    (pokemon) =>
+      !answered.some((answered) => answered === pokemon.no) &&
+      !!pokemon.isMega === options.hasMega &&
+      !!pokemon.isGigantic === options.hasGigantic &&
+      !!pokemon.isRegion === options.hasRegion &&
+      options.versions
+        .filter(({ value }) => value)
+        .some(({ id }) => id === pokemon.version)
   );
   const pickPokemon = randomPick(filteredData);
   if (!pickPokemon) return;
