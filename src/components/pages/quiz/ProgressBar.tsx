@@ -11,9 +11,6 @@ export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
   const dangerPer = Math.floor((danger / total) * 100);
   return (
     <Box>
-      <Box>{`${
-        primary + danger + 1
-      } / ${total} 問目 （正解数：${primary}）`}</Box>
       <Box
         h={8}
         w={"100%"}
@@ -25,6 +22,9 @@ export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
         <Box h={8} bgColor="green.500" w={`${primaryPer}%`} />
         <Box h={8} bgColor="red.500" w={`${dangerPer}%`} />
       </Box>
+      <Box textAlign={"right"}>{`${
+        primary + danger + 1
+      } / ${total} 問目 (正解数：${primary})`}</Box>
     </Box>
   );
 };
