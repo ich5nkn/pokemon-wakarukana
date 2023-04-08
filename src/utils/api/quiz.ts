@@ -45,10 +45,10 @@ export const getSelector = (
     POKEMONS.filter(
       ({ no, isMega, isGigantic, isRegion, isAnotherForm }) =>
         no !== nextNo &&
-        isMega === options.hasMega &&
-        isGigantic === options.hasGigantic &&
-        isRegion === options.hasRegion &&
-        isAnotherForm === options.hasAnotherForm
+        !!isMega === options.hasMega &&
+        !!isGigantic === options.hasGigantic &&
+        !!isRegion === options.hasRegion &&
+        !!isAnotherForm === options.hasAnotherForm
     ),
     3
   ).map((pokemon) => pickAnswer(pokemon)) as FixedLengthArray<Answer, 3>;
