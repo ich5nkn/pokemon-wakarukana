@@ -10,9 +10,9 @@ import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 
 const Quiz = () => {
   const router = useRouter();
-  const [options, setOptions] = useState<OptionsType | null>(null);
-  const [no, setNo] = useState<string>("1");
-  const [answered, setAnswered] = useState<string[]>(["1"]);
+  const [options, setOptions] = useState<OptionsType | undefined>();
+  const [no, setNo] = useState<string | undefined>();
+  const [answered, setAnswered] = useState<string[]>([]);
   const [selector, setSelector] = useState<Selector>([
     "フシギダネ",
     "フシギソウ",
@@ -21,6 +21,23 @@ const Quiz = () => {
   ]);
   const [finished, setFinished] = useState<boolean>(false);
   const onClick = async () => {
+    fetchQuiz(options);
+  };
+
+  // 初回起動時に実行
+  useEffect(() => {
+    if (!router.isReady) return;
+    try {
+      const options = queryToOptions(router.query);
+      setOptions(options);
+      fetchQuiz(options);
+    } catch {
+      router.push("/select");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
+
+  const fetchQuiz = async (options?: OptionsType) => {
     try {
       if (!options) return;
       const res = await getQuiz({ answered, options });
@@ -34,15 +51,6 @@ const Quiz = () => {
       alert("error");
     }
   };
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    try {
-      setOptions(queryToOptions(router.query));
-    } catch {
-      router.push("/select");
-    }
-  }, [router]);
 
   return (
     <Box py={4}>
