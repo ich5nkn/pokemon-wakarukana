@@ -50,12 +50,17 @@ const Quiz = () => {
       if (!res || !res.no) return;
       // TODO: 回答のリクエスト送信処理を作成したら、そちらに移動する（現在は無いので、問題を受け取ったら回答したものとしている）
       setAnswered([...answered, res.no]);
+      // TODO: 選択肢が5個に増える現象が発生したので、デバッグ用に追加。後で消す。
+      console.log("res.selector: ", res.selector);
       setSelector(res.selector);
       setNo(res.no);
     } catch {
       alert("error");
     }
   };
+
+  // TODO: 選択肢が5個に増える現象が発生したので、デバッグ用に追加。後で消す。
+  useEffect(() => console.log("selector: ", selector), [selector]);
 
   return (
     <Box py={4}>
