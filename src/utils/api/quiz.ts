@@ -1,7 +1,6 @@
 import { POKEMONS } from "@/constants/pokemons";
 import { randomPick, shuffleArray } from "..";
-import { OptionsType } from "@/pages/select";
-import { Answer, Pokemon, Selector } from "@/types";
+import { Answer, Pokemon, OptionsType, Selector } from "@/types";
 
 export const getNextPokemon = (
   answered: string[],

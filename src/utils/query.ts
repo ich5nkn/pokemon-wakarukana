@@ -1,5 +1,5 @@
 import { VERSIONS } from "@/constants/version";
-import { OptionsType } from "@/pages/select";
+import { OptionsType } from "@/types";
 import { AnyObject } from "@/types/utils";
 import queryString from "querystring";
 

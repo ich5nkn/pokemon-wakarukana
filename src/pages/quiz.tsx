@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
-import { QuizOption, Selector } from "@/types";
+import { OptionsType, Selector } from "@/types";
 import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { queryToOptions } from "@/utils/query";
-import { OptionsType } from "./select";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 
 const Quiz = () => {

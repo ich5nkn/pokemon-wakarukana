@@ -1,4 +1,4 @@
-import { OptionsType, SelectAction } from "@/pages/select";
+import { SelectAction } from "@/pages/select";
 import {
   Button,
   Flex,
@@ -20,6 +20,7 @@ import { BALLS_CONTENT, BallType } from "@/constants/balls";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { optionsToQuery } from "@/utils/query";
+import { OptionsType } from "@/types";
 
 interface OwnProps {
   open: boolean;

@@ -1,5 +1,4 @@
-import { OptionsType } from "@/pages/select";
-import { Pokemon, QuizOption, Selector } from ".";
+import { Pokemon, Selector, OptionsType } from ".";
 
 export type QuizRequestBody = {
   answered: Pokemon["no"][];

@@ -4,20 +4,8 @@ import { SettingCard } from "@/components/pages/select/SettingCard";
 import { SettingModal } from "@/components/pages/select/SettingModal";
 import { Grid, GridItem, Heading } from "@chakra-ui/react";
 import { VERSIONS } from "@/constants/version";
-import { SettingOptions } from "@/types";
+import { OptionsType, SettingOptions } from "@/types";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
-
-export type OptionsType = {
-  numberOfQuiz: number;
-  isChoice: boolean;
-  showHint: boolean;
-  isSilhouette: boolean;
-  hasRegion: boolean;
-  hasAnotherForm: boolean;
-  hasMega: boolean;
-  hasGigantic: boolean;
-  versions: SettingOptions;
-};
 
 const initialOptions: OptionsType = {
   numberOfQuiz: 10,

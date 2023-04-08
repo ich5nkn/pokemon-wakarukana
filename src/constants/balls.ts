@@ -1,4 +1,4 @@
-import { OptionsType } from "@/pages/select";
+import { OptionsType } from "@/types";
 import { VERSIONS } from "./version";
 
 export type BallType = "monster" | "super" | "hyper" | "dark" | "master";
