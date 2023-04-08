@@ -29,3 +29,14 @@ export const getSelector = (nextNo?: string): Selector | undefined => {
 
   return shuffleArray(selector);
 };
+
+export const judgeAnswer = (
+  quizNo: string,
+  name1: string,
+  name2?: string
+): boolean => {
+  const targetPokemon = POKEMONS.filter(({ no }) => no === quizNo);
+  if (!targetPokemon.length) return false;
+  // TODO: ひらがな / カタカナの許容や、フォーマットの判定を甘くする処理をいれる
+  return targetPokemon[0].name === name1 && targetPokemon[0].name2 === name2;
+};
