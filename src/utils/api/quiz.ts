@@ -20,6 +20,7 @@ export const getSelector = (nextNo?: string): Selector | undefined => {
   if (!nextNo) return;
   const nextPokemon = POKEMONS.filter(({ no }) => no === nextNo);
   if (!nextPokemon.length) return;
+  // TODO: ４択の候補を取得する際に、最初の１文字が同じなど、近い値を持ってこれるとなお良い
   const selector: Selector = [
     nextPokemon[0].name,
     randomPick(POKEMONS)?.name || "",
