@@ -13,6 +13,7 @@ export const getNextPokemon = (
       !!pokemon.isMega === options.hasMega &&
       !!pokemon.isGigantic === options.hasGigantic &&
       !!pokemon.isRegion === options.hasRegion &&
+      !!pokemon.isAnotherForm === options.hasAnotherForm &&
       options.versions
         .filter(({ value }) => value)
         .some(({ id }) => id === pokemon.version)
@@ -22,7 +23,10 @@ export const getNextPokemon = (
   return { no: pickPokemon.no, hasSecondName: !!pickPokemon.name2 };
 };
 
-export const getSelector = (nextNo?: string): Selector | undefined => {
+export const getSelector = (
+  options: OptionsType,
+  nextNo?: string
+): Selector | undefined => {
   if (!nextNo) return;
   const nextPokemon = POKEMONS.filter(({ no }) => no === nextNo);
   if (!nextPokemon.length) return;
@@ -38,7 +42,14 @@ export const getSelector = (nextNo?: string): Selector | undefined => {
     };
   };
   const dummyAnswers = randomMultiplePick(
-    POKEMONS.filter(({ no }) => no !== nextNo),
+    POKEMONS.filter(
+      ({ no, isMega, isGigantic, isRegion, isAnotherForm }) =>
+        no !== nextNo &&
+        isMega === options.hasMega &&
+        isGigantic === options.hasGigantic &&
+        isRegion === options.hasRegion &&
+        isAnotherForm === options.hasAnotherForm
+    ),
     3
   ).map((pokemon) => pickAnswer(pokemon)) as FixedLengthArray<Answer, 3>;
 

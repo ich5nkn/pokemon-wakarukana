@@ -15,6 +15,7 @@ export const POKEMONS: {
   isMega?: boolean;
   isGigantic?: boolean;
   isRegion?: boolean;
+  isAnotherForm?: boolean;
 }[] = [
   { no: "1", name: "フシギダネ", version: 1 },
   { no: "2", name: "フシギソウ", version: 1 },

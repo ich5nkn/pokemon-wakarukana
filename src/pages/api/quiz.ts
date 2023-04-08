@@ -17,7 +17,9 @@ export default function handler(
   if (options.numberOfQuiz <= answered.length || !nextPokemon)
     return res.status(200).json({ finished: true });
 
-  const selector = options.isChoice ? getSelector(nextPokemon?.no) : undefined;
+  const selector = options.isChoice
+    ? getSelector(options, nextPokemon?.no)
+    : undefined;
   const isCorrect = answer
     ? judgeAnswer(answered[answered.length - 1], answer.name, answer.name2)
     : undefined;
