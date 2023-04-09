@@ -131,7 +131,7 @@ const Quiz = () => {
           {no && (
             <Box mx={"auto"} maxW="75%" my={4}>
               <Image
-                src={`/image/pokemon/${no}.png`}
+                src={`/image/pokemon/${no}.webp`}
                 alt="pokemon image"
                 width={300}
                 height={300}
@@ -145,7 +145,7 @@ const Quiz = () => {
                 quality={10}
                 loading="eager"
               />
-              <img src={`/image/pokemon/${no}.png`} />
+              <img src={`/image/pokemon/${no}.webp`} />
             </Box>
           )}
           {options.isChoice}
