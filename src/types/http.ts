@@ -1,7 +1,7 @@
 import { Pokemon, Selector, OptionsType, Answer } from ".";
 
 export type QuizRequestBody = {
-  answered: Pokemon["no"][];
+  displayed: Pokemon["no"][];
   answer?: Answer;
   options: OptionsType;
 };

@@ -4,12 +4,12 @@ import { Answer, Pokemon, OptionsType, Selector } from "@/types";
 import { FixedLengthArray } from "@/types/utils";
 
 export const getNextPokemon = (
-  answered: string[],
+  displayed: string[],
   options: OptionsType
 ): { no: string; hasSecondName: boolean } | undefined => {
   const filteredData = POKEMONS.filter(
     (pokemon) =>
-      !answered.some((answered) => answered === pokemon.no) &&
+      !displayed.some((displayed) => displayed === pokemon.no) &&
       !!pokemon.isMega === options.hasMega &&
       !!pokemon.isGigantic === options.hasGigantic &&
       !!pokemon.isRegion === options.hasRegion &&

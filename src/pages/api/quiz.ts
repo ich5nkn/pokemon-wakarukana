@@ -11,17 +11,17 @@ export default function handler(
   req: QuizRequest,
   res: NextApiResponse<QuizResponse>
 ) {
-  const { answered, options, answer } = req.body;
+  const { displayed, options, answer } = req.body;
 
-  const nextPokemon = getNextPokemon(answered, options);
-  if (options.numberOfQuiz <= answered.length || !nextPokemon)
+  const nextPokemon = getNextPokemon(displayed, options);
+  if (options.numberOfQuiz <= displayed.length || !nextPokemon)
     return res.status(200).json({ finished: true });
 
   const selector = options.isChoice
     ? getSelector(options, nextPokemon?.no)
     : undefined;
   const isCorrect = answer
-    ? judgeAnswer(answered[answered.length - 1], answer.name, answer.name2)
+    ? judgeAnswer(displayed[displayed.length - 1], answer.name, answer.name2)
     : undefined;
 
   res.status(200).json({

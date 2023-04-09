@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { Answer, OptionsType, Selector } from "@/types";
@@ -9,13 +9,36 @@ import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 
+interface Answered {
+  correct: number;
+  incorrect: number;
+}
+type AnsweredAction = "correct" | "incorrect";
+const answeredReducer = (
+  { correct, incorrect }: Answered,
+  action: AnsweredAction
+) => {
+  switch (action) {
+    case "correct":
+      return { correct: correct + 1, incorrect };
+    case "incorrect":
+      return { incorrect: incorrect + 1, correct };
+    default:
+      return { correct, incorrect };
+  }
+};
+
 const Quiz = () => {
   const router = useRouter();
   const [options, setOptions] = useState<OptionsType>(initialOptions);
   const [no, setNo] = useState<string | undefined>();
-  const [answered, setAnswered] = useState<string[]>([]);
+  const [displayed, setDisplayed] = useState<string[]>([]);
   const [selector, setSelector] = useState<Selector | undefined>();
   const [finished, setFinished] = useState<boolean>(false);
+  const [answered, dispatchAnswered] = useReducer(answeredReducer, {
+    correct: 0,
+    incorrect: 0,
+  });
   const onSelect = async (answer: Answer) => {
     fetchQuiz({ answer });
   };
@@ -42,7 +65,7 @@ const Quiz = () => {
   }) => {
     try {
       const res = await getQuiz({
-        answered,
+        displayed,
         options: overrideOptions || options,
         answer,
       });
@@ -50,9 +73,12 @@ const Quiz = () => {
       if (!res || !res.no) return;
       // TODO: 回答を受け取ったら、Answered に追加する
       // いまは、問題を受け取ったら Answered に追加している
-      setAnswered([...answered, res.no]);
-      setSelector(res.selector);
       setNo(res.no);
+      if (res.isCorrect !== undefined) {
+        dispatchAnswered(res.isCorrect ? "correct" : "incorrect");
+      }
+      setDisplayed([...displayed, res.no]);
+      setSelector(res.selector);
     } catch {
       alert("error");
     }
@@ -66,8 +92,8 @@ const Quiz = () => {
         <>
           <ProgressBar
             total={options.numberOfQuiz}
-            primary={answered.length}
-            danger={3} // TODO: 正解数と不正解数を分けて管理する
+            primary={answered.correct}
+            danger={answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
           <Box mx={"auto"} maxW="75%" my={4}>
