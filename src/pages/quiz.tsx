@@ -124,8 +124,8 @@ const Quiz = () => {
             <Image
               src={`/image/pokemon/${no}.png`}
               alt="pokemon image"
-              width={1000}
-              height={1000}
+                width={300}
+                height={300}
             />
           </Box>
           {options.isChoice}
