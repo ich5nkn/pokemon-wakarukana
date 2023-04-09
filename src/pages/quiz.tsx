@@ -121,7 +121,7 @@ const Quiz = () => {
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
           <Image
-            src={`/image/pokemon/1.png`}
+            src={`/image/pokemon/1.webp`}
             alt="pokemon image"
             width={300}
             height={300}
