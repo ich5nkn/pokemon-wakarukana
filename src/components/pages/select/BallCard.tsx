@@ -18,7 +18,7 @@ export const BallCard = ({ type, onClick }: OwnProps) => (
         width={96}
       />
     </Center>
-    <Text fontSize={"md"} textAlign="center" mt="2">
+    <Text fontSize={"md"} fontWeight={700} textAlign="center" mt="2">
       {`${BALLS_CONTENT[type].name}`}
     </Text>
   </Card>

@@ -1,4 +1,4 @@
-import { OptionsType, SelectAction } from "@/pages/select";
+import { SelectAction } from "@/pages/select";
 import {
   Button,
   Flex,
@@ -18,6 +18,9 @@ import { SettingNumberOption } from "./SettingNumberOption";
 import { SettingSwitchOption } from "./SettingSwitchOption";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
+import { optionsToQuery } from "@/utils/query";
+import { OptionsType } from "@/types";
 
 interface OwnProps {
   open: boolean;
@@ -34,6 +37,7 @@ export const SettingModal = ({
   dispatch,
   selectedType,
 }: OwnProps) => {
+  const router = useRouter();
   const toggleSwitch = (
     type: Exclude<
       SelectAction["type"],
@@ -42,14 +46,21 @@ export const SettingModal = ({
   ) => {
     dispatch({ type, value: !options[type] });
   };
+
   const updateNumberOfQuiz = (num: number) => {
     dispatch({ type: "numberOfQuiz", value: num });
   };
+
   const updateVersion = (option: OptionsType["versions"]) => {
     dispatch({ type: "versions", value: option });
   };
 
+  const onClickSubmit = () => {
+    router.push({ pathname: "quiz", query: optionsToQuery(options) });
+  };
+
   const ballContent = selectedType ? BALLS_CONTENT[selectedType] : null;
+
   return (
     <Modal isOpen={open} onClose={onClose} scrollBehavior="inside" size="md">
       <ModalOverlay />
@@ -139,7 +150,7 @@ export const SettingModal = ({
           </VStack>
         </ModalBody>
         <ModalFooter columnGap={4}>
-          <Button colorScheme={"orange"} onClick={onClose}>
+          <Button colorScheme={"orange"} onClick={onClickSubmit}>
             この設定で始める
           </Button>
           <Button onClick={onClose}>閉じる</Button>

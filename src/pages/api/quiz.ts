@@ -1,8 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
-import { getNo } from "@/utils/api/quiz";
-import { Selector } from "@/types";
+import { getNextPokemon, getSelector, judgeAnswer } from "@/utils/api/quiz";
+import { Answer } from "@/types";
+import { POKEMONS } from "@/constants/pokemons";
 
 interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
@@ -12,23 +13,35 @@ export default function handler(
   req: QuizRequest,
   res: NextApiResponse<QuizResponse>
 ) {
-  const {
-    answered,
-    option: { maxCount, isSelectableQuiz },
-  } = req.body;
-  if (maxCount === answered.length)
+  const { displayed, options, answer } = req.body;
+
+  const nextPokemon = getNextPokemon(displayed, options);
+  if (options.numberOfQuiz <= displayed.length || !nextPokemon)
     return res.status(200).json({ finished: true });
-  const no = getNo(answered);
-  const dummySelector = [
-    "フシギダネ",
-    "フシギソウ",
-    "フシギバナ",
-    "メガフシギバナ",
-  ] as Selector;
+
+  const selector = options.isChoice
+    ? getSelector(options, nextPokemon?.no)
+    : undefined;
+
+  const isCorrect = answer
+    ? judgeAnswer(displayed[displayed.length - 1], answer.name, answer.name2)
+    : undefined;
+
+  const correctAnswer = ((): Answer | undefined => {
+    if (!displayed.length || isCorrect) return;
+    const targetPokemon = POKEMONS.filter(
+      ({ no }) => no === displayed[displayed.length - 1]
+    );
+    if (!targetPokemon.length) return;
+    return targetPokemon[0];
+  })();
 
   res.status(200).json({
-    no,
-    selector: isSelectableQuiz ? dummySelector : undefined,
-    finished: !no,
+    no: nextPokemon?.no,
+    hasSecondName: nextPokemon?.hasSecondName,
+    selector,
+    isCorrect,
+    finished: false,
+    answer: correctAnswer,
   });
 }

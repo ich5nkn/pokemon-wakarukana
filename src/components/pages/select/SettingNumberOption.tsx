@@ -1,3 +1,4 @@
+import { replaceIsNaN } from "@/utils";
 import {
   Box,
   Flex,
@@ -26,7 +27,7 @@ export const SettingNumberOption = ({
     {title}
     <Spacer />
     <NumberInput
-      value={value}
+      value={replaceIsNaN(value, "")}
       onChange={(_str, num) => onChange(num)}
       defaultValue={10}
       step={10}

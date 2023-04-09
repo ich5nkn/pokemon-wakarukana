@@ -1,11 +1,11 @@
-import { OptionsType } from "@/pages/select";
+import { OptionsType } from "@/types";
 import { VERSIONS } from "./version";
 
 export type BallType = "monster" | "super" | "hyper" | "dark" | "master";
 
 type BallContent = {
   name: string;
-  description?: string;
+  description: string;
   imgPath: string;
   alt: string;
   color: string;
@@ -15,7 +15,8 @@ type BallContent = {
 export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
   monster: {
     name: "モンスターボール級",
-    description: "ポケモンを知らない方でも気軽にプレイできます。",
+    description:
+      "４択クイズなので、ポケモンを知らない方でも気軽にプレイできます。",
     imgPath: "/img/balls/monster-ball.png",
     alt: "monster-ball",
     color: "#EB9494",
@@ -37,7 +38,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
   },
   super: {
     name: "スーパーボール級",
-    description: "昔のポケモンや最近のポケモンをやった人向けです。",
+    description: "昔のポケモンや最近のポケモンをやったことがある人向けです。",
     imgPath: "/img/balls/super-ball.png",
     alt: "super-ball",
     color: "#9594EB",
@@ -81,7 +82,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
   },
   dark: {
     name: "ダークボール級",
-    description: "問題がシルエット化されて出題されます。だーれだ？",
+    description: "問題がシルエット化されて出題されます。「だーれだ？」",
     imgPath: "/img/balls/dark-ball.png",
     alt: "dark-ball",
     color: "#6AA870",
