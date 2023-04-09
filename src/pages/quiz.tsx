@@ -120,6 +120,14 @@ const Quiz = () => {
             danger={answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
+          <Image
+            src={`/image/pokemon/1.png`}
+            alt="pokemon image"
+            width={300}
+            height={300}
+            quality={10}
+            loading="eager"
+          />
           {no && (
             <Box mx={"auto"} maxW="75%" my={4}>
               <Image
@@ -127,8 +135,17 @@ const Quiz = () => {
                 alt="pokemon image"
                 width={300}
                 height={300}
-                priority
+                loading="eager"
               />
+              <Image
+                src={`/image/pokemon/${no}.png`}
+                alt="pokemon image"
+                width={300}
+                height={300}
+                quality={10}
+                loading="eager"
+              />
+              <img src={`/image/pokemon/${no}.png`} />
             </Box>
           )}
           {options.isChoice}
