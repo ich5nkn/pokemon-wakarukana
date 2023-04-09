@@ -10,10 +10,10 @@ export const getNextPokemon = (
   const filteredData = POKEMONS.filter(
     (pokemon) =>
       !displayed.some((displayed) => displayed === pokemon.no) &&
-      !!pokemon.isMega === options.hasMega &&
-      !!pokemon.isGigantic === options.hasGigantic &&
-      !!pokemon.isRegion === options.hasRegion &&
-      !!pokemon.isAnotherForm === options.hasAnotherForm &&
+      (options.hasMega ? true : !pokemon.isMega) &&
+      (options.hasGigantic ? true : !pokemon.isGigantic) &&
+      (options.hasRegion ? true : !pokemon.isRegion) &&
+      (options.hasAnotherForm ? true : !pokemon.isAnotherForm) &&
       options.versions
         .filter(({ value }) => value)
         .some(({ id }) => id === pokemon.version)
@@ -45,10 +45,10 @@ export const getSelector = (
     POKEMONS.filter(
       ({ no, isMega, isGigantic, isRegion, isAnotherForm }) =>
         no !== nextNo &&
-        !!isMega === options.hasMega &&
-        !!isGigantic === options.hasGigantic &&
-        !!isRegion === options.hasRegion &&
-        !!isAnotherForm === options.hasAnotherForm
+        (options.hasMega ? true : !isMega) &&
+        (options.hasGigantic ? true : !isGigantic) &&
+        (options.hasRegion ? true : !isRegion) &&
+        (options.hasAnotherForm ? true : !isAnotherForm)
     ),
     3
   ).map((pokemon) => pickAnswer(pokemon)) as FixedLengthArray<Answer, 3>;
