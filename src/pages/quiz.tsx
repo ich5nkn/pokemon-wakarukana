@@ -2,7 +2,14 @@ import { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { Answer, OptionsType, Selector } from "@/types";
-import { Box, Heading, UseToastOptions, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Spinner,
+  UseToastOptions,
+  useToast,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { queryToOptions } from "@/utils/query";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
@@ -51,6 +58,7 @@ const Quiz = () => {
   const [displayed, setDisplayed] = useState<string[]>([]);
   const [selector, setSelector] = useState<Selector | undefined>();
   const [finished, setFinished] = useState<boolean>(false);
+  const [loadingImg, setLoadingImg] = useState(false);
   const [answered, dispatchAnswered] = useReducer(answeredReducer, {
     correct: 0,
     incorrect: 0,
@@ -81,6 +89,7 @@ const Quiz = () => {
     overrideOptions?: OptionsType;
   }) => {
     try {
+      setLoadingImg(true);
       const res = await getQuiz({
         displayed,
         options: overrideOptions || options,
@@ -120,14 +129,21 @@ const Quiz = () => {
             danger={answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
-          <Box mx={"auto"} maxW="75%" my={4}>
-            <Image
-              src={`/image/pokemon/${no}.png`}
-              alt="pokemon image"
-              width={1000}
-              height={1000}
-            />
-          </Box>
+          {no && (
+            <Center mx={"auto"} maxW="75%" my={4} h={264}>
+              <Spinner hidden={!loadingImg} size={"xl"} />
+              <Image
+                src={`/img/pokemon/${no}.webp`}
+                alt="pokemon image"
+                width={264}
+                height={264}
+                unoptimized={true}
+                loading="eager"
+                onLoadingComplete={() => setLoadingImg(false)}
+                hidden={loadingImg}
+              />
+            </Center>
+          )}
           {options.isChoice}
           <ChoiceAnswer selector={selector} onSelect={onSelect} />
         </>

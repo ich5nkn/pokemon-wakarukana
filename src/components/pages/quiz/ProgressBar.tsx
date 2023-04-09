@@ -10,9 +10,12 @@ interface OwnProps {
 export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
   const primaryWidth = Math.floor((primary / total) * 100);
   const dangerWidth = Math.floor((danger / total) * 100);
-  const percentage = replaceIsNaN(
-    Math.round((primary / (primary + danger)) * 1000) / 10
-  );
+  const percentage = Math.round((primary / (primary + danger)) * 1000) / 10;
+  const stepText =
+    primary + danger + 1 === total
+      ? "最終問題！"
+      : `${primary + danger + 1} / ${total} 問目`;
+  const percentageText = `（正解率：${replaceIsNaN(percentage)}%）`;
   return (
     <Box>
       <Box
@@ -26,9 +29,7 @@ export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
         <Box h={8} bgColor="green.500" w={`${primaryWidth}%`} />
         <Box h={8} bgColor="red.500" w={`${dangerWidth}%`} />
       </Box>
-      <Box textAlign={"right"}>{`${
-        primary + danger + 1
-      } / ${total} 問目 (正解率：${percentage}%)`}</Box>
+      <Box textAlign={"right"}>{`${stepText}${percentageText}`}</Box>
     </Box>
   );
 };
