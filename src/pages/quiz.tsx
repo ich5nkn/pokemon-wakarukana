@@ -130,22 +130,19 @@ const Quiz = () => {
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
           {no && (
-            <Box mx={"auto"} maxW="75%" my={4}>
-              <Center>
-                <Spinner size={"xl"} hidden={!loadingImg} mt={4} />
-              </Center>
-
+            <Center mx={"auto"} maxW="75%" my={4} h={264}>
+              <Spinner hidden={!loadingImg} size={"xl"} />
               <Image
                 src={`/image/pokemon/${no}.webp`}
                 alt="pokemon image"
-                width={300}
-                height={300}
+                width={264}
+                height={264}
                 unoptimized={true}
                 loading="eager"
                 onLoadingComplete={() => setLoadingImg(false)}
                 hidden={loadingImg}
               />
-            </Box>
+            </Center>
           )}
           {options.isChoice}
           <ChoiceAnswer selector={selector} onSelect={onSelect} />
