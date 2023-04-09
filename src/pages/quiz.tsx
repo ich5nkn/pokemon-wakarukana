@@ -126,6 +126,7 @@ const Quiz = () => {
               alt="pokemon image"
                 width={300}
                 height={300}
+                priority
             />
           </Box>
           {options.isChoice}
