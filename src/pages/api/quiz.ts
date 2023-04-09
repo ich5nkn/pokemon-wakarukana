@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
 import { getNextPokemon, getSelector, judgeAnswer } from "@/utils/api/quiz";
+import { Answer } from "@/types";
+import { POKEMONS } from "@/constants/pokemons";
 
 interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
@@ -20,9 +22,19 @@ export default function handler(
   const selector = options.isChoice
     ? getSelector(options, nextPokemon?.no)
     : undefined;
+
   const isCorrect = answer
     ? judgeAnswer(displayed[displayed.length - 1], answer.name, answer.name2)
     : undefined;
+
+  const correctAnswer = ((): Answer | undefined => {
+    if (!displayed.length || isCorrect) return;
+    const targetPokemon = POKEMONS.filter(
+      ({ no }) => no === displayed[displayed.length - 1]
+    );
+    if (!targetPokemon.length) return;
+    return targetPokemon[0];
+  })();
 
   res.status(200).json({
     no: nextPokemon?.no,
@@ -30,5 +42,6 @@ export default function handler(
     selector,
     isCorrect,
     finished: false,
+    answer: correctAnswer,
   });
 }

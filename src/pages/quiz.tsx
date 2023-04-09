@@ -97,8 +97,7 @@ const Quiz = () => {
         toast(
           createToast({
             isCorrect: res.isCorrect,
-            name: "ヤドキング",
-            name2: "ガラルのすがた・コンバット種",
+            ...res.answer,
           })
         );
       }

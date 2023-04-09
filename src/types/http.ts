@@ -12,4 +12,5 @@ export type QuizResponse = {
   no?: string;
   hasSecondName?: boolean;
   selector?: Selector;
+  answer?: Answer;
 };
