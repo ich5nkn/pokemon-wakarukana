@@ -120,15 +120,17 @@ const Quiz = () => {
             danger={answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
-          <Box mx={"auto"} maxW="75%" my={4}>
-            <Image
-              src={`/image/pokemon/${no}.png`}
-              alt="pokemon image"
+          {no && (
+            <Box mx={"auto"} maxW="75%" my={4}>
+              <Image
+                src={`/image/pokemon/${no}.png`}
+                alt="pokemon image"
                 width={300}
                 height={300}
                 priority
-            />
-          </Box>
+              />
+            </Box>
+          )}
           {options.isChoice}
           <ChoiceAnswer selector={selector} onSelect={onSelect} />
         </>
