@@ -15,6 +15,7 @@ import { queryToOptions } from "@/utils/query";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
+import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 
 interface Answered {
   correct: number;
@@ -56,7 +57,9 @@ const Quiz = () => {
   const [options, setOptions] = useState<OptionsType>(initialOptions);
   const [no, setNo] = useState<string | undefined>();
   const [displayed, setDisplayed] = useState<string[]>([]);
+  // TODO: この辺り、Response から取得しているのでまとめたい
   const [selector, setSelector] = useState<Selector | undefined>();
+  const [hasSecondName, setHasSecondName] = useState(false);
   const [finished, setFinished] = useState<boolean>(false);
   const [loadingImg, setLoadingImg] = useState(false);
   const [answered, dispatchAnswered] = useReducer(answeredReducer, {
@@ -64,7 +67,7 @@ const Quiz = () => {
     incorrect: 0,
   });
   const toast = useToast();
-  const onSelect = async (answer: Answer) => {
+  const sendAnswer = (answer: Answer) => {
     fetchQuiz({ answer });
   };
 
@@ -110,6 +113,7 @@ const Quiz = () => {
           })
         );
       }
+      setHasSecondName(!!res.hasSecondName);
       setDisplayed([...displayed, res.no]);
       setSelector(res.selector);
     } catch {
@@ -144,8 +148,11 @@ const Quiz = () => {
               />
             </Center>
           )}
-          {options.isChoice}
-          <ChoiceAnswer selector={selector} onSelect={onSelect} />
+          {options.isChoice ? (
+            <ChoiceAnswer selector={selector} onSelect={sendAnswer} />
+          ) : (
+            <InputAnswer hasSecondName={hasSecondName} onSend={sendAnswer} />
+          )}
         </>
       )}
     </Box>
