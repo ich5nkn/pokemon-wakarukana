@@ -21,3 +21,11 @@ export const randomMultiplePick = <T, N extends number>(
   const shuffledArray = shuffleArray(array);
   return shuffledArray.slice(0, count) as FixedLengthArray<T, N>;
 };
+
+export const replaceIsNaN = (
+  num: number,
+  replace?: number | string
+): number | string => {
+  if (!isNaN(num)) return num;
+  return replace === undefined ? 0 : replace;
+};
