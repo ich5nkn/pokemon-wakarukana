@@ -2,7 +2,7 @@ import { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { Answer, OptionsType, Selector } from "@/types";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, UseToastOptions, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { queryToOptions } from "@/utils/query";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
@@ -28,6 +28,22 @@ const answeredReducer = (
   }
 };
 
+const createToast = ({
+  isCorrect,
+  name,
+  name2,
+}: {
+  isCorrect: boolean;
+  name?: string;
+  name2?: string;
+}): UseToastOptions => ({
+  title: isCorrect ? "正解" : "不正解",
+  status: isCorrect ? "success" : "error",
+  duration: isCorrect ? 2000 : 5000,
+  isClosable: true,
+  description: isCorrect ? "" : `${name}${name2 ? `（${name2}）` : ""}`,
+});
+
 const Quiz = () => {
   const router = useRouter();
   const [options, setOptions] = useState<OptionsType>(initialOptions);
@@ -39,6 +55,7 @@ const Quiz = () => {
     correct: 0,
     incorrect: 0,
   });
+  const toast = useToast();
   const onSelect = async (answer: Answer) => {
     fetchQuiz({ answer });
   };
@@ -76,6 +93,14 @@ const Quiz = () => {
       setNo(res.no);
       if (res.isCorrect !== undefined) {
         dispatchAnswered(res.isCorrect ? "correct" : "incorrect");
+        toast.closeAll();
+        toast(
+          createToast({
+            isCorrect: res.isCorrect,
+            name: "ヤドキング",
+            name2: "ガラルのすがた・コンバット種",
+          })
+        );
       }
       setDisplayed([...displayed, res.no]);
       setSelector(res.selector);
