@@ -16,6 +16,7 @@ import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
+import { useGlobalState } from "@/hooks/useGlobalState";
 
 interface Answered {
   correct: number;
@@ -70,6 +71,11 @@ const Quiz = () => {
   const sendAnswer = (answer: Answer) => {
     fetchQuiz({ answer });
   };
+
+  const {
+    globalState: { options: opt },
+  } = useGlobalState();
+  console.log(opt);
 
   // 初回起動時に実行
   useEffect(() => {
