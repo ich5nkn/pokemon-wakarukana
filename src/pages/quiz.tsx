@@ -136,13 +136,14 @@ const Quiz = () => {
                 width={300}
                 height={300}
                 loading="eager"
+                quality={10}
               />
               <Image
-                src={`/image/pokemon/${no}.png`}
+                src={`/image/pokemon/${no}.webp`}
                 alt="pokemon image"
                 width={300}
                 height={300}
-                quality={10}
+                unoptimized={true}
                 loading="eager"
               />
               <img src={`/image/pokemon/${no}.webp`} />
