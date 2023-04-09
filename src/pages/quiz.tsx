@@ -133,7 +133,7 @@ const Quiz = () => {
             <Center mx={"auto"} maxW="75%" my={4} h={264}>
               <Spinner hidden={!loadingImg} size={"xl"} />
               <Image
-                src={`/image/pokemon/${no}.webp`}
+                src={`/img/pokemon/${no}.webp`}
                 alt="pokemon image"
                 width={264}
                 height={264}
