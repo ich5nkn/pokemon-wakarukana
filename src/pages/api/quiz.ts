@@ -27,13 +27,13 @@ export default function handler(
 
   POKEMONS.forEach((pokemon) => {
     // Options で除外されている pokemon の場合、無視する
-    if ((options.hasMega ? true : !pokemon.isMega) &&
+    if (!((options.hasMega ? true : !pokemon.isMega) &&
     (options.hasGigantic ? true : !pokemon.isGigantic) &&
     (options.hasRegion ? true : !pokemon.isRegion) &&
     (options.hasAnotherForm ? true : !pokemon.isAnotherForm) &&
     options.versions
       .filter(({ value }) => value)
-      .some(({ id }) => id === pokemon.version)) return;
+      .some(({ id }) => id === pokemon.version))) return;
     
       // 回答の答え合わせ
     if (pokemon.no === prevPokemonNo && answer) {
