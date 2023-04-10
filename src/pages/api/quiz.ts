@@ -1,8 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
-import { getNextPokemon, getSelector, judgeAnswer } from "@/utils/api/quiz";
-import { Answer } from "@/types";
+import { Answer, Pokemon } from "@/types";
 import { POKEMONS } from "@/constants/pokemons";
 
 interface QuizRequest extends NextApiRequest {
@@ -14,53 +13,76 @@ export default function handler(
   res: NextApiResponse<QuizResponse>
 ) {
   const { displayed, options, answer } = req.body;
+  const prevPokemonNo = displayed[displayed.length - 1]
+  
+  let isCorrect: boolean = false;
+  let correctAnswer: Answer | undefined;
 
-  /**
-   * [ 新しい処理の流れ ]
-   * 
-   * - 共通処理
-   *   - POKEMON から option で filter する
-   *   - filter された option を 回答済みと未回答で分ける
-   * 
-   * - 正解・不正解の判定
-   *   - 回答済みの最後の pokemon を前回の問題の答えとして、成否判定と回答の返却を行う
-   * 
-   * - 次の問題作成
-   *   - 未回答の pokemon から random で 1つ Pick し、次の問題とする
-   *   - isChoice のとき、上記を除外した pokemon から random で 3つ Pick し、ダミーの選択肢とする
-   * 
-   */
+  let pickPokemon: Pokemon = {no: '1', name: 'フシギダネ', version: 1}
+  let pickPokemonCount: number = 0;
+  
+  let pickPokemons: Pokemon[] = []
+  let pickPokemonsCount: number = 0;
 
 
+  POKEMONS.forEach((pokemon) => {
+    // Options で除外されている pokemon の場合、無視する
+    if ((options.hasMega ? true : !pokemon.isMega) &&
+    (options.hasGigantic ? true : !pokemon.isGigantic) &&
+    (options.hasRegion ? true : !pokemon.isRegion) &&
+    (options.hasAnotherForm ? true : !pokemon.isAnotherForm) &&
+    options.versions
+      .filter(({ value }) => value)
+      .some(({ id }) => id === pokemon.version)) return;
+    
+      // 回答の答え合わせ
+    if (pokemon.no === prevPokemonNo && answer) {
+      isCorrect = pokemon.name === answer.name && pokemon.name2 === answer.name2
+      if (!isCorrect) correctAnswer = { name: pokemon.name, name2: pokemon.name2 }
+    }
 
-  // POKEMON から options で filter, displayed で filter して random pick
-  const nextPokemon = getNextPokemon(displayed, options);
-  if (options.numberOfQuiz <= displayed.length || !nextPokemon)
-    return res.status(200).json({ finished: true });
+    // 選択肢のダミーの pokemon をセット
+    if (options.isChoice) {
+      if (pickPokemonsCount < 4) {
+        pickPokemons.push(pokemon);
+      } else {
+        const randomIndex = Math.floor(Math.random() * (pickPokemonsCount + 1));
+        if (randomIndex < 4) pickPokemons[randomIndex] = pokemon;
+      }
+      pickPokemonsCount++
+    }
 
-  // POKEMON から options ( version 除く ) で filter, 正解と同じ pokemon も filter して random multi pick
-  const selector = options.isChoice
-    ? getSelector(options, nextPokemon?.no)
-    : undefined;
+    // 回答済みの pokemon を無視する
+    if (displayed.includes(pokemon.no)) return;
 
-  // POKEMON から target の pokemon を filter して、答え合わせ
-  const isCorrect = answer
-    ? judgeAnswer(displayed[displayed.length - 1], answer.name, answer.name2)
-    : undefined;
+    // 次の問題をセット
+    const randomIndex = Math.floor(Math.random() * (pickPokemonCount + 1))
+    if (randomIndex === pickPokemonCount) {
+      pickPokemon = pokemon
+    }
+    pickPokemonCount++
+  });
 
-  // POKEMON から target の pokemon を filter して、答えを抽出
-  const correctAnswer = ((): Answer | undefined => {
-    if (!displayed.length || isCorrect) return;
-    const targetPokemon = POKEMONS.filter(
-      ({ no }) => no === displayed[displayed.length - 1]
-    );
-    if (!targetPokemon.length) return;
-    return targetPokemon[0];
-  })();
+  // 上記の forEach で以下の形になるので、それを加工する
+  // pickPokemons = [Pokemon, Pokemon, Pokemon, Pokemon]
+  // pickPokemon = Pokemon
+
+  let selector: [Answer, Answer, Answer, Answer] | undefined
+
+  if (options.isChoice) {
+    const duplicateIndex = pickPokemons.findIndex((pokemon) => pokemon === pickPokemon)
+    if (duplicateIndex === -1) {
+      const randomIndex = Math.floor(Math.random() * 4);
+      pickPokemons[randomIndex] = pickPokemon
+    } else {
+      pickPokemons[duplicateIndex] = pickPokemon
+    }
+    selector = pickPokemons.map(({name, name2}) => ({name, name2})) as [Answer, Answer, Answer, Answer]
+  }
 
   res.status(200).json({
-    no: nextPokemon?.no,
-    hasSecondName: nextPokemon?.hasSecondName,
+    no: pickPokemon.no,
+    hasSecondName: !!pickPokemon.name2,
     selector,
     isCorrect,
     finished: false,
