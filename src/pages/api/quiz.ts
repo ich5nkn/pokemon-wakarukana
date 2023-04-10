@@ -14,6 +14,9 @@ export default function handler(
 ) {
   const { displayed, options, answer } = req.body;
   const prevPokemonNo = displayed[displayed.length - 1]
+
+  if (options.numberOfQuiz <= displayed.length)
+  return res.status(200).json({ finished: true });
   
   let isCorrect: boolean = false;
   let correctAnswer: Answer | undefined;
@@ -62,6 +65,8 @@ export default function handler(
     }
     pickPokemonCount++
   });
+
+  if (pickPokemonCount === 0) return res.status(200).json({ finished: true });
 
   // 上記の forEach で以下の形になるので、それを加工する
   // pickPokemons = [Pokemon, Pokemon, Pokemon, Pokemon]
