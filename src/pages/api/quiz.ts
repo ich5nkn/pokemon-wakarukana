@@ -18,7 +18,7 @@ export default function handler(
   if (options.numberOfQuiz <= displayed.length)
   return res.status(200).json({ finished: true });
   
-  let isCorrect: boolean = false;
+  let isCorrect: boolean | undefined;
   let correctAnswer: Answer | undefined;
 
   let pickPokemon: Pokemon = {no: '1', name: 'フシギダネ', version: 1}
