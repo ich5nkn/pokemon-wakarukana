@@ -30,15 +30,13 @@ export default function handler(
   POKEMONS.forEach((pokemon) => {
     // Options で除外されている pokemon の場合、無視する
     if (
-      !(
-        (options.hasMega ? true : !pokemon.isMega) &&
-        (options.hasGigantic ? true : !pokemon.isGigantic) &&
-        (options.hasRegion ? true : !pokemon.isRegion) &&
-        (options.hasAnotherForm ? true : !pokemon.isAnotherForm) &&
-        options.versions
-          .filter(({ value }) => value)
-          .some(({ id }) => id === pokemon.version)
-      )
+      (!options.hasMega && pokemon.isMega) ||
+      (!options.hasGigantic && pokemon.isGigantic) ||
+      (!options.hasRegion && pokemon.isRegion) ||
+      (!options.hasAnotherForm && pokemon.isAnotherForm) ||
+      !options.versions
+        .filter(({ value }) => value)
+        .some(({ id }) => id === pokemon.version)
     )
       return;
 
