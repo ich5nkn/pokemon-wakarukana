@@ -105,7 +105,9 @@ export default async function handler(
   const imageResponse = await fetch(filePath);
   const imageData = await imageResponse.arrayBuffer();
   const base64Image = Buffer.from(imageData).toString("base64");
-  const image = `data:image/png;base64,${base64Image}`;
+  const image = base64Image
+    ? `data:image/png;base64,${base64Image}`
+    : undefined;
 
   res.status(200).json({
     no: pickPokemon.no,
