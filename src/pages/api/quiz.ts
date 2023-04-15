@@ -100,7 +100,9 @@ export default async function handler(
   // 次の問題の画像を取得
   let step = 0;
   try {
-    const basePath = process.env.VERCEL_URL || "http://localhost:3000";
+    const basePath = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
     step++;
     const filePath = `${basePath}/img/pokemon/${pickPokemon.no}.webp`;
     step++;
