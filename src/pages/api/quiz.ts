@@ -1,8 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import fs from "fs";
+import path from "path";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
 import { Answer, Pokemon } from "@/types";
 import { POKEMONS } from "@/constants/pokemons";
+import { readFileSyncSafe } from "@/utils/api";
 
 interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
@@ -96,8 +98,21 @@ export default function handler(
     ];
   }
 
+  // 次の問題の画像を取得
+  const filepath = path.join(
+    process.cwd(),
+    "public",
+    "img",
+    "pokemon",
+    `${pickPokemon.no}.webp`
+  );
+
+  const imageData = readFileSyncSafe(filepath);
+  const image = imageData ? `data:image/png;base64,${imageData}` : undefined;
+
   res.status(200).json({
     no: pickPokemon.no,
+    image,
     hasSecondName: !!pickPokemon.name2,
     selector,
     isCorrect,
