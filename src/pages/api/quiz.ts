@@ -123,7 +123,7 @@ export default async function handler(
       answer: correctAnswer,
     });
   } catch (e) {
-    res.status(500).json({
+    res.status(200).json({
       error: e,
       step,
     } as any);
