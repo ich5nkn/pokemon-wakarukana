@@ -1,4 +1,3 @@
-import { base64Image } from "@/utils";
 import { Pokemon, Selector, OptionsType, Answer } from ".";
 
 export type QuizRequestBody = {
@@ -11,7 +10,7 @@ export type QuizResponse = {
   finished: boolean;
   isCorrect?: boolean;
   no?: string;
-  image?: base64Image;
+  image?: string;
   hasSecondName?: boolean;
   selector?: Selector;
   answer?: Answer;
