@@ -1,16 +1,15 @@
-import fs from "fs";
-import path from "path";
+import fetch from "node-fetch";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
 import { Answer, Pokemon } from "@/types";
 import { POKEMONS } from "@/constants/pokemons";
-import { readFileSyncSafe } from "@/utils/api";
 
 interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
 }
 
-export default function handler(
+export default async function handler(
   req: QuizRequest,
   res: NextApiResponse<QuizResponse>
 ) {
@@ -99,16 +98,11 @@ export default function handler(
   }
 
   // 次の問題の画像を取得
-  const filepath = path.join(
-    process.cwd(),
-    "public",
-    "img",
-    "pokemon",
-    `${pickPokemon.no}.webp`
-  );
-
-  const imageData = readFileSyncSafe(filepath);
-  const image = imageData ? `data:image/png;base64,${imageData}` : undefined;
+  const basePath = process.env.VERCEL_URL || "http://localhost:3000";
+  const filePath = `${basePath}/img/pokemon/${pickPokemon.no}.webp`;
+  const imageResponse = await fetch(filePath);
+  const imageData = await imageResponse.arrayBuffer();
+  const image = Buffer.from(imageData).toString("base64");
 
   res.status(200).json({
     no: pickPokemon.no,
