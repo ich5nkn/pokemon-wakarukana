@@ -98,36 +98,22 @@ export default async function handler(
   }
 
   // 次の問題の画像を取得
-  let step = 0;
-  try {
-    const basePath = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
-    step++;
-    const filePath = `${basePath}/img/pokemon/${pickPokemon.no}.webp`;
-    step++;
-    const imageResponse = await fetch(filePath);
-    step++;
-    const imageData = await imageResponse.arrayBuffer();
-    step++;
-    const base64Image = Buffer.from(imageData).toString("base64");
-    step++;
-    const image = `data:image/png;base64,${base64Image}`;
-    step++;
+  const basePath = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+  const filePath = `${basePath}/img/pokemon/${pickPokemon.no}.webp`;
+  const imageResponse = await fetch(filePath);
+  const imageData = await imageResponse.arrayBuffer();
+  const base64Image = Buffer.from(imageData).toString("base64");
+  const image = `data:image/png;base64,${base64Image}`;
 
-    res.status(200).json({
-      no: pickPokemon.no,
-      image,
-      hasSecondName: !!pickPokemon.name2,
-      selector,
-      isCorrect,
-      finished: false,
-      answer: correctAnswer,
-    });
-  } catch (e) {
-    res.status(200).json({
-      error: e,
-      step,
-    } as any);
-  }
+  res.status(200).json({
+    no: pickPokemon.no,
+    image,
+    hasSecondName: !!pickPokemon.name2,
+    selector,
+    isCorrect,
+    finished: false,
+    answer: correctAnswer,
+  });
 }
