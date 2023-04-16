@@ -2,9 +2,18 @@ import type { AppProps } from "next/app";
 import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BaseLayout } from "@/components/BaseLayout";
-import { GlobalContextProvider } from "@/hooks/useGlobalState";
+import { GlobalContextProvider, useGlobalState } from "@/hooks/useGlobalState";
+import { loadLocalStorage } from "@/utils/localStorage";
+import { useEffect } from "react";
 
 function App({ Component, pageProps }: AppProps) {
+  const { globalStateDispatch } = useGlobalState();
+  useEffect(() => {
+    const value = loadLocalStorage();
+    if (!value) return;
+    globalStateDispatch({ type: "loadLocalStorage", value });
+  }, [globalStateDispatch]);
+
   return (
     <GlobalContextProvider>
       <ChakraProvider>

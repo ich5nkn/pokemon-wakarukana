@@ -1,4 +1,5 @@
 import { OptionsType } from "@/types";
+import { loadLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import { useReducer, createContext, ReactNode, useContext } from "react";
 
 interface Answered {
@@ -6,17 +7,19 @@ interface Answered {
   incorrect: number;
 }
 
-interface Global {
+export interface GlobalState {
   options?: OptionsType;
   displayed: string[];
   answered: Answered;
+  loadedLocalStorage: boolean;
 }
 
 type Action =
   | { type: "updateOptions"; value: OptionsType }
   | { type: "addDisplayed"; value: string }
   | { type: "addCorrect" }
-  | { type: "addIncorrect" };
+  | { type: "addIncorrect" }
+  | { type: "loadLocalStorage"; value: GlobalState };
 
 const initialGlobalState = {
   displayed: [],
@@ -24,7 +27,7 @@ const initialGlobalState = {
 };
 
 export const GlobalContext = createContext<{
-  globalState: Global;
+  globalState: GlobalState;
   globalStateDispatch: (action: Action) => void;
 }>({
   globalState: initialGlobalState,
@@ -47,22 +50,39 @@ export const GlobalContextProvider = ({
   );
 };
 
-const globalReducer = (prev: Global, action: Action) => {
+const globalReducer = (prev: GlobalState, action: Action) => {
   switch (action.type) {
-    case "updateOptions":
-      return { ...prev, options: action.value };
-    case "addDisplayed":
-      return { ...prev, displayed: [...prev.displayed, action.value] };
-    case "addCorrect":
-      return {
+    case "updateOptions": {
+      const newValue = { ...prev, options: action.value };
+      setLocalStorage(newValue);
+      return newValue;
+    }
+    case "addDisplayed": {
+      const newValue = {
+        ...prev,
+        displayed: [...prev.displayed, action.value],
+      };
+      setLocalStorage(newValue);
+      return newValue;
+    }
+    case "addCorrect": {
+      const newValue = {
         ...prev,
         answered: { ...prev.answered, correct: prev.answered.correct + 1 },
       };
-    case "addIncorrect":
-      return {
+      setLocalStorage(newValue);
+      return newValue;
+    }
+    case "addIncorrect": {
+      const newValue = {
         ...prev,
         answered: { ...prev.answered, incorrect: prev.answered.incorrect + 1 },
       };
+      setLocalStorage(newValue);
+      return newValue;
+    }
+    case "loadLocalStorage":
+      return action.value;
     default:
       return prev;
   }
