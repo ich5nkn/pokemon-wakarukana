@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { Answer, OptionsType } from "@/types";
-import {
-  Box,
-  Center,
-  Heading,
-  Spinner,
-  UseToastOptions,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Center, Heading, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { checkQuery, optionsToQuery, queryToOptions } from "@/utils/query";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
@@ -18,37 +11,17 @@ import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { useGlobalState } from "@/hooks/useGlobalState";
 import { QuizResponse } from "@/types/http";
+import { useShowToast } from "@/hooks/useShowToast";
 
-const createToast = ({
-  isCorrect,
-  name,
-  name2,
-}: {
-  isCorrect: boolean;
-  name?: string;
-  name2?: string;
-}): UseToastOptions => ({
-  title: isCorrect ? "正解" : "不正解",
-  status: isCorrect ? "success" : "error",
-  duration: isCorrect ? 2000 : 5000,
-  isClosable: true,
-  description: isCorrect ? "" : `${name}${name2 ? `（${name2}）` : ""}`,
-});
-
-type QuizData = Pick<
-  QuizResponse,
-  "finished" | "image" | "selector" | "hasSecondName"
->;
+type QuizData = Pick<QuizResponse, "image" | "selector" | "hasSecondName">;
 
 const Quiz = () => {
   const router = useRouter();
+  const pushToast = useShowToast();
   const { globalState, globalStateDispatch } = useGlobalState();
-  const [quizData, setQuizData] = useState<QuizData>({ finished: false });
+  const [quizData, setQuizData] = useState<QuizData>({});
   const [loadingImg, setLoadingImg] = useState(false);
-  const toast = useToast();
-  const sendAnswer = (answer: Answer) => {
-    fetchQuiz({ answer });
-  };
+  const sendAnswer = (answer: Answer) => fetchQuiz({ answer });
 
   /**
    * 初回起動時に実行
@@ -88,23 +61,15 @@ const Quiz = () => {
         options: overrideOptions || globalState.options || initialOptions,
         answer,
       });
-      if (!res || !res.no) return;
-      // TODO: 回答を受け取ったら、Answered に追加する
-      // いまは、問題を受け取ったら Answered に追加している
-      setQuizData(res);
-      globalStateDispatch({ type: "addDisplayed", value: res.no });
       if (res.isCorrect !== undefined) {
         globalStateDispatch({
           type: res.isCorrect ? "addCorrect" : "addIncorrect",
         });
-        toast.closeAll();
-        toast(
-          createToast({
-            isCorrect: res.isCorrect,
-            ...res.answer,
-          })
-        );
+        pushToast({ isCorrect: res.isCorrect, ...res.answer });
       }
+      if (!res || !res.no) return;
+      setQuizData(res);
+      globalStateDispatch({ type: "addDisplayed", value: res.no });
     } catch {
       alert("error");
     }
@@ -116,34 +81,34 @@ const Quiz = () => {
         "Finished!"
       ) : (
         <>
-          <ProgressBar
-            total={globalState.options?.numberOfQuiz || 0}
-            primary={globalState.answered.correct}
-            danger={globalState.answered.incorrect}
+      <ProgressBar
+        total={globalState.options?.numberOfQuiz || 0}
+        primary={globalState.answered.correct}
+        danger={globalState.answered.incorrect}
+      />
+      <Heading mt={4}>このポケモンの名前は？</Heading>
+      {quizData.image && (
+        <Center mx={"auto"} maxW="75%" my={4} h={264}>
+          <Spinner hidden={!loadingImg} size={"xl"} />
+          <Image
+            src={quizData.image}
+            alt="pokemon image"
+            width={264}
+            height={264}
+            unoptimized={true}
+            loading="eager"
+            onLoadingComplete={() => setLoadingImg(false)}
+            hidden={loadingImg}
           />
-          <Heading mt={4}>このポケモンの名前は？</Heading>
-          {quizData.image && (
-            <Center mx={"auto"} maxW="75%" my={4} h={264}>
-              <Spinner hidden={!loadingImg} size={"xl"} />
-              <Image
-                src={quizData.image}
-                alt="pokemon image"
-                width={264}
-                height={264}
-                unoptimized={true}
-                loading="eager"
-                onLoadingComplete={() => setLoadingImg(false)}
-                hidden={loadingImg}
-              />
-            </Center>
-          )}
-          {globalState.options?.isChoice ? (
-            <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
-          ) : (
-            <InputAnswer
-              hasSecondName={!!quizData.hasSecondName}
-              onSend={sendAnswer}
-            />
+        </Center>
+      )}
+      {globalState.options?.isChoice ? (
+        <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
+      ) : (
+        <InputAnswer
+          hasSecondName={!!quizData.hasSecondName}
+          onSend={sendAnswer}
+        />
           )}
         </>
       )}
