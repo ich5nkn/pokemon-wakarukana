@@ -17,7 +17,7 @@ export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
       : `${primary + danger + 1} / ${total} 問目`;
   const percentageText = `（正解率：${replaceIsNaN(percentage)}%）`;
   return (
-    <Box>
+    <Box w="100%" pb={4}>
       <Box
         h={8}
         w={"100%"}
