@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
-import { Answer, OptionsType, Selector } from "@/types";
+import { Answer, OptionsType } from "@/types";
 import {
   Box,
   Center,
@@ -17,6 +17,7 @@ import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { useGlobalState } from "@/hooks/useGlobalState";
+import { QuizResponse } from "@/types/http";
 
 const createToast = ({
   isCorrect,
@@ -34,14 +35,15 @@ const createToast = ({
   description: isCorrect ? "" : `${name}${name2 ? `（${name2}）` : ""}`,
 });
 
+type QuizData = Pick<
+  QuizResponse,
+  "finished" | "image" | "selector" | "hasSecondName"
+>;
+
 const Quiz = () => {
   const router = useRouter();
   const { globalState, globalStateDispatch } = useGlobalState();
-  const [image, setImage] = useState<string | undefined>();
-  // TODO: この辺り、Response から取得しているのでまとめたい
-  const [selector, setSelector] = useState<Selector | undefined>();
-  const [hasSecondName, setHasSecondName] = useState(false);
-  const [finished, setFinished] = useState<boolean>(false);
+  const [quizData, setQuizData] = useState<QuizData>({ finished: false });
   const [loadingImg, setLoadingImg] = useState(false);
   const toast = useToast();
   const sendAnswer = (answer: Answer) => {
@@ -86,11 +88,11 @@ const Quiz = () => {
         options: overrideOptions || globalState.options || initialOptions,
         answer,
       });
-      if (res.finished) return setFinished(res.finished);
       if (!res || !res.no) return;
       // TODO: 回答を受け取ったら、Answered に追加する
       // いまは、問題を受け取ったら Answered に追加している
-      setImage(res.image);
+      setQuizData(res);
+      globalStateDispatch({ type: "addDisplayed", value: res.no });
       if (res.isCorrect !== undefined) {
         globalStateDispatch({
           type: res.isCorrect ? "addCorrect" : "addIncorrect",
@@ -103,9 +105,6 @@ const Quiz = () => {
           })
         );
       }
-      setHasSecondName(!!res.hasSecondName);
-      globalStateDispatch({ type: "addDisplayed", value: res.no });
-      setSelector(res.selector);
     } catch {
       alert("error");
     }
@@ -113,7 +112,7 @@ const Quiz = () => {
 
   return (
     <Box py={4}>
-      {finished ? (
+      {quizData.finished ? (
         "Finished!"
       ) : (
         <>
@@ -123,11 +122,11 @@ const Quiz = () => {
             danger={globalState.answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
-          {image && (
+          {quizData.image && (
             <Center mx={"auto"} maxW="75%" my={4} h={264}>
               <Spinner hidden={!loadingImg} size={"xl"} />
               <Image
-                src={image}
+                src={quizData.image}
                 alt="pokemon image"
                 width={264}
                 height={264}
@@ -139,9 +138,12 @@ const Quiz = () => {
             </Center>
           )}
           {globalState.options?.isChoice ? (
-            <ChoiceAnswer selector={selector} onSelect={sendAnswer} />
+            <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
           ) : (
-            <InputAnswer hasSecondName={hasSecondName} onSend={sendAnswer} />
+            <InputAnswer
+              hasSecondName={!!quizData.hasSecondName}
+              onSend={sendAnswer}
+            />
           )}
         </>
       )}
