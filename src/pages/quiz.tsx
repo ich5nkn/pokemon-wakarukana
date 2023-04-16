@@ -67,6 +67,10 @@ const Quiz = () => {
         });
         pushToast({ isCorrect: res.isCorrect, ...res.answer });
       }
+      if (res.finished) {
+        router.push("/result");
+        return;
+      }
       if (!res || !res.no) return;
       setQuizData(res);
       globalStateDispatch({ type: "addDisplayed", value: res.no });
@@ -77,10 +81,6 @@ const Quiz = () => {
 
   return (
     <Box py={4}>
-      {quizData.finished ? (
-        "Finished!"
-      ) : (
-        <>
       <ProgressBar
         total={globalState.options?.numberOfQuiz || 0}
         primary={globalState.answered.correct}
@@ -109,8 +109,6 @@ const Quiz = () => {
           hasSecondName={!!quizData.hasSecondName}
           onSend={sendAnswer}
         />
-          )}
-        </>
       )}
       {/* TODO: Share button の sample */}
       <button
