@@ -10,9 +10,9 @@ import { Answer, OptionsType } from "@/types";
 import { QuizResponse } from "@/types/http";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
-import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { QuizImage } from "@/components/pages/quiz/QuizImage";
+import { Header } from "@/components/pages/quiz/Header";
 
 type QuizData = Pick<QuizResponse, "image" | "selector" | "hasSecondName">;
 
@@ -82,11 +82,7 @@ const Quiz = () => {
 
   return (
     <Box py={4}>
-      <ProgressBar
-        total={globalState.options?.numberOfQuiz || 0}
-        primary={globalState.answered.correct}
-        danger={globalState.answered.incorrect}
-      />
+      <Header fetchQuiz={() => fetchQuiz({})} />
       <Heading mt={4}>このポケモンの名前は？</Heading>
       <QuizImage
         src={quizData.image}

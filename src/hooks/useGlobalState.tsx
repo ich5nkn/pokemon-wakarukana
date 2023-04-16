@@ -16,7 +16,8 @@ type Action =
   | { type: "updateOptions"; value: OptionsType }
   | { type: "addDisplayed"; value: string }
   | { type: "addCorrect" }
-  | { type: "addIncorrect" };
+  | { type: "addIncorrect" }
+  | { type: "reStart" };
 
 const initialGlobalState = {
   displayed: [],
@@ -62,6 +63,11 @@ const globalReducer = (prev: Global, action: Action) => {
       return {
         ...prev,
         answered: { ...prev.answered, incorrect: prev.answered.incorrect + 1 },
+      };
+    case "reStart":
+      return {
+        ...initialGlobalState,
+        options: prev.options,
       };
     default:
       return prev;
