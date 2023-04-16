@@ -9,9 +9,7 @@ import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
-import { useGlobalState } from "@/hooks/useGlobalState";
-import { QuizResponse } from "@/types/http";
-import { useShowToast } from "@/hooks/useShowToast";
+import { QuizImage } from "@/components/pages/quiz/QuizImage";
 
 type QuizData = Pick<QuizResponse, "image" | "selector" | "hasSecondName">;
 
@@ -87,21 +85,11 @@ const Quiz = () => {
         danger={globalState.answered.incorrect}
       />
       <Heading mt={4}>このポケモンの名前は？</Heading>
-      {quizData.image && (
-        <Center mx={"auto"} maxW="75%" my={4} h={264}>
-          <Spinner hidden={!loadingImg} size={"xl"} />
-          <Image
+      <QuizImage
             src={quizData.image}
-            alt="pokemon image"
-            width={264}
-            height={264}
-            unoptimized={true}
-            loading="eager"
+        loadingImg={loadingImg}
             onLoadingComplete={() => setLoadingImg(false)}
-            hidden={loadingImg}
           />
-        </Center>
-      )}
       {globalState.options?.isChoice ? (
         <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
       ) : (
