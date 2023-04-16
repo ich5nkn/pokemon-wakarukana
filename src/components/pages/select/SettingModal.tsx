@@ -19,7 +19,6 @@ import { SettingSwitchOption } from "./SettingSwitchOption";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import { optionsToQuery } from "@/utils/query";
 import { OptionsType } from "@/types";
 import { useGlobalState } from "@/hooks/useGlobalState";
 
