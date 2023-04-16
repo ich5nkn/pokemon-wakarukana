@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { getQuiz } from "@/utils/fetcher";
-import { Answer, OptionsType } from "@/types";
-import { Box, Center, Heading, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { Box, Heading } from "@chakra-ui/react";
+
+import { useGlobalState } from "@/hooks/useGlobalState";
+import { useShowToast } from "@/hooks/useShowToast";
+import { getQuiz } from "@/utils/fetcher";
 import { checkQuery, optionsToQuery, queryToOptions } from "@/utils/query";
+import { Answer, OptionsType } from "@/types";
+import { QuizResponse } from "@/types/http";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
@@ -86,10 +89,10 @@ const Quiz = () => {
       />
       <Heading mt={4}>このポケモンの名前は？</Heading>
       <QuizImage
-            src={quizData.image}
+        src={quizData.image}
         loadingImg={loadingImg}
-            onLoadingComplete={() => setLoadingImg(false)}
-          />
+        onLoadingComplete={() => setLoadingImg(false)}
+      />
       {globalState.options?.isChoice ? (
         <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
       ) : (
