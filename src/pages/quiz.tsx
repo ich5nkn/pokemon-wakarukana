@@ -40,8 +40,7 @@ const Quiz = () => {
       fetchQuiz({ overrideOptions: options });
     } else {
       if (!globalState.options) {
-        // router.push("/select");
-        console.log("select に戻るボタンを表示");
+        router.push("/select");
         return;
       }
       fetchQuiz({ overrideOptions: globalState.options });
