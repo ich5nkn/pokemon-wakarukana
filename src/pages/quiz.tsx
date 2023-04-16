@@ -56,7 +56,7 @@ const createToast = ({
 const Quiz = () => {
   const router = useRouter();
   const { globalState, globalStateDispatch } = useGlobalState();
-  const [no, setNo] = useState<string | undefined>();
+  const [image, setImage] = useState<string | undefined>();
   const [displayed, setDisplayed] = useState<string[]>([]);
   // TODO: この辺り、Response から取得しているのでまとめたい
   const [selector, setSelector] = useState<Selector | undefined>();
@@ -114,7 +114,7 @@ const Quiz = () => {
       if (!res || !res.no) return;
       // TODO: 回答を受け取ったら、Answered に追加する
       // いまは、問題を受け取ったら Answered に追加している
-      setNo(res.no);
+      setImage(res.image);
       if (res.isCorrect !== undefined) {
         dispatchAnswered(res.isCorrect ? "correct" : "incorrect");
         toast.closeAll();
@@ -145,11 +145,11 @@ const Quiz = () => {
             danger={answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
-          {no && (
+          {image && (
             <Center mx={"auto"} maxW="75%" my={4} h={264}>
               <Spinner hidden={!loadingImg} size={"xl"} />
               <Image
-                src={`/img/pokemon/${no}.webp`}
+                src={image}
                 alt="pokemon image"
                 width={264}
                 height={264}

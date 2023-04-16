@@ -10,6 +10,7 @@ export type QuizResponse = {
   finished: boolean;
   isCorrect?: boolean;
   no?: string;
+  image?: string;
   hasSecondName?: boolean;
   selector?: Selector;
   answer?: Answer;

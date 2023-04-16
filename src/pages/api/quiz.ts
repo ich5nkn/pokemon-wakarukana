@@ -1,4 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import fetch from "node-fetch";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
 import { Answer, Pokemon } from "@/types";
@@ -8,7 +9,7 @@ interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
 }
 
-export default function handler(
+export default async function handler(
   req: QuizRequest,
   res: NextApiResponse<QuizResponse>
 ) {
@@ -96,8 +97,21 @@ export default function handler(
     ];
   }
 
+  // 次の問題の画像を取得
+  const basePath = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+  const filePath = `${basePath}/img/pokemon/${pickPokemon.no}.webp`;
+  const imageResponse = await fetch(filePath);
+  const imageData = await imageResponse.arrayBuffer();
+  const base64Image = Buffer.from(imageData).toString("base64");
+  const image = base64Image
+    ? `data:image/png;base64,${base64Image}`
+    : undefined;
+
   res.status(200).json({
     no: pickPokemon.no,
+    image,
     hasSecondName: !!pickPokemon.name2,
     selector,
     isCorrect,
