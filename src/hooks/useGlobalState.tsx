@@ -1,31 +1,34 @@
-import { initialOptions } from "@/constants/options";
 import { OptionsType } from "@/types";
 import { useReducer, createContext, ReactNode, useContext } from "react";
 
-/**
- * TODO:
- * GlobalState ( Reducer ) を Context で配信する
- * 各種 State に対して更新をかける CustomHook を作成する
- * 使いたいところ（参照・更新）で、CustomHook を使用する
- * query を使って options を渡しているところを修正する
- * */
-
-interface Global {
-  options: OptionsType;
+interface Answered {
+  correct: number;
+  incorrect: number;
 }
 
-type Action = { type: "options"; value: OptionsType };
+interface Global {
+  options?: OptionsType;
+  displayed: string[];
+  answered: Answered;
+}
+
+type Action =
+  | { type: "updateOptions"; value: OptionsType }
+  | { type: "addDisplayed"; value: string }
+  | { type: "addCorrect" }
+  | { type: "addIncorrect" };
 
 const initialGlobalState = {
-  options: initialOptions,
+  displayed: [],
+  answered: { correct: 0, incorrect: 0 },
 };
 
 export const GlobalContext = createContext<{
   globalState: Global;
-  dispatch: (action: Action) => void;
+  globalStateDispatch: (action: Action) => void;
 }>({
   globalState: initialGlobalState,
-  dispatch: () => {},
+  globalStateDispatch: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -33,9 +36,12 @@ export const GlobalContextProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [globalState, dispatch] = useReducer(globalReducer, initialGlobalState);
+  const [globalState, globalStateDispatch] = useReducer(
+    globalReducer,
+    initialGlobalState
+  );
   return (
-    <GlobalContext.Provider value={{ globalState, dispatch }}>
+    <GlobalContext.Provider value={{ globalState, globalStateDispatch }}>
       {children}
     </GlobalContext.Provider>
   );
@@ -43,16 +49,25 @@ export const GlobalContextProvider = ({
 
 const globalReducer = (prev: Global, action: Action) => {
   switch (action.type) {
-    case "options":
+    case "updateOptions":
       return { ...prev, options: action.value };
+    case "addDisplayed":
+      return { ...prev, displayed: [...prev.displayed, action.value] };
+    case "addCorrect":
+      return {
+        ...prev,
+        answered: { ...prev.answered, correct: prev.answered.correct + 1 },
+      };
+    case "addIncorrect":
+      return {
+        ...prev,
+        answered: { ...prev.answered, incorrect: prev.answered.incorrect + 1 },
+      };
     default:
       return prev;
   }
 };
 
 export const useGlobalState = () => {
-  const { globalState, dispatch } = useContext(GlobalContext);
-  const updateOptions = (options: OptionsType) =>
-    dispatch({ type: "options", value: options });
-  return { globalState, updateOptions };
+  return useContext(GlobalContext);
 };

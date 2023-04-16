@@ -47,7 +47,7 @@ export const SettingModal = ({
   ) => {
     dispatch({ type, value: !options[type] });
   };
-  const { updateOptions } = useGlobalState();
+  const { globalStateDispatch } = useGlobalState();
 
   const updateNumberOfQuiz = (num: number) => {
     dispatch({ type: "numberOfQuiz", value: num });
@@ -58,7 +58,7 @@ export const SettingModal = ({
   };
 
   const onClickSubmit = () => {
-    updateOptions(options);
+    globalStateDispatch({ type: "updateOptions", value: options });
     router.push({ pathname: "quiz", query: optionsToQuery(options) });
   };
 
