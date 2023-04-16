@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getQuiz } from "@/utils/fetcher";
 import { Answer, OptionsType, Selector } from "@/types";
@@ -17,25 +17,6 @@ import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { useGlobalState } from "@/hooks/useGlobalState";
-
-interface Answered {
-  correct: number;
-  incorrect: number;
-}
-type AnsweredAction = "correct" | "incorrect";
-const answeredReducer = (
-  { correct, incorrect }: Answered,
-  action: AnsweredAction
-) => {
-  switch (action) {
-    case "correct":
-      return { correct: correct + 1, incorrect };
-    case "incorrect":
-      return { incorrect: incorrect + 1, correct };
-    default:
-      return { correct, incorrect };
-  }
-};
 
 const createToast = ({
   isCorrect,
@@ -63,10 +44,6 @@ const Quiz = () => {
   const [hasSecondName, setHasSecondName] = useState(false);
   const [finished, setFinished] = useState<boolean>(false);
   const [loadingImg, setLoadingImg] = useState(false);
-  const [answered, dispatchAnswered] = useReducer(answeredReducer, {
-    correct: 0,
-    incorrect: 0,
-  });
   const toast = useToast();
   const sendAnswer = (answer: Answer) => {
     fetchQuiz({ answer });
@@ -116,7 +93,9 @@ const Quiz = () => {
       // いまは、問題を受け取ったら Answered に追加している
       setImage(res.image);
       if (res.isCorrect !== undefined) {
-        dispatchAnswered(res.isCorrect ? "correct" : "incorrect");
+        globalStateDispatch({
+          type: res.isCorrect ? "addCorrect" : "addIncorrect",
+        });
         toast.closeAll();
         toast(
           createToast({
@@ -141,8 +120,8 @@ const Quiz = () => {
         <>
           <ProgressBar
             total={globalState.options?.numberOfQuiz || 0}
-            primary={answered.correct}
-            danger={answered.incorrect}
+            primary={globalState.answered.correct}
+            danger={globalState.answered.incorrect}
           />
           <Heading mt={4}>このポケモンの名前は？</Heading>
           {image && (
