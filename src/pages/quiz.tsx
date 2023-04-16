@@ -97,15 +97,6 @@ const Quiz = () => {
           onSend={sendAnswer}
         />
       )}
-      {/* TODO: Share button の sample */}
-      <button
-        onClick={() =>
-          globalState.options &&
-          console.log(optionsToQuery(globalState.options))
-        }
-      >
-        share
-      </button>
     </Box>
   );
 };
