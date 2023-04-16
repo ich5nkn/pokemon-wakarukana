@@ -38,7 +38,6 @@ const Quiz = () => {
   const router = useRouter();
   const { globalState, globalStateDispatch } = useGlobalState();
   const [image, setImage] = useState<string | undefined>();
-  const [displayed, setDisplayed] = useState<string[]>([]);
   // TODO: この辺り、Response から取得しているのでまとめたい
   const [selector, setSelector] = useState<Selector | undefined>();
   const [hasSecondName, setHasSecondName] = useState(false);
@@ -83,7 +82,7 @@ const Quiz = () => {
     try {
       setLoadingImg(true);
       const res = await getQuiz({
-        displayed,
+        displayed: globalState.displayed,
         options: overrideOptions || globalState.options || initialOptions,
         answer,
       });
@@ -105,7 +104,7 @@ const Quiz = () => {
         );
       }
       setHasSecondName(!!res.hasSecondName);
-      setDisplayed([...displayed, res.no]);
+      globalStateDispatch({ type: "addDisplayed", value: res.no });
       setSelector(res.selector);
     } catch {
       alert("error");
