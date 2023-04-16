@@ -1,88 +1,52 @@
-import { useEffect, useReducer, useState } from "react";
-import Image from "next/image";
-import { getQuiz } from "@/utils/fetcher";
-import { Answer, OptionsType, Selector } from "@/types";
-import {
-  Box,
-  Center,
-  Heading,
-  Spinner,
-  UseToastOptions,
-  useToast,
-} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { queryToOptions } from "@/utils/query";
+import { Box, Heading } from "@chakra-ui/react";
+
+import { useGlobalState } from "@/hooks/useGlobalState";
+import { useShowToast } from "@/hooks/useShowToast";
+import { getQuiz } from "@/utils/fetcher";
+import { checkQuery, optionsToQuery, queryToOptions } from "@/utils/query";
+import { Answer, OptionsType } from "@/types";
+import { QuizResponse } from "@/types/http";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
+import { QuizImage } from "@/components/pages/quiz/QuizImage";
 
-interface Answered {
-  correct: number;
-  incorrect: number;
-}
-type AnsweredAction = "correct" | "incorrect";
-const answeredReducer = (
-  { correct, incorrect }: Answered,
-  action: AnsweredAction
-) => {
-  switch (action) {
-    case "correct":
-      return { correct: correct + 1, incorrect };
-    case "incorrect":
-      return { incorrect: incorrect + 1, correct };
-    default:
-      return { correct, incorrect };
-  }
-};
-
-const createToast = ({
-  isCorrect,
-  name,
-  name2,
-}: {
-  isCorrect: boolean;
-  name?: string;
-  name2?: string;
-}): UseToastOptions => ({
-  title: isCorrect ? "正解" : "不正解",
-  status: isCorrect ? "success" : "error",
-  duration: isCorrect ? 2000 : 5000,
-  isClosable: true,
-  description: isCorrect ? "" : `${name}${name2 ? `（${name2}）` : ""}`,
-});
+type QuizData = Pick<QuizResponse, "image" | "selector" | "hasSecondName">;
 
 const Quiz = () => {
   const router = useRouter();
-  const [options, setOptions] = useState<OptionsType>(initialOptions);
-  const [image, setImage] = useState<string | undefined>();
-  const [displayed, setDisplayed] = useState<string[]>([]);
-  // TODO: この辺り、Response から取得しているのでまとめたい
-  const [selector, setSelector] = useState<Selector | undefined>();
-  const [hasSecondName, setHasSecondName] = useState(false);
-  const [finished, setFinished] = useState<boolean>(false);
+  const pushToast = useShowToast();
+  const { globalState, globalStateDispatch } = useGlobalState();
+  const [quizData, setQuizData] = useState<QuizData>({});
   const [loadingImg, setLoadingImg] = useState(false);
-  const [answered, dispatchAnswered] = useReducer(answeredReducer, {
-    correct: 0,
-    incorrect: 0,
-  });
-  const toast = useToast();
-  const sendAnswer = (answer: Answer) => {
-    fetchQuiz({ answer });
-  };
+  const sendAnswer = (answer: Answer) => fetchQuiz({ answer });
 
-  // 初回起動時に実行
+  /**
+   * 初回起動時に実行
+   *
+   * 以下の優先順で option を使用して最初の問題を取得する
+   * 1. 正しい Query が設定されていれば、それを使用する
+   * 2. Global State を使用する
+   * 3. どちらもなければ /select にリダイレクトする
+   */
   useEffect(() => {
     if (!router.isReady) return;
-    try {
+    if (checkQuery(router.query)) {
       const options = queryToOptions(router.query);
-      setOptions(options);
+      globalStateDispatch({ type: "updateOptions", value: options });
       fetchQuiz({ overrideOptions: options });
-    } catch {
-      router.push("/select");
+    } else {
+      if (!globalState.options) {
+        router.push("/select");
+        return;
+      }
+      fetchQuiz({ overrideOptions: globalState.options });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [router.isReady]);
 
   const fetchQuiz = async ({
     answer,
@@ -94,28 +58,23 @@ const Quiz = () => {
     try {
       setLoadingImg(true);
       const res = await getQuiz({
-        displayed,
-        options: overrideOptions || options,
+        displayed: globalState.displayed,
+        options: overrideOptions || globalState.options || initialOptions,
         answer,
       });
-      if (res.finished) return setFinished(res.finished);
-      if (!res || !res.no) return;
-      // TODO: 回答を受け取ったら、Answered に追加する
-      // いまは、問題を受け取ったら Answered に追加している
-      setImage(res.image);
       if (res.isCorrect !== undefined) {
-        dispatchAnswered(res.isCorrect ? "correct" : "incorrect");
-        toast.closeAll();
-        toast(
-          createToast({
-            isCorrect: res.isCorrect,
-            ...res.answer,
-          })
-        );
+        globalStateDispatch({
+          type: res.isCorrect ? "addCorrect" : "addIncorrect",
+        });
+        pushToast({ isCorrect: res.isCorrect, ...res.answer });
       }
-      setHasSecondName(!!res.hasSecondName);
-      setDisplayed([...displayed, res.no]);
-      setSelector(res.selector);
+      if (res.finished) {
+        router.push("/result");
+        return;
+      }
+      if (!res || !res.no) return;
+      setQuizData(res);
+      globalStateDispatch({ type: "addDisplayed", value: res.no });
     } catch {
       alert("error");
     }
@@ -123,38 +82,34 @@ const Quiz = () => {
 
   return (
     <Box py={4}>
-      {finished ? (
-        "Finished!"
+      <ProgressBar
+        total={globalState.options?.numberOfQuiz || 0}
+        primary={globalState.answered.correct}
+        danger={globalState.answered.incorrect}
+      />
+      <Heading mt={4}>このポケモンの名前は？</Heading>
+      <QuizImage
+        src={quizData.image}
+        loadingImg={loadingImg}
+        onLoadingComplete={() => setLoadingImg(false)}
+      />
+      {globalState.options?.isChoice ? (
+        <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
       ) : (
-        <>
-          <ProgressBar
-            total={options.numberOfQuiz}
-            primary={answered.correct}
-            danger={answered.incorrect}
-          />
-          <Heading mt={4}>このポケモンの名前は？</Heading>
-          {image && (
-            <Center mx={"auto"} maxW="75%" my={4} h={264}>
-              <Spinner hidden={!loadingImg} size={"xl"} />
-              <Image
-                src={image}
-                alt="pokemon image"
-                width={264}
-                height={264}
-                unoptimized={true}
-                loading="eager"
-                onLoadingComplete={() => setLoadingImg(false)}
-                hidden={loadingImg}
-              />
-            </Center>
-          )}
-          {options.isChoice ? (
-            <ChoiceAnswer selector={selector} onSelect={sendAnswer} />
-          ) : (
-            <InputAnswer hasSecondName={hasSecondName} onSend={sendAnswer} />
-          )}
-        </>
+        <InputAnswer
+          hasSecondName={!!quizData.hasSecondName}
+          onSend={sendAnswer}
+        />
       )}
+      {/* TODO: Share button の sample */}
+      <button
+        onClick={() =>
+          globalState.options &&
+          console.log(optionsToQuery(globalState.options))
+        }
+      >
+        share
+      </button>
     </Box>
   );
 };

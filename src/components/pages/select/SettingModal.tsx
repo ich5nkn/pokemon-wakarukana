@@ -21,6 +21,7 @@ import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { optionsToQuery } from "@/utils/query";
 import { OptionsType } from "@/types";
+import { useGlobalState } from "@/hooks/useGlobalState";
 
 interface OwnProps {
   open: boolean;
@@ -46,6 +47,7 @@ export const SettingModal = ({
   ) => {
     dispatch({ type, value: !options[type] });
   };
+  const { globalStateDispatch } = useGlobalState();
 
   const updateNumberOfQuiz = (num: number) => {
     dispatch({ type: "numberOfQuiz", value: num });
@@ -56,7 +58,8 @@ export const SettingModal = ({
   };
 
   const onClickSubmit = () => {
-    router.push({ pathname: "quiz", query: optionsToQuery(options) });
+    globalStateDispatch({ type: "updateOptions", value: options });
+    router.push("/quiz");
   };
 
   const ballContent = selectedType ? BALLS_CONTENT[selectedType] : null;
