@@ -59,7 +59,7 @@ export const SettingModal = ({
 
   const onClickSubmit = () => {
     globalStateDispatch({ type: "updateOptions", value: options });
-    router.push({ pathname: "quiz", query: optionsToQuery(options) });
+    router.push("/quiz");
   };
 
   const ballContent = selectedType ? BALLS_CONTENT[selectedType] : null;

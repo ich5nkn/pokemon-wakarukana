@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { queryToOptions } from "@/utils/query";
+import { checkQuery, optionsToQuery, queryToOptions } from "@/utils/query";
 import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { ProgressBar } from "@/components/pages/quiz/ProgressBar";
@@ -55,7 +55,7 @@ const createToast = ({
 
 const Quiz = () => {
   const router = useRouter();
-  const [options, setOptions] = useState<OptionsType>(initialOptions);
+  const { globalState, globalStateDispatch } = useGlobalState();
   const [no, setNo] = useState<string | undefined>();
   const [displayed, setDisplayed] = useState<string[]>([]);
   // TODO: この辺り、Response から取得しているのでまとめたい
@@ -72,23 +72,29 @@ const Quiz = () => {
     fetchQuiz({ answer });
   };
 
-  const {
-    globalState: { options: opt },
-  } = useGlobalState();
-  console.log(opt);
-
-  // 初回起動時に実行
+  /**
+   * 初回起動時に実行
+   *
+   * 以下の優先順で option を使用して最初の問題を取得する
+   * 1. 正しい Query が設定されていれば、それを使用する
+   * 2. Global State を使用する
+   * 3. どちらもなければ /select にリダイレクトする
+   */
   useEffect(() => {
     if (!router.isReady) return;
-    try {
+    if (checkQuery(router.query)) {
       const options = queryToOptions(router.query);
-      setOptions(options);
+      globalStateDispatch({ type: "updateOptions", value: options });
       fetchQuiz({ overrideOptions: options });
-    } catch {
-      router.push("/select");
+    } else {
+      if (!globalState.options) {
+        router.push("/select");
+        return;
+      }
+      fetchQuiz({ overrideOptions: globalState.options });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [router.isReady]);
 
   const fetchQuiz = async ({
     answer,
@@ -101,7 +107,7 @@ const Quiz = () => {
       setLoadingImg(true);
       const res = await getQuiz({
         displayed,
-        options: overrideOptions || options,
+        options: overrideOptions || globalState.options || initialOptions,
         answer,
       });
       if (res.finished) return setFinished(res.finished);
@@ -134,7 +140,7 @@ const Quiz = () => {
       ) : (
         <>
           <ProgressBar
-            total={options.numberOfQuiz}
+            total={globalState.options?.numberOfQuiz || 0}
             primary={answered.correct}
             danger={answered.incorrect}
           />
@@ -154,13 +160,22 @@ const Quiz = () => {
               />
             </Center>
           )}
-          {options.isChoice ? (
+          {globalState.options?.isChoice ? (
             <ChoiceAnswer selector={selector} onSelect={sendAnswer} />
           ) : (
             <InputAnswer hasSecondName={hasSecondName} onSend={sendAnswer} />
           )}
         </>
       )}
+      {/* TODO: Share button の sample */}
+      <button
+        onClick={() =>
+          globalState.options &&
+          console.log(optionsToQuery(globalState.options))
+        }
+      >
+        share
+      </button>
     </Box>
   );
 };
