@@ -39,20 +39,23 @@ const optionsReducer = (
 
 const Select = () => {
   const [open, setOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState<BallType | null>(null);
   const [options, dispatch] = useReducer(optionsReducer, initialOptions);
 
   const ballItems: BallType[] = ["monster", "super", "hyper", "dark", "master"];
 
   const getBallCardClickHandler = (type: BallType) => () => {
-    dispatch({ type: "selectCard", value: BALLS_CONTENT[type].options });
-    setSelectedType(type);
+    dispatch({
+      type: "selectCard",
+      value: { ...BALLS_CONTENT[type].options },
+    });
     setOpen(true);
   };
 
   const onClickSettingCard = () => {
-    dispatch({ type: "reset" });
-    setSelectedType(null);
+    dispatch({
+      type: "selectCard",
+      value: { ...initialOptions, selectedOptionType: "custom" },
+    });
     setOpen(true);
   };
 
@@ -73,7 +76,6 @@ const Select = () => {
         onClose={() => setOpen(false)}
         options={options}
         dispatch={dispatch}
-        selectedType={selectedType}
       />
     </Grid>
   );
