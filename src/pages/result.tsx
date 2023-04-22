@@ -1,22 +1,34 @@
-import { useMemo } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Button, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
 import { useGlobalState } from "@/hooks/useGlobalState";
-import { BALLS_CONTENT } from "@/constants/balls";
+import { SelectedTypeView } from "@/components/pages/result/SelectedTypeView";
+import { ResultStatusView } from "@/components/pages/result/ResultStatusView";
 
 const Result = () => {
   const { globalState } = useGlobalState();
-  const selectedOptionType = useMemo(() => {
-    if (!globalState.options?.selectedOptionType) return null;
-    if (globalState.options.selectedOptionType === "custom")
-      return "カスタム難易度";
-    return BALLS_CONTENT[globalState.options.selectedOptionType].name;
-  }, [globalState.options]);
   return (
-    <Box>
-      <Box>{selectedOptionType}</Box>
-      <Box>{`正解数：${globalState.answered.correct}`}</Box>
-      <Box>{`不正解数：${globalState.answered.incorrect}`}</Box>
-    </Box>
+    <VStack rowGap={4}>
+      <SelectedTypeView
+        selectedTypeOptions={globalState.options?.selectedOptionType}
+      />
+      <ResultStatusView
+        total={globalState.answered.correct + globalState.answered.incorrect}
+        primary={globalState.answered.correct}
+        danger={globalState.answered.incorrect}
+      />
+      <Button w="100%" p={6} bgColor="#1D9BF0" color="white">
+        <Image
+          src={"/img/twitter-icon.png"}
+          alt={"twitter-icon"}
+          height={20}
+          width={20}
+        />
+        <Text pl={2}>Twitter で共有</Text>
+      </Button>
+      <Button w="100%" p={6} bgColor="blue.500" color="white">
+        もういちど遊ぶ
+      </Button>
+    </VStack>
   );
 };
 
