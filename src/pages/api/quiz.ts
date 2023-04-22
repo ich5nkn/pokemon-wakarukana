@@ -69,7 +69,9 @@ export default async function handler(
   });
 
   if (options.numberOfQuiz <= displayed.length || pickPokemonCount === 0)
-    return res.status(200).json({ finished: true, isCorrect });
+    return res
+      .status(200)
+      .json({ finished: true, isCorrect, answer: correctAnswer });
 
   // 上記の forEach で以下の形になるので、それを加工する
   // pickPokemons = [Pokemon, Pokemon, Pokemon, Pokemon]
