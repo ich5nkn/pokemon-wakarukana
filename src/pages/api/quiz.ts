@@ -16,9 +16,6 @@ export default async function handler(
   const { displayed, options, answer } = req.body;
   const prevPokemonNo = displayed[displayed.length - 1];
 
-  if (options.numberOfQuiz <= displayed.length)
-    return res.status(200).json({ finished: true });
-
   let isCorrect: boolean | undefined;
   let correctAnswer: Answer | undefined;
 
@@ -71,7 +68,8 @@ export default async function handler(
     pickPokemonCount++;
   });
 
-  if (pickPokemonCount === 0) return res.status(200).json({ finished: true });
+  if (options.numberOfQuiz <= displayed.length || pickPokemonCount === 0)
+    return res.status(200).json({ finished: true, isCorrect });
 
   // 上記の forEach で以下の形になるので、それを加工する
   // pickPokemons = [Pokemon, Pokemon, Pokemon, Pokemon]
