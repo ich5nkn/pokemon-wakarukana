@@ -1,11 +1,18 @@
 import { OptionsType } from "@/types";
 import { VERSIONS } from "./version";
+import { initialOptions } from "./options";
 
-export type BallType = "monster" | "super" | "hyper" | "dark" | "master";
+export type BallType =
+  | "monster"
+  | "super"
+  | "hyper"
+  | "dark"
+  | "master"
+  | "custom";
 
 type BallContent = {
   name: string;
-  description: string;
+  description?: string;
   imgPath: string;
   alt: string;
   color: string;
@@ -127,6 +134,16 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
         name,
         value: true,
       })),
+    },
+  },
+  custom: {
+    name: "カスタマイズ",
+    imgPath: "/img/setting-icon.png",
+    alt: "customize",
+    color: "#9B9191",
+    options: {
+      ...initialOptions,
+      selectedOptionType: "custom",
     },
   },
 } as const;

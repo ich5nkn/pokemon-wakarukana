@@ -64,7 +64,7 @@ export const SettingModal = ({
   const ballContent =
     isCustom || !options.selectedOptionType
       ? null
-      : BALLS_CONTENT[options.selectedOptionType as BallType];
+      : BALLS_CONTENT[options.selectedOptionType];
 
   if (!options.selectedOptionType) return null;
 
@@ -97,7 +97,7 @@ export const SettingModal = ({
               title="出題数"
               value={options["numberOfQuiz"]}
               onChange={updateNumberOfQuiz}
-              disabled={!!ballContent}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="4択で出題する"

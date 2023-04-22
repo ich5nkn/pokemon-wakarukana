@@ -1,6 +1,5 @@
 import { useReducer, useState } from "react";
 import { BallCard } from "@/components/pages/select/BallCard";
-import { SettingCard } from "@/components/pages/select/SettingCard";
 import { SettingModal } from "@/components/pages/select/SettingModal";
 import { Grid, GridItem, Heading } from "@chakra-ui/react";
 import { OptionsType, SettingOptions } from "@/types";
@@ -41,20 +40,19 @@ const Select = () => {
   const [open, setOpen] = useState(false);
   const [options, dispatch] = useReducer(optionsReducer, initialOptions);
 
-  const ballItems: BallType[] = ["monster", "super", "hyper", "dark", "master"];
+  const ballItems: BallType[] = [
+    "monster",
+    "super",
+    "hyper",
+    "dark",
+    "master",
+    "custom",
+  ];
 
   const getBallCardClickHandler = (type: BallType) => () => {
     dispatch({
       type: "selectCard",
       value: { ...BALLS_CONTENT[type].options },
-    });
-    setOpen(true);
-  };
-
-  const onClickSettingCard = () => {
-    dispatch({
-      type: "selectCard",
-      value: { ...initialOptions, selectedOptionType: "custom" },
     });
     setOpen(true);
   };
@@ -68,7 +66,6 @@ const Select = () => {
             <BallCard type={type} onClick={getBallCardClickHandler(type)} />
           </GridItem>
         ))}
-        <SettingCard onClick={onClickSettingCard} />
       </Grid>
 
       <SettingModal

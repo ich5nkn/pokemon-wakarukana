@@ -9,7 +9,7 @@ export type Answer = Pick<Pokemon, "name" | "name2">;
 export type Selector = FixedLengthArray<Answer, 4>;
 
 export type OptionsType = {
-  selectedOptionType?: BallType | "custom";
+  selectedOptionType?: BallType;
   numberOfQuiz: number;
   isChoice: boolean;
   showHint: boolean;
