@@ -1,11 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const directoryPath = "../public/image/pokemon"; // 取得したいディレクトリのパス
+const directoryPath = "./public/img/pokemon"; // 取得したいディレクトリのパス
 
 fs.readdir(directoryPath, (err, files) => {
   if (err) {
-    console.log("Error getting directory information.");
+    console.log("Error getting directory information.", err);
   } else {
     // ディレクトリ内の全ファイル名をファイルに書き出す
     fs.writeFile("file.txt", numericSort(files).join("\n"), function (err) {
@@ -17,7 +17,7 @@ fs.readdir(directoryPath, (err, files) => {
 
 const numericSort = (arr) => {
   return arr
-    .map((fileName) => fileName.slice(0, -4))
+    .map((fileName) => fileName.slice(0, -5))
     .sort((a, b) => {
       const numA = parseInt(a, 10);
       const numB = parseInt(b, 10);
