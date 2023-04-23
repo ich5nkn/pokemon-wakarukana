@@ -6,11 +6,16 @@ interface OwnProps {
   total: number;
   primary: number;
   danger: number;
+  percentage: number;
 }
 
-export const ResultStatusView = ({ total, primary, danger }: OwnProps) => {
+export const ResultStatusView = ({
+  total,
+  primary,
+  danger,
+  percentage,
+}: OwnProps) => {
   const resultText = `${total}問中 ${primary}問正解`;
-  const percentage = Math.round((primary / (primary + danger)) * 1000) / 10;
   const percentageText = `（正解率：${replaceIsNaN(percentage)}%）`;
   return (
     <Box w="100%">
