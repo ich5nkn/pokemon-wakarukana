@@ -1,11 +1,18 @@
 import { OptionsType } from "@/types";
 import { VERSIONS } from "./version";
+import { initialOptions } from "./options";
 
-export type BallType = "monster" | "super" | "hyper" | "dark" | "master";
+export type BallType =
+  | "monster"
+  | "super"
+  | "hyper"
+  | "dark"
+  | "master"
+  | "custom";
 
 type BallContent = {
   name: string;
-  description: string;
+  description?: string;
   imgPath: string;
   alt: string;
   color: string;
@@ -21,6 +28,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     alt: "monster-ball",
     color: "#EB9494",
     options: {
+      selectedOptionType: "monster",
       numberOfQuiz: 10,
       isChoice: true,
       showHint: false,
@@ -43,6 +51,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     alt: "super-ball",
     color: "#9594EB",
     options: {
+      selectedOptionType: "super",
       numberOfQuiz: 15,
       isChoice: false,
       showHint: true,
@@ -65,6 +74,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     alt: "hyper-ball",
     color: "#EBD294",
     options: {
+      selectedOptionType: "hyper",
       numberOfQuiz: 20,
       isChoice: false,
       showHint: false,
@@ -87,6 +97,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     alt: "dark-ball",
     color: "#6AA870",
     options: {
+      selectedOptionType: "dark",
       numberOfQuiz: 20,
       isChoice: false,
       showHint: false,
@@ -109,6 +120,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     alt: "master-ball",
     color: "#D994EB",
     options: {
+      selectedOptionType: "master",
       numberOfQuiz: 100,
       isChoice: false,
       showHint: false,
@@ -122,6 +134,16 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
         name,
         value: true,
       })),
+    },
+  },
+  custom: {
+    name: "カスタマイズ",
+    imgPath: "/img/setting-icon.png",
+    alt: "customize",
+    color: "#9B9191",
+    options: {
+      ...initialOptions,
+      selectedOptionType: "custom",
     },
   },
 } as const;

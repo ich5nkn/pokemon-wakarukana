@@ -1,5 +1,6 @@
 import { replaceIsNaN } from "@/utils";
 import { Box } from "@chakra-ui/react";
+import { ProgressBar } from "../../ProgressBar";
 
 interface OwnProps {
   total: number;
@@ -7,9 +8,7 @@ interface OwnProps {
   danger: number;
 }
 
-export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
-  const primaryWidth = Math.floor((primary / total) * 100);
-  const dangerWidth = Math.floor((danger / total) * 100);
+export const ProgressStatus = ({ total, primary, danger }: OwnProps) => {
   const percentage = Math.round((primary / (primary + danger)) * 1000) / 10;
   const stepText =
     primary + danger + 1 === total
@@ -18,17 +17,7 @@ export const ProgressBar = ({ total, primary, danger }: OwnProps) => {
   const percentageText = `（正解率：${replaceIsNaN(percentage)}%）`;
   return (
     <Box w="100%" pb={4}>
-      <Box
-        h={8}
-        w={"100%"}
-        bgColor="gray.300"
-        borderRadius={4}
-        overflow={"hidden"}
-        display={"flex"}
-      >
-        <Box h={8} bgColor="green.500" w={`${primaryWidth}%`} />
-        <Box h={8} bgColor="red.500" w={`${dangerWidth}%`} />
-      </Box>
+      <ProgressBar total={total} primary={primary} danger={danger} />
       <Box textAlign={"right"}>{`${stepText}${percentageText}`}</Box>
     </Box>
   );

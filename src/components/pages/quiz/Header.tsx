@@ -12,7 +12,7 @@ import {
   Spacer,
   VStack,
 } from "@chakra-ui/react";
-import { ProgressBar } from "./ProgressBar";
+import { ProgressStatus } from "./ProgressStatus";
 import { useGlobalState } from "@/hooks/useGlobalState";
 import { useRouter } from "next/router";
 
@@ -54,7 +54,7 @@ export const Header = ({ fetchQuiz }: OwnProps) => {
           <ModalHeader>メニュー</ModalHeader>
           <ModalBody>
             <VStack gap={4} pb={8}>
-              <ProgressBar
+              <ProgressStatus
                 total={globalState.options?.numberOfQuiz || 0}
                 primary={globalState.answered.correct}
                 danger={globalState.answered.incorrect}

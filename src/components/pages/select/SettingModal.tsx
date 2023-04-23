@@ -27,7 +27,6 @@ interface OwnProps {
   onClose: () => void;
   options: OptionsType;
   dispatch: Dispatch<SelectAction>;
-  selectedType: BallType | null;
 }
 
 export const SettingModal = ({
@@ -35,7 +34,6 @@ export const SettingModal = ({
   onClose,
   options,
   dispatch,
-  selectedType,
 }: OwnProps) => {
   const router = useRouter();
   const toggleSwitch = (
@@ -61,7 +59,14 @@ export const SettingModal = ({
     router.push("/quiz");
   };
 
-  const ballContent = selectedType ? BALLS_CONTENT[selectedType] : null;
+  const isCustom = options.selectedOptionType === "custom";
+
+  const ballContent =
+    isCustom || !options.selectedOptionType
+      ? null
+      : BALLS_CONTENT[options.selectedOptionType];
+
+  if (!options.selectedOptionType) return null;
 
   return (
     <Modal isOpen={open} onClose={onClose} scrollBehavior="inside" size="md">
@@ -92,25 +97,25 @@ export const SettingModal = ({
               title="出題数"
               value={options["numberOfQuiz"]}
               onChange={updateNumberOfQuiz}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="4択で出題する"
               value={options["isChoice"]}
               onChange={() => toggleSwitch("isChoice")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="ヒントを表示する"
               value={options["showHint"]}
               onChange={() => toggleSwitch("showHint")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="シルエットで出題する"
               value={options["isSilhouette"]}
               onChange={() => toggleSwitch("isSilhouette")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
           </VStack>
           <Text fontSize={"lg"} fontWeight={700} my={2}>
@@ -122,32 +127,32 @@ export const SettingModal = ({
               caption="例：ニャース（ガラルのすがた）など"
               value={options["hasRegion"]}
               onChange={() => toggleSwitch("hasRegion")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="フォルム違いを含む"
               caption="例：デオキシス（アタックフォルム）など"
               value={options["hasAnotherForm"]}
               onChange={() => toggleSwitch("hasAnotherForm")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="メガシンカを含む"
               value={options["hasMega"]}
               onChange={() => toggleSwitch("hasMega")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <SettingSwitchOption
               title="キョダイマックスを含む"
               value={options["hasGigantic"]}
               onChange={() => toggleSwitch("hasGigantic")}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
             <CheckboxOptions
               title="初登場シリーズで絞り込む"
               options={options.versions}
               updateOptions={updateVersion}
-              disabled={!!selectedType}
+              disabled={!isCustom}
             />
           </VStack>
         </ModalBody>
