@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const directoryPath = "./public/image/pokemon"; // 取得したいディレクトリのパス
+const directoryPath = "../public/image/pokemon"; // 取得したいディレクトリのパス
 
 fs.readdir(directoryPath, (err, files) => {
   if (err) {
