@@ -1,0 +1,48 @@
+.header_title {
+  margin-top: -0.5rem;
+  font-weight: 700;
+  font-size: 2rem;
+  font-family: "Darumadrop One", cursive;
+}
+
+.fade {
+  animation: fade 2s;
+  position: relative;
+}
+
+.endless_scroll {
+  width: 150%;
+  margin-left: -19px;
+  margin-right: -19px;
+  display: flex;
+  animation: infinity-scroll-left 30s infinite linear;
+}
+
+.top_title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 43%;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 2.75rem;
+  font-family: "Darumadrop One", cursive;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes infinity-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-98%);
+  }
+}
