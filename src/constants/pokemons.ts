@@ -16,6 +16,7 @@ export const POKEMONS: {
   isGigantic?: boolean;
   isRegion?: boolean;
   isAnotherForm?: boolean;
+  anotherAnswer?: { name: string; name2?: string };
 }[] = [
   { no: "1", name: "フシギダネ", version: 1 },
   { no: "2", name: "フシギソウ", version: 1 },
@@ -678,7 +679,7 @@ export const POKEMONS: {
   { no: "258", name: "ミズゴロウ", version: 3 },
   { no: "259", name: "ヌマクロー", version: 3 },
   { no: "260", name: "ラグラージ", version: 3 },
-  { no: "260", name: "メガラグラージ", version: 3, isMega: true },
+  { no: "260-1", name: "メガラグラージ", version: 3, isMega: true },
   { no: "261", name: "ポチエナ", version: 3 },
   { no: "262", name: "グラエナ", version: 3 },
   { no: "263", name: "ジグザグマ", version: 3 },
@@ -793,9 +794,9 @@ export const POKEMONS: {
   { no: "349", name: "ヒンバス", version: 3 },
   { no: "350", name: "ミロカロス", version: 3 },
   { no: "351", name: "ポワルン", version: 3 },
-  { no: "351", name: "ポワルン", version: 3 },
-  { no: "351", name: "ポワルン", version: 3 },
-  { no: "351", name: "ポワルン", version: 3 },
+  // { no: "351-1", name: "ポワルン", version: 3 },
+  // { no: "351-2", name: "ポワルン", version: 3 },
+  // { no: "351-3", name: "ポワルン", version: 3 },
   { no: "352", name: "カクレオン", version: 3 },
   { no: "353", name: "カゲボウズ", version: 3 },
   { no: "354", name: "ジュペッタ", version: 3 },
@@ -1049,6 +1050,7 @@ export const POKEMONS: {
     name2: "ロトムのすがた",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "ノーマルフォルム" },
   },
   {
     no: "479-1",
@@ -1056,6 +1058,7 @@ export const POKEMONS: {
     name2: "ヒートロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "ヒートフォルム" },
   },
   {
     no: "479-2",
@@ -1063,6 +1066,7 @@ export const POKEMONS: {
     name2: "ウォッシュロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "ウォッシュフォルム" },
   },
   {
     no: "479-3",
@@ -1070,6 +1074,7 @@ export const POKEMONS: {
     name2: "フロストロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "フロストフォルム" },
   },
   {
     no: "479-4",
@@ -1077,6 +1082,7 @@ export const POKEMONS: {
     name2: "スピンロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "スピンフォルム" },
   },
   {
     no: "479-5",
@@ -1084,6 +1090,7 @@ export const POKEMONS: {
     name2: "カットロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "カットフォルム" },
   },
   { no: "480", name: "ユクシー", version: 4 },
   { no: "481", name: "エムリット", version: 4 },
@@ -1148,7 +1155,6 @@ export const POKEMONS: {
   { no: "500", name: "エンブオー", version: 5 },
   { no: "501", name: "ミジュマル", version: 5 },
   { no: "502", name: "フタチマル", version: 5 },
-  { no: "503", name: "ダイケンキ", version: 5 },
   { no: "503", name: "ダイケンキ", version: 5 },
   {
     no: "503-1",
@@ -2028,15 +2034,9 @@ export const POKEMONS: {
     name2: "キョダイマックスのすがた",
     version: 8,
     isGigantic: true,
+    anotherAnswer: { name: "タルップル", name2: "キョダイマックスのすがた" },
   },
   { no: "842", name: "タルップル", version: 8 },
-  {
-    no: "842-1",
-    name: "タルップル",
-    name2: "キョダイマックスのすがた",
-    version: 8,
-    isGigantic: true,
-  },
   { no: "843", name: "スナヘビ", version: 8 },
   { no: "844", name: "サダイジャ", version: 8 },
   {
@@ -2503,7 +2503,7 @@ export const POKEMONS: {
     isAnotherForm: true,
   },
   {
-    no: "999",
+    no: "999-1",
     name: "コレクレー",
     name2: "とほフォルム",
     version: 9,
