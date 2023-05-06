@@ -8,6 +8,9 @@
 .fade {
   animation: fade 2s;
   position: relative;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  overflow: hidden;
 }
 
 .endless_scroll {
