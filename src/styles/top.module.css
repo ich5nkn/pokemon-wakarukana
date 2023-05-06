@@ -29,6 +29,16 @@
   font-family: "Darumadrop One", cursive;
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12rem;
+  text-align: left;
+  padding: 2rem;
+}
+
 @keyframes fade {
   from {
     opacity: 0;
