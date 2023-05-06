@@ -30,6 +30,18 @@
   font-weight: 700;
   font-size: 2.75rem;
   font-family: "Darumadrop One", cursive;
+  background-image: linear-gradient(
+    315deg,
+    hsl(300, 75%, 50%),
+    hsl(240, 75%, 50%),
+    hsl(180, 75%, 50%),
+    hsl(120, 75%, 50%),
+    hsl(60, 75%, 50%),
+    hsl(30, 75%, 50%),
+    hsl(0, 75%, 50%)
+  );
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .footer {
@@ -56,6 +68,6 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-98%);
+    transform: translateX(-100%);
   }
 }
