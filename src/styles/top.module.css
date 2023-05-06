@@ -1,0 +1,73 @@
+.header_title {
+  margin-top: -0.5rem;
+  font-weight: 700;
+  font-size: 2rem;
+  font-family: "Darumadrop One", cursive;
+}
+
+.fade {
+  animation: fade 2s;
+  position: relative;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  overflow: hidden;
+}
+
+.endless_scroll {
+  width: 150%;
+  margin-left: -19px;
+  margin-right: -19px;
+  display: flex;
+  animation: infinity-scroll-left 30s infinite linear;
+}
+
+.top_title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 43%;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 2.75rem;
+  font-family: "Darumadrop One", cursive;
+  background-image: linear-gradient(
+    315deg,
+    hsl(300, 75%, 50%),
+    hsl(240, 75%, 50%),
+    hsl(180, 75%, 50%),
+    hsl(120, 75%, 50%),
+    hsl(60, 75%, 50%),
+    hsl(30, 75%, 50%),
+    hsl(0, 75%, 50%)
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12rem;
+  text-align: left;
+  padding: 2rem;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes infinity-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
