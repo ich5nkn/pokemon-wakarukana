@@ -48,3 +48,7 @@ export const toKana = (input: string | undefined): string => {
   // ひらがなからカタカナへの置き換え
   return moji(kana).convert("HG", "KK").convert("HE", "ZE").toString();
 };
+
+export const isMobile = (): boolean => {
+  return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+};

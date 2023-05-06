@@ -1,6 +1,7 @@
 import { useRef, useState, KeyboardEvent } from "react";
 import { Answer } from "@/types";
 import { Box, Text, Button, Center, Input, VStack } from "@chakra-ui/react";
+import { isMobile } from "@/utils";
 
 interface OwnProps {
   hasSecondName: boolean;
@@ -16,7 +17,7 @@ export const InputAnswer = ({ hasSecondName, onSend }: OwnProps) => {
     onSend({ name, name2 });
     setName("");
     setName2(undefined);
-    if (inputRef.current) {
+    if (inputRef.current && !isMobile()) {
       inputRef.current.focus();
     }
   };
