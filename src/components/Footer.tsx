@@ -3,7 +3,14 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <Box textAlign={"left"} padding={6} bgColor={"blue.300"} mt={4} mb={-4}>
+    <Box
+      textAlign={"left"}
+      padding={6}
+      bgColor={"blue.300"}
+      mt={4}
+      mb={-4}
+      mx={-4}
+    >
       <Text
         color="white"
         fontSize={"lg"}
