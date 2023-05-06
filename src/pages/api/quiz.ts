@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
 import { Answer, Pokemon } from "@/types";
 import { POKEMONS } from "@/constants/pokemons";
+import { toKana } from "@/utils";
 
 interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
@@ -41,12 +42,13 @@ export default async function handler(
     // 回答の答え合わせ
     if (pokemon.no === prevPokemonNo && answer) {
       isCorrect =
-        pokemon.name === answer.name && pokemon.name2 === answer.name2;
+        toKana(pokemon.name) === toKana(answer.name) &&
+        toKana(pokemon.name2) === toKana(answer.name2);
       // 別解が定義されているとき
       if (!isCorrect && pokemon.anotherAnswer) {
         isCorrect =
-          pokemon.anotherAnswer.name === answer.name &&
-          pokemon.anotherAnswer.name2 === answer.name2;
+          toKana(pokemon.anotherAnswer.name) === toKana(answer.name) &&
+          toKana(pokemon.anotherAnswer.name2) === toKana(answer.name2);
       }
       if (!isCorrect)
         correctAnswer = { name: pokemon.name, name2: pokemon.name2 };
