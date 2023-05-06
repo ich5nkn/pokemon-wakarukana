@@ -3,7 +3,14 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <Box textAlign={"left"} padding={6} bgColor={"blue.300"} mt={4} mb={-4}>
+    <Box
+      textAlign={"left"}
+      padding={6}
+      bgColor={"blue.300"}
+      mt={4}
+      mb={-4}
+      mx={-4}
+    >
       <Text
         color="white"
         fontSize={"lg"}
@@ -14,7 +21,7 @@ export const Footer = () => {
         Information
       </Text>
       {/* TODO: 利用規約ページへのリンク */}
-      <FooterItem name="利用規約" href="/" />
+      <FooterItem name="利用規約" href="/term" />
       <FooterItem
         name="連絡先 ( Twitter )"
         href="https://twitter.com/ich5nkn"

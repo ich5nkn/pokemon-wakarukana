@@ -5,7 +5,6 @@ import styles from "@/styles/top.module.css";
 export const TopView = () => {
   return (
     <>
-      <Box h={12} display={"hidden"} />
       <Box className={styles.fade}>
         <Box className={styles.endless_scroll}>
           <Image
