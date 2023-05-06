@@ -15,7 +15,7 @@ export const Header = () => {
         mx={"auto"}
         justifyContent={"space-between"}
         display={"flex"}
-        maxW={"sm"}
+        maxW={"md"}
         zIndex={1}
         bgColor={"white"}
       >
