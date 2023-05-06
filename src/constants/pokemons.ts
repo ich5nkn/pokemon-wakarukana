@@ -1050,6 +1050,7 @@ export const POKEMONS: {
     name2: "ロトムのすがた",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "ノーマルフォルム" },
   },
   {
     no: "479-1",
@@ -1057,6 +1058,7 @@ export const POKEMONS: {
     name2: "ヒートロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "ヒートフォルム" },
   },
   {
     no: "479-2",
@@ -1064,6 +1066,7 @@ export const POKEMONS: {
     name2: "ウォッシュロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "ウォッシュフォルム" },
   },
   {
     no: "479-3",
@@ -1071,6 +1074,7 @@ export const POKEMONS: {
     name2: "フロストロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "フロストフォルム" },
   },
   {
     no: "479-4",
@@ -1078,6 +1082,7 @@ export const POKEMONS: {
     name2: "スピンロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "スピンフォルム" },
   },
   {
     no: "479-5",
@@ -1085,6 +1090,7 @@ export const POKEMONS: {
     name2: "カットロトム",
     version: 4,
     isAnotherForm: true,
+    anotherAnswer: { name: "ロトム", name2: "カットフォルム" },
   },
   { no: "480", name: "ユクシー", version: 4 },
   { no: "481", name: "エムリット", version: 4 },
