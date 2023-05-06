@@ -14,7 +14,7 @@ export const Footer = () => {
         Information
       </Text>
       {/* TODO: 利用規約ページへのリンク */}
-      <FooterItem name="利用規約" href="/" />
+      <FooterItem name="利用規約" href="/term" />
       <FooterItem
         name="連絡先 ( Twitter )"
         href="https://twitter.com/ich5nkn"
