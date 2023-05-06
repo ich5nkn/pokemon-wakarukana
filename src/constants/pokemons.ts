@@ -16,6 +16,7 @@ export const POKEMONS: {
   isGigantic?: boolean;
   isRegion?: boolean;
   isAnotherForm?: boolean;
+  anotherAnswer?: { name: string; name2?: string };
 }[] = [
   { no: "1", name: "フシギダネ", version: 1 },
   { no: "2", name: "フシギソウ", version: 1 },
@@ -2027,15 +2028,9 @@ export const POKEMONS: {
     name2: "キョダイマックスのすがた",
     version: 8,
     isGigantic: true,
+    anotherAnswer: { name: "タルップル", name2: "キョダイマックスのすがた" },
   },
   { no: "842", name: "タルップル", version: 8 },
-  {
-    no: "842-1",
-    name: "タルップル",
-    name2: "キョダイマックスのすがた",
-    version: 8,
-    isGigantic: true,
-  },
   { no: "843", name: "スナヘビ", version: 8 },
   { no: "844", name: "サダイジャ", version: 8 },
   {

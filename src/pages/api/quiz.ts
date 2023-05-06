@@ -42,6 +42,12 @@ export default async function handler(
     if (pokemon.no === prevPokemonNo && answer) {
       isCorrect =
         pokemon.name === answer.name && pokemon.name2 === answer.name2;
+      // 別解が定義されているとき
+      if (!isCorrect && pokemon.anotherAnswer) {
+        isCorrect =
+          pokemon.anotherAnswer.name === answer.name &&
+          pokemon.anotherAnswer.name2 === answer.name2;
+      }
       if (!isCorrect)
         correctAnswer = { name: pokemon.name, name2: pokemon.name2 };
     }
