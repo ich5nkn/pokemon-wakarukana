@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Footer } from "@/components/pages/index/Footer";
+import { Footer } from "@/components/Footer";
 import { useRouter } from "next/router";
-import { Header } from "@/components/pages/index/Header";
+import { Header } from "@/components/Header";
 import { TopView } from "@/components/pages/index/TopView";
 import { PlayButton } from "@/components/pages/index/PlayButton";
 
