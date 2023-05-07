@@ -52,3 +52,7 @@ export const toKana = (input: string | undefined): string => {
 export const isMobile = (): boolean => {
   return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
 };
+
+export const isDefaultPokemonNo = (no: string) => {
+  return !no.includes("-");
+};
