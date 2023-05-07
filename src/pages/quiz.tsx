@@ -13,13 +13,13 @@ import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { QuizImage } from "@/components/pages/quiz/QuizImage";
 import { Header } from "@/components/pages/quiz/Header";
 
-type QuizData = Pick<QuizResponse, "image" | "selector" | "hasSecondName">;
+type QuizData = Pick<QuizResponse, "image" | "selector" | "answerCount">;
 
 const Quiz = () => {
   const router = useRouter();
   const pushToast = useShowToast();
   const { globalState, globalStateDispatch } = useGlobalState();
-  const [quizData, setQuizData] = useState<QuizData>({});
+  const [quizData, setQuizData] = useState<QuizData>({ answerCount: 1 });
   const [loadingImg, setLoadingImg] = useState(false);
   const sendAnswer = (answer: Answer) => fetchQuiz({ answer });
 
@@ -76,10 +76,7 @@ const Quiz = () => {
       {globalState.options?.isChoice ? (
         <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
       ) : (
-        <InputAnswer
-          hasSecondName={!!quizData.hasSecondName}
-          onSend={sendAnswer}
-        />
+        <InputAnswer inputsCount={quizData.answerCount} onSend={sendAnswer} />
       )}
     </Box>
   );

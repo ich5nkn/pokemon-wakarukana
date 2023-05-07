@@ -8,10 +8,10 @@ export type QuizRequestBody = {
 
 export type QuizResponse = {
   finished: boolean;
+  answerCount: 1 | 2 | 3;
   isCorrect?: boolean;
   no?: string;
   image?: string;
-  hasSecondName?: boolean;
   selector?: Selector;
   answer?: Answer;
 };

@@ -4,7 +4,7 @@ import { BallType } from "@/constants/balls";
 
 export type Pokemon = (typeof POKEMONS)[number];
 
-export type Answer = Pick<Pokemon, "name" | "name2">;
+export type Answer = Pick<Pokemon, "name" | "name2" | "name3">;
 
 export type Selector = FixedLengthArray<Answer, 4>;
 

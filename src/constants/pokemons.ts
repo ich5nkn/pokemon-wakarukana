@@ -1,22 +1,14 @@
-/**
- * このファイルの作り方
- * 1. 画像を用意する（リネームしてimage/pokemon に格納）
- * 2. wiki から対象の範囲をコピペして、{No, name} のリストをつくる（https://wiki.xn--rckteqa2e.com/wiki/%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E4%B8%80%E8%A6%A7）
- *    ( で参照して削除すると、姿違いを除外してポケモンの名前だけにできる
- * 3. version を付与する
- * 4. メガやリージョンフォーム・キョダイマックスなどはポケモン図鑑を見ながら手入力で対応する（https://zukan.pokemon.co.jp/）
- */
-
 export const POKEMONS: {
   no: string;
   name: string;
   version: number;
   name2?: string;
+  name3?: string;
   isMega?: boolean;
   isGigantic?: boolean;
   isRegion?: boolean;
   isAnotherForm?: boolean;
-  anotherAnswer?: { name: string; name2?: string };
+  anotherAnswer?: { name: string; name2?: string; name3?: string };
 }[] = [
   { no: "1", name: "フシギダネ", version: 1 },
   { no: "2", name: "フシギソウ", version: 1 },
@@ -443,23 +435,29 @@ export const POKEMONS: {
   {
     no: "128-1",
     name: "ケンタロス",
-    name2: "パルデアのすがた・コンバットしゅ",
+    name2: "パルデアのすがた",
+    name3: "コンバットしゅ",
     version: 1,
     isRegion: true,
+    isAnotherForm: true,
   },
   {
     no: "128-2",
     name: "ケンタロス",
-    name2: "パルデアのすがた・ブレイズしゅ",
+    name2: "パルデアのすがた",
+    name3: "ブレイズしゅ",
     version: 1,
     isRegion: true,
+    isAnotherForm: true,
   },
   {
     no: "128-3",
     name: "ケンタロス",
-    name2: "パルデアのすがた・ウォーターしゅ",
+    name2: "パルデアのすがた",
+    name3: "ウォーターしゅ",
     version: 1,
     isRegion: true,
+    isAnotherForm: true,
   },
   { no: "129", name: "コイキング", version: 1 },
   { no: "130", name: "ギャラドス", version: 1 },
@@ -1306,7 +1304,8 @@ export const POKEMONS: {
   {
     no: "555-3",
     name: "ヒヒダルマ",
-    name2: "ガラルのすがた・ダルマモード",
+    name2: "ガラルのすがた",
+    name3: "ダルマモード",
     version: 5,
     isRegion: true,
     isAnotherForm: true,
@@ -2259,7 +2258,8 @@ export const POKEMONS: {
   {
     no: "892-2",
     name: "ウーラオス",
-    name2: "いちげきのかた・キョダイマックスのすがた",
+    name2: "いちげきのかた",
+    name3: "キョダイマックスのすがた",
     version: 8,
     isAnotherForm: true,
     isGigantic: true,
@@ -2267,7 +2267,8 @@ export const POKEMONS: {
   {
     no: "892-3",
     name: "ウーラオス",
-    name2: "れんげきのかた・キョダイマックスのすがた",
+    name2: "れんげきのかた",
+    name3: "キョダイマックスのすがた",
     version: 8,
     isAnotherForm: true,
     isGigantic: true,
