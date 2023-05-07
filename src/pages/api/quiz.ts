@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { QuizRequestBody, QuizResponse } from "@/types/http";
 import { Answer, Pokemon } from "@/types";
 import { POKEMONS } from "@/constants/pokemons";
-import { toKana } from "@/utils";
+import { isDefaultPokemonNo, toKana } from "@/utils";
 
 interface QuizRequest extends NextApiRequest {
   body: QuizRequestBody;
@@ -32,7 +32,9 @@ export default async function handler(
       (!options.hasMega && pokemon.isMega) ||
       (!options.hasGigantic && pokemon.isGigantic) ||
       (!options.hasRegion && pokemon.isRegion) ||
-      (!options.hasAnotherForm && pokemon.isAnotherForm) ||
+      (!options.hasAnotherForm &&
+        pokemon.isAnotherForm &&
+        !isDefaultPokemonNo(pokemon.no)) ||
       !options.versions
         .filter(({ value }) => value)
         .some(({ id }) => id === pokemon.version)
@@ -43,8 +45,9 @@ export default async function handler(
     if (pokemon.no === prevPokemonNo && answer) {
       isCorrect =
         toKana(pokemon.name) === toKana(answer.name) &&
-        toKana(pokemon.name2) === toKana(answer.name2) &&
-        toKana(pokemon.name3) === toKana(answer.name3);
+        (!options.hasAnotherForm ||
+          (toKana(pokemon.name2) === toKana(answer.name2) &&
+            toKana(pokemon.name3) === toKana(answer.name3)));
       // name2 と name3 は順不同
       if (!isCorrect && pokemon.name3) {
         isCorrect =
@@ -63,8 +66,8 @@ export default async function handler(
       if (!isCorrect)
         correctAnswer = {
           name: pokemon.name,
-          name2: pokemon.name2,
-          name3: pokemon.name3,
+          name2: options.hasAnotherForm ? pokemon.name2 : undefined,
+          name3: options.hasAnotherForm ? pokemon.name3 : undefined,
         };
     }
 
@@ -134,7 +137,17 @@ export default async function handler(
     : undefined;
 
   // 回答の入力欄を算出
-  const answerCount = pickPokemon.name3 ? 3 : pickPokemon.name2 ? 2 : 1;
+  const isDefaultAnotherPokemon =
+    !options.hasAnotherForm &&
+    pickPokemon.isAnotherForm &&
+    isDefaultPokemonNo(pickPokemon.no);
+  const answerCount = isDefaultAnotherPokemon
+    ? 1
+    : pickPokemon.name3
+    ? 3
+    : pickPokemon.name2
+    ? 2
+    : 1;
 
   // ヒントを取得
   const getHint = (name: string): string => {
