@@ -133,7 +133,21 @@ export default async function handler(
     ? `data:image/png;base64,${base64Image}`
     : undefined;
 
+  // 回答の入力欄を算出
   const answerCount = pickPokemon.name3 ? 3 : pickPokemon.name2 ? 2 : 1;
+
+  // ヒントを取得
+  const getHint = (name: string): string => {
+    const length = name.length;
+    const randomIndex = Math.floor(Math.random() * length);
+    return Array.from(name)
+      .map((char, index) => (index === randomIndex ? char : "〇"))
+      .join("");
+  };
+  const hint =
+    options.showHint && !options.isChoice
+      ? getHint(pickPokemon.name)
+      : undefined;
 
   res.status(200).json({
     no: pickPokemon.no,
@@ -143,5 +157,6 @@ export default async function handler(
     isCorrect,
     finished: false,
     answer: correctAnswer,
+    hint,
   });
 }

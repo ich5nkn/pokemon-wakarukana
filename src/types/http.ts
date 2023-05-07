@@ -14,4 +14,5 @@ export type QuizResponse = {
   image?: string;
   selector?: Selector;
   answer?: Answer;
+  hint?: string;
 };
