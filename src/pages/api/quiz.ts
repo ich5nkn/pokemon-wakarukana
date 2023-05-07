@@ -128,7 +128,8 @@ export default async function handler(
   const basePath = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
-  const filePath = `${basePath}/img/pokemon/${pickPokemon.no}.webp`;
+  const dirName = options.isSilhouette ? "pokemon_silhouette" : "pokemon";
+  const filePath = `${basePath}/img/${dirName}/${pickPokemon.no}.webp`;
   const imageResponse = await fetch(filePath);
   const imageData = await imageResponse.arrayBuffer();
   const base64Image = Buffer.from(imageData).toString("base64");
