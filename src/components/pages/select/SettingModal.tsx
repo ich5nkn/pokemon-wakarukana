@@ -107,9 +107,9 @@ export const SettingModal = ({
             />
             <SettingSwitchOption
               title="ヒントを表示する"
-              value={options["showHint"]}
+              value={options["showHint"] && !options["isChoice"]}
               onChange={() => toggleSwitch("showHint")}
-              disabled={!isCustom}
+              disabled={!isCustom || options["isChoice"]}
             />
             <SettingSwitchOption
               title="シルエットで出題する"
