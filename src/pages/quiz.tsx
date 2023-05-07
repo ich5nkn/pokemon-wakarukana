@@ -24,7 +24,7 @@ const Quiz = () => {
   const pushToast = useShowToast();
   const { globalState, globalStateDispatch } = useGlobalState();
   const [quizData, setQuizData] = useState<QuizData>({ answerCount: 1 });
-  const [loadingImg, setLoadingImg] = useState(false);
+  const [loadingImg, setLoadingImg] = useState(true);
   const sendAnswer = (answer: Answer) => fetchQuiz({ answer });
 
   const fetchQuiz = async ({
