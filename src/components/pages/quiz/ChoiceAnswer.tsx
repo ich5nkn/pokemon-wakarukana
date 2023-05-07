@@ -12,7 +12,7 @@ export const ChoiceAnswer = ({ selector, onSelect }: OwnProps) => {
     <VStack>
       {selector.map((answer) => (
         <Box
-          key={`${answer.name}${answer.name2 || ""}`}
+          key={`${answer.name}${answer.name2 || ""}${answer.name3 || ""}`}
           onClick={() => onSelect(answer)}
           borderRadius={8}
           border={"2px solid"}
@@ -23,7 +23,11 @@ export const ChoiceAnswer = ({ selector, onSelect }: OwnProps) => {
           <Text fontSize={"lg"} fontWeight={700}>
             {answer.name}
           </Text>
-          {answer.name2 && <Text>{`（${answer.name2}）`}</Text>}
+          {answer.name2 && (
+            <Text>{`（${answer.name2}${
+              answer.name3 ? `・${answer.name3}` : ""
+            }）`}</Text>
+          )}
         </Box>
       ))}
     </VStack>

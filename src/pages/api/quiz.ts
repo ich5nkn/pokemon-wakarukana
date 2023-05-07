@@ -43,15 +43,29 @@ export default async function handler(
     if (pokemon.no === prevPokemonNo && answer) {
       isCorrect =
         toKana(pokemon.name) === toKana(answer.name) &&
-        toKana(pokemon.name2) === toKana(answer.name2);
+        toKana(pokemon.name2) === toKana(answer.name2) &&
+        toKana(pokemon.name3) === toKana(answer.name3);
+      // name2 と name3 は順不同
+      if (!isCorrect && pokemon.name3) {
+        isCorrect =
+          toKana(pokemon.name) === toKana(answer.name) &&
+          toKana(pokemon.name2) === toKana(answer.name3) &&
+          toKana(pokemon.name3) === toKana(answer.name2);
+      }
       // 別解が定義されているとき
       if (!isCorrect && pokemon.anotherAnswer) {
         isCorrect =
           toKana(pokemon.anotherAnswer.name) === toKana(answer.name) &&
-          toKana(pokemon.anotherAnswer.name2) === toKana(answer.name2);
+          toKana(pokemon.anotherAnswer.name2) === toKana(answer.name2) &&
+          toKana(pokemon.anotherAnswer.name3) === toKana(answer.name3);
+        // TODO: 別解で順不同の必要が出たら足す
       }
       if (!isCorrect)
-        correctAnswer = { name: pokemon.name, name2: pokemon.name2 };
+        correctAnswer = {
+          name: pokemon.name,
+          name2: pokemon.name2,
+          name3: pokemon.name3,
+        };
     }
 
     // 選択肢のダミーの pokemon をセット
@@ -77,9 +91,12 @@ export default async function handler(
   });
 
   if (options.numberOfQuiz <= displayed.length || pickPokemonCount === 0)
-    return res
-      .status(200)
-      .json({ finished: true, isCorrect, answer: correctAnswer });
+    return res.status(200).json({
+      finished: true,
+      isCorrect,
+      answer: correctAnswer,
+      answerCount: 1,
+    });
 
   // 上記の forEach で以下の形になるので、それを加工する
   // pickPokemons = [Pokemon, Pokemon, Pokemon, Pokemon]
@@ -97,12 +114,11 @@ export default async function handler(
     } else {
       pickPokemons[duplicateIndex] = pickPokemon;
     }
-    selector = pickPokemons.map(({ name, name2 }) => ({ name, name2 })) as [
-      Answer,
-      Answer,
-      Answer,
-      Answer
-    ];
+    selector = pickPokemons.map(({ name, name2, name3 }) => ({
+      name,
+      name2,
+      name3,
+    })) as [Answer, Answer, Answer, Answer];
   }
 
   // 次の問題の画像を取得
@@ -117,10 +133,12 @@ export default async function handler(
     ? `data:image/png;base64,${base64Image}`
     : undefined;
 
+  const answerCount = pickPokemon.name3 ? 3 : pickPokemon.name2 ? 2 : 1;
+
   res.status(200).json({
     no: pickPokemon.no,
     image,
-    hasSecondName: !!pickPokemon.name2,
+    answerCount,
     selector,
     isCorrect,
     finished: false,
