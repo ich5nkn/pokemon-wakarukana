@@ -12,8 +12,12 @@ import { initialOptions } from "@/constants/options";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { QuizImage } from "@/components/pages/quiz/QuizImage";
 import { Header } from "@/components/pages/quiz/Header";
+import { Hint } from "@/components/pages/quiz/Hint";
 
-type QuizData = Pick<QuizResponse, "image" | "selector" | "answerCount">;
+type QuizData = Pick<
+  QuizResponse,
+  "image" | "selector" | "answerCount" | "hint"
+>;
 
 const Quiz = () => {
   const router = useRouter();
@@ -73,6 +77,7 @@ const Quiz = () => {
         loadingImg={loadingImg}
         onLoadingComplete={() => setLoadingImg(false)}
       />
+      <Hint hint={quizData.hint} />
       {globalState.options?.isChoice ? (
         <ChoiceAnswer selector={quizData.selector} onSelect={sendAnswer} />
       ) : (
