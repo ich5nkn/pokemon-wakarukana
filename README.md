@@ -1,4 +1,4 @@
-# Pokemon Wakarukana 👾
+# 👾 Pokemon Wakarukana ✨
 
 You can play in your browser [here](https://pokemon-wakarukana.com).
 
