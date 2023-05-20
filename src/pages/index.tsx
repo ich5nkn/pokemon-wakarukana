@@ -16,7 +16,7 @@ export default function Home() {
         {/* TODO: ↓↓↓↓↓↓ この辺りに記述するコンテンツはまだ仮 ↓↓↓↓↓↓ */}
 
         <Box mt={16} p={4} bgColor={"blue.100"} lineHeight={2}>
-          <Text fontSize={"lg"} fontWeight={700}>
+          <Text fontSize={"xl"} fontWeight={700} mb={2} as={"h2"}>
             このサイトについて
           </Text>
           <Text mb={2}>
@@ -29,7 +29,9 @@ export default function Home() {
         </Box>
 
         <Box my={4} p={4} bgColor={"red.100"}>
-          <Text fontSize={"xl"}>ギャラリー</Text>
+          <Text fontSize={"xl"} fontWeight={700} mb={2} as={"h2"}>
+            ギャラリー
+          </Text>
           カルーセルでのプレイ画面のプレビューを実装
         </Box>
         {/* TODO: ↑↑↑↑↑↑ この辺りに記述するコンテンツはまだ仮 ↑↑↑↑↑↑ */}

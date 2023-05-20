@@ -1,6 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import styles from "@/styles/top.module.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 
 export const Header = () => {
   return (
@@ -19,7 +20,11 @@ export const Header = () => {
         zIndex={1}
         bgColor={"white"}
       >
-        <Text className={styles.header_title}>ポケモンわかるかな?</Text>
+        <Link href={"/"}>
+          <Text className={styles.header_title} as={"h1"}>
+            ポケモンわかるかな?
+          </Text>
+        </Link>
         <HamburgerIcon
           boxSize={8}
           // TODO: Menu の実装
