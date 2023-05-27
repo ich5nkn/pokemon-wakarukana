@@ -35,6 +35,13 @@ export default function Home() {
           カルーセルでのプレイ画面のプレビューを実装 react-slick を使う
           デザイン等が決まってから最後に実装
         </Box>
+
+        <Box my={4} p={4} bgColor={"red.100"}>
+          <Text fontSize={"xl"} fontWeight={700} mb={2} as={"h2"}>
+            更新情報
+          </Text>
+          2023.06.xx ベータ版リリース
+        </Box>
         {/* TODO: ↑↑↑↑↑↑ この辺りに記述するコンテンツはまだ仮 ↑↑↑↑↑↑ */}
         <Footer />
       </Box>
