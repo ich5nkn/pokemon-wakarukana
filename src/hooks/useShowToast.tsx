@@ -17,6 +17,7 @@ const createToast = ({
   status: isCorrect ? "success" : "error",
   duration: isCorrect ? 2000 : 5000,
   isClosable: true,
+  position: "top",
   description: isCorrect
     ? ""
     : `${name}${name2 ? `（${name2}${name3 ? `・${name3}` : ""}）` : ""}`,
