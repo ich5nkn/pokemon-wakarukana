@@ -1,26 +1,24 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useGlobalState } from "@/hooks/useGlobalState";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import {
-  Button,
-  Flex,
-  IconButton,
+  Text,
   Modal,
-  ModalBody,
+  ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalOverlay,
-  Spacer,
+  ModalBody,
   VStack,
+  Button,
 } from "@chakra-ui/react";
-import { ProgressStatus } from "./ProgressStatus";
-import { useGlobalState } from "@/hooks/useGlobalState";
-import { useRouter } from "next/router";
+import { ProgressStatus } from "./pages/quiz/ProgressStatus";
 
 interface OwnProps {
   fetchQuiz: () => void;
 }
 
-export const Header = ({ fetchQuiz }: OwnProps) => {
+export const HeaderMenu = ({ fetchQuiz }: OwnProps) => {
   const [open, setOpen] = useState(false);
   const { globalState, globalStateDispatch } = useGlobalState();
   const router = useRouter();
@@ -34,16 +32,20 @@ export const Header = ({ fetchQuiz }: OwnProps) => {
     globalStateDispatch({ type: "reStart" });
     router.push("/select");
   };
+
   return (
-    <Flex>
-      <Spacer />
-      <IconButton
-        mt={-4}
+    <>
+      <Button
         aria-label="Menu"
+        border={`1px`}
+        borderColor={"gray.300"}
         onClick={() => setOpen(true)}
-        icon={<HamburgerIcon />}
-        variant="outline"
-      />
+      >
+        <HamburgerIcon />
+        <Text fontSize="sm" pl={2}>
+          メニュー
+        </Text>
+      </Button>
       <Modal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -89,6 +91,6 @@ export const Header = ({ fetchQuiz }: OwnProps) => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </Flex>
+    </>
   );
 };

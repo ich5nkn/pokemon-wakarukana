@@ -1,9 +1,14 @@
 import { Box, Text } from "@chakra-ui/react";
 import styles from "@/styles/top.module.css";
-import { HamburgerIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import { HeaderMenu } from "./HeaderMenu";
 
-export const Header = () => {
+interface OwnProps {
+  fetchQuiz?: () => void;
+}
+
+export const Header = ({ fetchQuiz }: OwnProps) => {
+  const title = "ポケモンわかるかな?";
   return (
     <>
       <Box
@@ -20,15 +25,11 @@ export const Header = () => {
         zIndex={1}
         bgColor={"white"}
       >
-        <Link href={"/"}>
-          <Text className={styles.header_title} as={"h1"}>
-            ポケモンわかるかな?
-          </Text>
-        </Link>
-        <HamburgerIcon
-          boxSize={8}
-          // TODO: Menu の実装
-        />
+        <Text className={styles.header_title} as={"h1"}>
+          {fetchQuiz ? title : <Link href={"/"}>{title}</Link>}
+        </Text>
+
+        {fetchQuiz && <HeaderMenu fetchQuiz={fetchQuiz} />}
       </Box>
       {/* Header の下に要素が隠れないようにするための placeholder */}
       <Box h={12} display={"hidden"} />
