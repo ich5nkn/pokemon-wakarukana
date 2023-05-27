@@ -32,7 +32,8 @@ export default function Home() {
           <Text fontSize={"xl"} fontWeight={700} mb={2} as={"h2"}>
             ギャラリー
           </Text>
-          カルーセルでのプレイ画面のプレビューを実装
+          カルーセルでのプレイ画面のプレビューを実装 react-slick を使う
+          デザイン等が決まってから最後に実装
         </Box>
         {/* TODO: ↑↑↑↑↑↑ この辺りに記述するコンテンツはまだ仮 ↑↑↑↑↑↑ */}
         <Footer />
