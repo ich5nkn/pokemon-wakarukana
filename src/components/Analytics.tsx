@@ -14,7 +14,7 @@ export const Analytics = () => {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', ${ANALYTICS_ID}');
+            gtag('config', '${ANALYTICS_ID}');
         `}
       </Script>
     </>
