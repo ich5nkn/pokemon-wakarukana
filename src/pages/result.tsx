@@ -6,6 +6,7 @@ import { replaceIsNaN } from "@/utils";
 import { TwitterShareButton } from "@/components/pages/result/TwitterShareButton";
 import { RestartButton } from "@/components/pages/result/RestartButton";
 import { Header } from "@/components/Header";
+import Head from "next/head";
 
 const Result = () => {
   const { globalState } = useGlobalState();
@@ -18,6 +19,9 @@ const Result = () => {
 
   return (
     <>
+      <Head>
+        <title>ポケモンわかるかな? | 結果確認</title>
+      </Head>
       <Header />
       <VStack rowGap={4}>
         <SelectedTypeView

@@ -3,10 +3,14 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Title } from "@/components/pages/term/Title";
 import { LinkText } from "@/components/pages/term/LinkText";
+import Head from "next/head";
 
 const Term = () => {
   return (
     <>
+      <Head>
+        <title>ポケモンわかるかな? | 利用規約</title>
+      </Head>
       <Header />
       <Box
         fontSize={"xl"}

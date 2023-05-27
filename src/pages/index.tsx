@@ -1,14 +1,16 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
-import { useRouter } from "next/router";
 import { Header } from "@/components/Header";
 import { TopView } from "@/components/pages/index/TopView";
 import { PlayButton } from "@/components/pages/index/PlayButton";
+import Head from "next/head";
 
 export default function Home() {
-  const router = useRouter();
   return (
     <>
+      <Head>
+        <title>ポケモンわかるかな? | トップページ</title>
+      </Head>
       <Header />
       <Box textAlign={"center"}>
         <TopView />

@@ -13,6 +13,7 @@ import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { QuizImage } from "@/components/pages/quiz/QuizImage";
 import { Header } from "@/components/Header";
 import { Hint } from "@/components/pages/quiz/Hint";
+import Head from "next/head";
 
 type QuizData = Pick<
   QuizResponse,
@@ -69,9 +70,12 @@ const Quiz = () => {
   }, []);
 
   return (
-    <Box py={4}>
+    <Box>
+      <Head>
+        <title>ポケモンわかるかな? | クイズ</title>
+      </Head>
       <Header fetchQuiz={() => fetchQuiz({})} />
-      <Heading mt={4}>このポケモンの名前は？</Heading>
+      <Heading>このポケモンの名前は？</Heading>
       <QuizImage
         src={quizData.image}
         loadingImg={loadingImg}
