@@ -2,13 +2,13 @@ import { useGlobalState } from "@/hooks/useGlobalState";
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-export const RestartButton = () => {
+export const ReturnSelectButton = () => {
   const router = useRouter();
   const { globalStateDispatch } = useGlobalState();
 
   const onClickNewGame = () => {
     globalStateDispatch({ type: "reStart" });
-    router.push("/quiz");
+    router.push("/select");
   };
 
   return (
@@ -19,7 +19,7 @@ export const RestartButton = () => {
       color="white"
       onClick={onClickNewGame}
     >
-      もう一度あそぶ
+      難易度選択に戻る
     </Button>
   );
 };
