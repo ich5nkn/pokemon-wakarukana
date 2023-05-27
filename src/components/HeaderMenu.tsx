@@ -40,6 +40,8 @@ export const HeaderMenu = ({ fetchQuiz }: OwnProps) => {
         border={`1px`}
         borderColor={"gray.300"}
         onClick={() => setOpen(true)}
+        size="sm"
+        mt={0.5}
       >
         <HamburgerIcon />
         <Text fontSize="sm" pl={2}>
