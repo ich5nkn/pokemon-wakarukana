@@ -5,6 +5,7 @@ import { Grid, GridItem, Heading } from "@chakra-ui/react";
 import { OptionsType, SettingOptions } from "@/types";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
 import { initialOptions } from "@/constants/options";
+import { Header } from "@/components/Header";
 
 export type SelectAction =
   | { type: "numberOfQuiz"; value: number }
@@ -58,23 +59,26 @@ const Select = () => {
   };
 
   return (
-    <Grid gap={8} py={4}>
-      <Heading>難易度を選択してね</Heading>
-      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-        {ballItems.map((type) => (
-          <GridItem key={type}>
-            <BallCard type={type} onClick={getBallCardClickHandler(type)} />
-          </GridItem>
-        ))}
-      </Grid>
+    <>
+      <Header />
+      <Grid gap={8} py={4}>
+        <Heading>難易度を選択してね</Heading>
+        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+          {ballItems.map((type) => (
+            <GridItem key={type}>
+              <BallCard type={type} onClick={getBallCardClickHandler(type)} />
+            </GridItem>
+          ))}
+        </Grid>
 
-      <SettingModal
-        open={open}
-        onClose={() => setOpen(false)}
-        options={options}
-        dispatch={dispatch}
-      />
-    </Grid>
+        <SettingModal
+          open={open}
+          onClose={() => setOpen(false)}
+          options={options}
+          dispatch={dispatch}
+        />
+      </Grid>
+    </>
   );
 };
 

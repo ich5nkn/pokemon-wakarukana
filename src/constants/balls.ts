@@ -115,7 +115,8 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
   },
   master: {
     name: "マスターボール級",
-    description: "ポケモンマスター向け！全問正解すると、殿堂入りできます。",
+    description:
+      "ポケモンマスター向け！全問正解すると、殿堂入りできます（開発中🙇‍♀️）",
     imgPath: "/img/balls/master-ball.png",
     alt: "master-ball",
     color: "#D994EB",
@@ -137,7 +138,7 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     },
   },
   custom: {
-    name: "カスタマイズ",
+    name: "オリジナル",
     imgPath: "/img/setting-icon.png",
     alt: "customize",
     color: "#9B9191",

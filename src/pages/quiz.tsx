@@ -11,7 +11,7 @@ import { ChoiceAnswer } from "@/components/pages/quiz/ChoiceAnswer";
 import { initialOptions } from "@/constants/options";
 import { InputAnswer } from "@/components/pages/quiz/InputAnswer";
 import { QuizImage } from "@/components/pages/quiz/QuizImage";
-import { Header } from "@/components/pages/quiz/Header";
+import { Header } from "@/components/Header";
 import { Hint } from "@/components/pages/quiz/Hint";
 
 type QuizData = Pick<

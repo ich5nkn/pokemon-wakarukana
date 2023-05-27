@@ -5,6 +5,7 @@ import { ResultStatusView } from "@/components/pages/result/ResultStatusView";
 import { replaceIsNaN } from "@/utils";
 import { TwitterShareButton } from "@/components/pages/result/TwitterShareButton";
 import { RestartButton } from "@/components/pages/result/RestartButton";
+import { Header } from "@/components/Header";
 
 const Result = () => {
   const { globalState } = useGlobalState();
@@ -16,22 +17,25 @@ const Result = () => {
   );
 
   return (
-    <VStack rowGap={4}>
-      <SelectedTypeView
-        selectedTypeOptions={globalState.options?.selectedOptionType}
-      />
-      <ResultStatusView
-        total={total}
-        primary={globalState.answered.correct}
-        danger={globalState.answered.incorrect}
-        percentage={Number(percentage)}
-      />
-      <TwitterShareButton
-        selectedOptionType={globalState.options?.selectedOptionType}
-        percentage={percentage}
-      />
-      <RestartButton />
-    </VStack>
+    <>
+      <Header />
+      <VStack rowGap={4}>
+        <SelectedTypeView
+          selectedTypeOptions={globalState.options?.selectedOptionType}
+        />
+        <ResultStatusView
+          total={total}
+          primary={globalState.answered.correct}
+          danger={globalState.answered.incorrect}
+          percentage={Number(percentage)}
+        />
+        <TwitterShareButton
+          selectedOptionType={globalState.options?.selectedOptionType}
+          percentage={percentage}
+        />
+        <RestartButton />
+      </VStack>
+    </>
   );
 };
 
