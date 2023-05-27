@@ -4,6 +4,10 @@ export default function Document() {
   return (
     <Html lang="ja">
       <Head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
+        <meta
+          name="description"
+          content="ポケモンの画像を見て、名前を当てるクイズゲームです。ブラウザ上から遊べます。ポケモンをあまり知らない人から、ポケモン上級者まで自分に合った難易度で遊べます。"
+        />
         <meta property="og:url" content="https://pokemon-wakarukana.com" />
         <meta property="og:title" content="ポケモンわかるかな?" />
         <meta property="og:site_name" content="ポケモンわかるかな?" />
