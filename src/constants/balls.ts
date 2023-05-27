@@ -138,8 +138,8 @@ export const BALLS_CONTENT: { [key in BallType]: BallContent } = {
     },
   },
   custom: {
-    name: "オリジナル",
-    imgPath: "/img/setting-icon.png",
+    name: "オリジナル級",
+    imgPath: "/img/balls/metamon.png",
     alt: "customize",
     color: "#9B9191",
     options: {
