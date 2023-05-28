@@ -14,7 +14,7 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content="https://pokemon-wakarukana.com/twitter-ogp.png"
+          content="https://pokemon-wakarukana.com/img/twitter-ogp.png"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@ich5nkn" />
