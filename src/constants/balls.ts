@@ -10,7 +10,7 @@ export type BallType =
   | "master"
   | "custom";
 
-type BallContent = {
+export type BallContent = {
   name: string;
   description?: string;
   imgPath: string;

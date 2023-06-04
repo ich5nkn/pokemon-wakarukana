@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { OptionsType } from "@/types";
 import { useGlobalState } from "@/hooks/useGlobalState";
 import { SettingForm } from "./SettingForm";
+import { BallSetting } from "./BallSetting";
 
 interface OwnProps {
   open: boolean;
@@ -56,22 +57,7 @@ export const SettingModal = ({
         <ModalHeader>{ballContent?.name || "難易度カスタマイズ"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {ballContent && (
-            <Flex
-              color={"gray.500"}
-              alignItems={"center"}
-              mt={-2}
-              mb={6}
-              p={2}
-              bgColor={"gray.100"}
-              borderRadius={8}
-            >
-              <InfoOutlineIcon mr={2} />
-              <Text fontSize={"sm"}>{ballContent.description}</Text>
-            </Flex>
-          )}
-          {/* TODO: 難易度の説明を実装する */}
-          {/* {ballContent ?? <BallSetting></BallSetting>} */}
+          {ballContent && <BallSetting ballContent={ballContent} />}
           {isCustom && <SettingForm dispatch={dispatch} options={options} />}
         </ModalBody>
         <ModalFooter columnGap={4}>
