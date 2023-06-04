@@ -4,8 +4,10 @@ import { SelectedTypeView } from "@/components/pages/result/SelectedTypeView";
 import { ResultStatusView } from "@/components/pages/result/ResultStatusView";
 import { replaceIsNaN } from "@/utils";
 import { TwitterShareButton } from "@/components/pages/result/TwitterShareButton";
-import { RestartButton } from "@/components/pages/result/RestartButton";
+import { ReturnSelectButton } from "@/components/pages/result/ReturnSelectButton";
 import { Header } from "@/components/Header";
+import Head from "next/head";
+import { RestartButton } from "@/components/pages/result/RestartButton";
 
 const Result = () => {
   const { globalState } = useGlobalState();
@@ -18,6 +20,9 @@ const Result = () => {
 
   return (
     <>
+      <Head>
+        <title>ポケモンわかるかな? | 結果確認</title>
+      </Head>
       <Header />
       <VStack rowGap={4}>
         <SelectedTypeView
@@ -34,6 +39,7 @@ const Result = () => {
           percentage={percentage}
         />
         <RestartButton />
+        <ReturnSelectButton />
       </VStack>
     </>
   );

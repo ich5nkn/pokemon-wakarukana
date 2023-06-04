@@ -6,6 +6,7 @@ import { OptionsType, SettingOptions } from "@/types";
 import { BALLS_CONTENT, BallType } from "@/constants/balls";
 import { initialOptions } from "@/constants/options";
 import { Header } from "@/components/Header";
+import Head from "next/head";
 
 export type SelectAction =
   | { type: "numberOfQuiz"; value: number }
@@ -60,6 +61,9 @@ const Select = () => {
 
   return (
     <>
+      <Head>
+        <title>ポケモンわかるかな? | 難易度選択</title>
+      </Head>
       <Header />
       <Grid gap={8} py={4}>
         <Heading>難易度を選択してね</Heading>
