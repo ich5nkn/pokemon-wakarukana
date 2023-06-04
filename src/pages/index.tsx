@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Header } from "@/components/Header";
 import { TopView } from "@/components/pages/index/TopView";
 import { PlayButton } from "@/components/pages/index/PlayButton";
+import { Carousel } from "@/components/pages/index/Carousel";
 
 export default function Home() {
   const router = useRouter();
@@ -34,6 +35,13 @@ export default function Home() {
           </Text>
           カルーセルでのプレイ画面のプレビューを実装 react-slick を使う
           デザイン等が決まってから最後に実装
+          <Carousel
+            images={[
+              { path: "img/balls/dark-ball.png" },
+              { path: "img/balls/super-ball.png" },
+              { path: "img/balls/hyper-ball.png" },
+            ]}
+          />
         </Box>
 
         <Box my={4} p={4} bgColor={"red.100"}>
